@@ -16,7 +16,12 @@
                                     <span>Admin</span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="{{ route('admin.inbox.index') }}">
+                                    <i class="mdi mdi-mailbox-open-up-outline"></i>
+                                    <span>Mailbox</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <!-- Sidebar -->
