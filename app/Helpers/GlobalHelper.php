@@ -136,3 +136,22 @@ if (!function_exists('parseCarbon')):
         return \Carbon\Carbon::parse($date);
     }
 endif;
+if (!function_exists('typeFrom')):
+    function typeForm($type = '', $title = null){
+        switch ($type) {
+            case 'create':
+                return 'Tambah';
+                break;
+            case 'edit':
+                return 'Edit ' . $title;
+                break;
+            case 'detail' . $title:
+                return 'Detail';
+                break;
+            default:
+                # code...
+                break;
+        }
+    }
+endif;
+

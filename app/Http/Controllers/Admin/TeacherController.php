@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin;
+use App\Models\Teacher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class TeacherController extends Controller
 {
     public function index()
     {
         $page = [
-            'title' => 'Admin',
+            'title' => 'Teacher',
             'breadcrumb' => [
-                'first' => 'Admin'
+                'first' => 'Teacher'
             ]
         ];
-        return view('admin.admin.index' , compact('page'));
+        return view('admin.teacher.index' , compact('page'));
     }
 }

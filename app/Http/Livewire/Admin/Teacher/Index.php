@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Admin;
+namespace App\Http\Livewire\Admin\Teacher;
 
-use App\Models\Admin;
+use App\Models\Teacher;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -12,29 +12,31 @@ class Index extends Component
     use WithPagination;
     use LivewireAlert;
 
-    public $admin, $full_name, $username, $password, $role;
+    public $teacher, $full_name, $identity_number, $email, $username, $password, $phone_number;
 
     public $paginate = 10;
     public $orderBy = 'DESC';
     public $search;
-    public $selectRole;
+    public $primaryKey = '';
 
     protected $queryString = ['search'];
     protected $paginationTheme = 'bootstrap';
 
     protected $listeners = [
-        'adminRefresh',
+        'teacherRefresh',
         'destroy'
     ];
 
-    public $isFormEdit = false;
+    public $typeForm = 'create';
 
     private function resetInputFields(){
         $this->primaryKey = '';
         $this->full_name = '';
+        $this->identity_number = '';
+        $this->email = '';
         $this->username = '';
         $this->password = '';
-        $this->role = '';
+        $this->phone_number = '';
     }
 
     public function mount()
@@ -42,7 +44,7 @@ class Index extends Component
 
     }
 
-    public function adminRefresh()
+    public function teacherRefresh()
     {
         # code...
     }
@@ -61,7 +63,7 @@ class Index extends Component
         // END FORM //
 
         // QUERY //
-        $dataQuery = Admin::orderBy('id', $this->orderBy);
+        $dataQuery = Teacher::orderBy('id', $this->orderBy);
         if ($this->search <> null) {
             $dataQuery->where(function ($query) {
                 $query->where('id', 'like', '%'.$this->search.'%')
@@ -70,19 +72,15 @@ class Index extends Component
             });
         }
 
-        if ($this->selectRole <> null) {
-            $dataQuery->where('role', $this->selectRole);
-        }
         // END QUERY //
 
         $lists = $dataQuery->paginate($this->paginate);
 
-        return view('livewire.admin.admin.index', compact('lists', 'form_role'));
+        return view('livewire.admin.teacher.index', compact('lists', 'form_role'));
     }
 
     public function store()
     {
-
         $this->validate([
             'full_name' => 'required',
             'username' => 'required|unique:admins,username',
@@ -92,7 +90,7 @@ class Index extends Component
 
             'full_name' => 'Nama lengkap'
         ]);
-        $insert = Admin::create([
+        $insert = Teacher::create([
             'full_name' => $this->full_name,
             'username' => $this->username,
             'password' => bcrypt($this->password),
@@ -104,12 +102,12 @@ class Index extends Component
 
         $this->resetInputFields();
 
-        $this->emit('adminRefresh');
+        $this->emit('teacherRefresh');
     }
 
     public function edit(Admin $admin){
 
-        $this->isFormEdit = true;
+        $this->typeForm = 'edit';
         $this->primaryKey = $admin->id;
         $this->full_name = $admin->full_name;
         $this->username = $admin->username;
@@ -136,7 +134,7 @@ class Index extends Component
         if ($this->password <> null) {
             $data_input['password'] = $this->password;
         }
-        $isExists = Admin::where('username', $data_input['username'])->exist();
+        $isExists = Teacher::where('username', $data_input['username'])->exist();
         if ($data_input['username'] <> $admin->username AND $isExists) {
             $validator = makeValidator($data_input, [
                 'username' => 'required|unique:admins,username',
@@ -151,9 +149,9 @@ class Index extends Component
 
         $this->resetInputFields();
 
-        $this->emit('adminRefresh');
+        $this->emit('teacherRefresh');
 
-        $this->isFormEdit = false;
+        $this->typeForm = 'create';
     }
 
     public function delete(Admin $admin){
@@ -176,7 +174,7 @@ class Index extends Component
             'timer' => 3000
         ]);
         $this->admin = [];
-        $this->emit('adminRefresh');
+        $this->emit('teacherRefresh');
     }
 
     public function changeIsActive(Admin $admin, $isActive){
@@ -197,12 +195,12 @@ class Index extends Component
                 'timer' => 3000
             ]);
         }
-        $this->emit('adminRefresh');
+        $this->emit('teacherRefresh');
     }
     public function closeModal(){
         $this->resetErrorBag();
         $this->resetValidation();
         $this->resetInputFields();
-        $this->isFormEdit = false;
+        $this->typeForm = 'create';
     }
 }

@@ -17,6 +17,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('admin.teacher.index') }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Teacher</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.inbox.index') }}">
                                     <i class="mdi mdi-mailbox-open-up-outline"></i>
                                     <span>Mailbox</span>
