@@ -38,12 +38,6 @@ if (!function_exists('currency')) {
     }
 }
 
-if (!function_exists('generate_api_key')):
-    function generate_api_key() {
-        return implode('-', str_split(substr(strtolower(md5(microtime().rand(1000, 9999))), 0, 30), 6));
-    }
-endif;
-
 if (!function_exists('sum_date')):
     function sum_date($date = '', $parameter = null) {
         return date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s", strtotime($date)).$parameter));
