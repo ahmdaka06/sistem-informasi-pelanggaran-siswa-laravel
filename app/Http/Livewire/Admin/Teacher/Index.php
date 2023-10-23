@@ -12,7 +12,7 @@ class Index extends Component
     use WithPagination;
     use LivewireAlert;
 
-    public $teacher, $full_name, $identity_number, $email, $username, $password, $phone_number;
+    public $teacher, $full_name, $identity_number, $email, $username, $password, $phone_number, $role;
 
     public $paginate = 10;
     public $orderBy = 'DESC';
@@ -93,7 +93,10 @@ class Index extends Component
         $insert = Teacher::create([
             'full_name' => $this->full_name,
             'username' => $this->username,
+            'email' => $this->email,
+            'phone_number' => $this->phone_number,
             'password' => bcrypt($this->password),
+            'identity_number' => rand(10,100000),
             'role' => $this->role,
             'is_active' => 1
         ]);

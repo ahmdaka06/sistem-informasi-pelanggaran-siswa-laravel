@@ -10,7 +10,7 @@ class Login extends Component
 {
     use LivewireAlert;
 
-    public $username, $password, $remember;
+    public $username, $password, $remember, $count = 0;
 
     private function resetInputFields(){
         $this->username = '';

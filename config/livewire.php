@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => 'https://learn-laravel.app/sistem-informasi-pelanggaran-siswa-laravel/public',
+    'asset_url' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
     |
     */
 
-    'app_url' => 'https://learn-laravel.app/sistem-informasi-pelanggaran-siswa-laravel/public',
+    'app_url' => null,
 
     /*
     |--------------------------------------------------------------------------
