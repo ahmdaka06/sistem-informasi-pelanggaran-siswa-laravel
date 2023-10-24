@@ -23,6 +23,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('admin.pencatatan.index') }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Pencatatan</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.inbox.index') }}">
                                     <i class="mdi mdi-mailbox-open-up-outline"></i>
                                     <span>Mailbox</span>
