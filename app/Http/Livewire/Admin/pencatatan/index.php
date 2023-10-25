@@ -14,7 +14,7 @@ class Index extends Component
 
     public $inputKelas, $inputPelanggaran, $inputSiswa, $inputCatatan;
 
-    protected $listeners = ['postAdded' => 'incrementPostCount'];
+    protected $listeners = ['siswaUpdate' => 'updateSiswa'];
 
     public function resetInput(){
         $this->inputKelas = "";
@@ -31,18 +31,26 @@ class Index extends Component
         // 'name','LIKE',"%{$search}%"
         // $this->students = Student::all();
     }
- 
+    // public function dehydrate()
+    // {
+    //     $this->dispatchBrowserEvent('initSomething');
+    // }
+
     public function render()
     {
         return view('livewire.admin.pencatatan.index');
     }
 
-    public function updatedInputKelas(){
-        $this->students = Student::where("class_id", $this->inputKelas)->get();
-    }
+    // public function updatedInputKelas(){
 
-    function incrementPostCount() {
-        $this->count += 1;
+    //     dd("hiii");
+    //     $this->students = Student::where("class_id", $this->inputKelas)->get();
+    // }
+
+    function updateSiswa($value) {
+        // dd($value);
+        // $this->count += 1;
+        $this->students = Student::where("class_id", $value)->get();
     }
 
     function store(){
