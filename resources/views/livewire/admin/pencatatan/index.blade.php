@@ -6,16 +6,16 @@
         <form action="">
 
             <div class="mb-3" wire:ignore>
-                <label for="exampleFormControlInput1" class="form-label">Kelas</label>
+                <label for="exampleFormControlInput1" class="form-label">Siswa</label>
                 {{-- <select class="js-example-basic-single" aria-label="Default select example" wire:model="foo">
                     <option value="10 RPL">10 RPL</option>
                     <option value="10 TKJ">10 TKJ</option>
                 </select> --}}
                 <select class="form-select js-example-basic-single" wire:model="inputKelas" name="state" id="state">
-                    <option value = "0" selected>Pilih kelas</option>
+                    <option value = "0" selected>Pilih Siswa</option>
                     {{-- <optgroup label="4-legged pets"> --}}
-                        @foreach($this->kelas as $kelas)
-                            <option value="{{$kelas->id}}">{{$kelas->name}}</option>
+                        @foreach($this->students as $student)
+                            <option value="{{$student->id}}">{{$student->kelas->name}}{{$student->full_name}}</option>
                         @endforeach
                     </optgroup>
                     {{-- <option value="10 RPL">10 RPL</option>
@@ -38,20 +38,6 @@
                     <option value="12 TMI">12 TMI</option> --}}
                 </select>
 
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Nama</label>
-                {{-- <input type="nama" class="form-control" id="exampleFormControlInput1" placeholder="Cari Nama" {{$foo !== "0" ? "" : "disabled"}}> --}}
-                @if(count($students) > 0)
-                    <select class="form-select" wire:model="inputSiswa" {{$kelas !== "0" ? "" : "disabled"}}>
-                        <option value = "0" selected>Pilih Siswa</option>
-                        @foreach($this->students as $student)
-                            <option value="{{$student->id}}">{{$student->full_name}}</option>
-                        @endforeach
-                    </select>
-                @else
-                    <p>Tidak Ada Siswa</p>
-                @endif
             </div>
 
             <div class="mb-3">
@@ -129,7 +115,7 @@
 
             $('.js-example-basic-single').on('change', function() {
                 // alert( this.value );
-                Livewire.emit('siswaUpdate', this.value)
+                Livewire.emit('updateSiswa', this.value)
             });
         });
         // }
