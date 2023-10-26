@@ -22,7 +22,7 @@ class SiswaController extends Controller
             ]
         ];
 
-        
+
         return view('admin.siswa.index', ['page' => $page]);
     }
 
@@ -64,7 +64,10 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $file = $request->file('file');
+        $file->move('files', $file->getClientOriginalName());
+        // return response()->json(['data' => $request['file']], 200);
     }
 
     /**
