@@ -22,6 +22,12 @@
                                     <span>Teacher</span>
                                 </a>
                             </li>
+                             <li>
+                                <a href="{{ route('admin.teacher.index') }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Kelas</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('admin.pencatatan.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>

@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1999; $i < 2000; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             \App\Models\Admin::create([
                 'full_name' => 'Super Admin' . $i,
                 'username' => 'superadmin' . $i,
