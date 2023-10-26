@@ -18,6 +18,18 @@
                     <input class="form-control" type="text" placeholder="Nama Lengkap" id="example-text-input">
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label class="col-md-2 col-form-label">Kelas</label>
+                <div class="col-md-10">
+                    <select class="form-select js-example-basic-single form-control" wire:model="inputKelas"
+                        name="state" id="state">
+                        <option value = "0" selected>Pilih Kelas</option>
+                        @foreach ($classList as $kelas)
+                            <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
             <div class="mb-3 row">
                 <label class="col-md-2 col-form-label">Jenis Kelamin</label>
@@ -32,3 +44,12 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    // window.addEventListener('initSomething', event => {
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+    // }
+</script>

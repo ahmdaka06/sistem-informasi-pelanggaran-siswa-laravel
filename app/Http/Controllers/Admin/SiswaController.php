@@ -22,6 +22,7 @@ class SiswaController extends Controller
             ]
         ];
 
+        
         return view('admin.siswa.index', ['page' => $page]);
     }
 
@@ -51,7 +52,7 @@ class SiswaController extends Controller
                 'first' => 'Tambah Siswa'
             ]
         ];
-        
+
         return view('admin.siswa.create', ['page' => $page]);
     }
 
