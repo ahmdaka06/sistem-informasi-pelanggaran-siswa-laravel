@@ -5,21 +5,20 @@ use App\Models\ClassList;
 use App\Models\Student;
 use App\Models\ViolationCategory;
 use App\Models\ViolationLists;
+use Exception;
+
 
 use Livewire\Component;
 
 class Index extends Component
 {
-    public $count = 0, $kelas = "", $students=[], $pelanggarans = [], $pelanggaranSiswa = [];
+    public $count = 0, $kelas = "", $students=[], $pelanggarans = [], $pelanggaranSiswa = [], $no = 1;
 
     public $inputKelas, $inputPelanggaran, $inputSiswa, $inputCatatan;
 
-    protected $listeners = ['updateSiswa' => 'updateSiswa'];
+    protected $listeners = ['updateSiswa' => 'updateSiswa', 'updatePelanggaran' => 'updatePelanggaran'];
 
     public function resetInput(){
-        $this->inputKelas = "";
-        $this->inputPelanggaran = "";
-        $this->inputSiswa = "";
         $this->inputCatatan = "";
     }
 
@@ -41,37 +40,54 @@ class Index extends Component
         return view('livewire.admin.pencatatan.index');
     }
 
-    // public function updatedInputKelas(){
-
-    //     dd("hiii");
-    //     $this->students = Student::where("class_id", $this->inputKelas)->get();
-    // }
-
     function updateSiswa($value) {
-        // dd($value);
-        // $this->count += 1;
-        // $this->students = Student::where("class_id", $value)->get();
+        $input = explode(",",$value);
 
-        $this->inputSiswa = $value;
+        $this->inputSiswa = $input[0];
+        $this->inputKelas = $input[1];
+    }
+
+
+    function updatePelanggaran($value) {
+        $this->inputPelanggaran = $value;
     }
 
     function store(){
+
+        try {
+
+            $tanggalSekarang = date("Y-m-d");
+            $data = [
+                "clas" => $this->inputKelas,
+                "violation_category_id" => $this->inputPelanggaran,
+                "student_id" => $this->inputSiswa,
+                "note" => $this->inputCatatan,
+                "report_by" => "teacher",
+                "status" => "confirm"
+            ];
+
+            // dd($data);
+
+           ViolationLists::create($data);
+
+
+           $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+
+           $this->resetInput();
+
+        } catch (Exception $e) {
+            // return $e;
+            dd($e);
+        }
+
+    }
+
+    function delete($id){
         $tanggalSekarang = date("Y-m-d");
-        $data = [
-            "class_id" => $this->inputKelas,
-            "violation_category_id" => $this->inputPelanggaran,
-            "student_id" => $this->inputSiswa,
-            "note" => $this->inputCatatan,
-            "report_by" => "teacher",
-            "status" => "confirm"
-        ];
+        $pelanggaran = ViolationLists::find($id);
+        $pelanggaran->delete();
 
-        // dd($data);
-
-       $simpan = ViolationLists::create($data);
-
-       $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
-
-       $this->resetInput();
+        $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+        // dd("$id");
     }
 }

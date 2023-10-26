@@ -11,11 +11,11 @@
                     <option value="10 RPL">10 RPL</option>
                     <option value="10 TKJ">10 TKJ</option>
                 </select> --}}
-                <select class="form-select js-example-basic-single" wire:model="inputKelas" name="state" id="state">
+                <select class="form-select js-example-basic-single" id="selectSiswa" name="state" id="state">
                     <option value = "0" selected>Pilih Siswa</option>
                     {{-- <optgroup label="4-legged pets"> --}}
                         @foreach($this->students as $student)
-                            <option value="{{$student->id}}">{{$student->kelas->name}}{{$student->full_name}}</option>
+                            <option value="{{$student->id.",".$student->kelas->name}}">{{$student->kelas->name}} - {{$student->full_name}}</option>
                         @endforeach
                     </optgroup>
                     {{-- <option value="10 RPL">10 RPL</option>
@@ -40,13 +40,13 @@
 
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" wire:ignore>
                 <label for="exampleFormControlInput1" class="form-label">Pelanggaran</label>
 
                 {{-- <input type="nama" class="form-control" id="exampleFormControlInput1" placeholder="Cari Nama" {{$foo !== "0" ? "" : "disabled"}}> --}}
                 @if(count($pelanggarans) > 0)
-                    <select class="form-select" wire:model="inputPelanggaran">
-                        <option value = "0" selected>Pilih Pelanggaran</option>
+                    <select class="form-select js-example-basic-single" id="selectPelanggaran">
+                        <option value="0" selected>Pilih Pelanggaran</option>
                         @foreach($this->pelanggarans as $pelanggaran)
                             <option value="{{$pelanggaran->id}}">{{$pelanggaran->name}}</option>
                         @endforeach
@@ -76,7 +76,7 @@
                         <table class="table table-bordered mb-0">
                             <thead  class="table-light">
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Nama</th>
                                     <th>Kelas</th>
                                     <th>Pelanggaran</th>
@@ -89,11 +89,12 @@
                             <tbody>
                                 @foreach ($pelanggaranSiswa as $value)
                                 <tr>
-                                    <td>{{ $value->id }}</td>
+                                    <td>{{ $no++ }}</td>
                                     <td>{{ $value->student->full_name }}</td>
                                     <td>{{ $value->student->kelas->name }}</td>
                                     <td>{{ $value->jenisPelanggaran->name }}</td>
                                     <td>{{ $value->jenisPelanggaran->point }}</td>
+                                    <td><button class="btn btn-danger btn-sm" wire:click.prevent="delete({{$value->id}})">Hapus</button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -113,9 +114,13 @@
             $(document).ready(function() {
             $('.js-example-basic-single').select2();
 
-            $('.js-example-basic-single').on('change', function() {
+            $('#selectSiswa').on('change', function() {
                 // alert( this.value );
                 Livewire.emit('updateSiswa', this.value)
+            });
+            $('#selectPelanggaran').on('change', function() {
+                // alert( this.value );
+                Livewire.emit('updatePelanggaran', this.value)
             });
         });
         // }

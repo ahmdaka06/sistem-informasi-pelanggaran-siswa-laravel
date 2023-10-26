@@ -13,7 +13,7 @@ class ViolationLists extends Model
         'id',
         'violation_category_id',
         'student_id',
-        'class_id',
+        'clas',
         'student_parent_id',
         'report_by',
         'report_at',
