@@ -34,7 +34,7 @@ class SiswaController extends Controller
     {
         $req = request()->all();
 
-        if ($req['excel']) {
+        if (isset($req['excel'])) {
             $page = [
                 'title' => 'Tambah Siswa Excel',
                 'breadcrumb' => [
@@ -51,7 +51,7 @@ class SiswaController extends Controller
                 'first' => 'Tambah Siswa'
             ]
         ];
-
+        
         return view('admin.siswa.create', ['page' => $page]);
     }
 
