@@ -14,7 +14,7 @@ class Index extends Component
 
     public $inputKelas, $inputPelanggaran, $inputSiswa, $inputCatatan;
 
-    protected $listeners = ['postAdded' => 'incrementPostCount'];
+    protected $listeners = ['updateSiswa' => 'updateSiswa'];
 
     public function resetInput(){
         $this->inputKelas = "";
@@ -25,24 +25,34 @@ class Index extends Component
 
     public function mount(){
         $tanggalSekarang = date("Y-m-d");
-        $this->kelas = ClassList::all();
+        $this->students = Student::with("kelas")->get();
         $this->pelanggarans = ViolationCategory::all();
         $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
         // 'name','LIKE',"%{$search}%"
         // $this->students = Student::all();
     }
- 
+    // public function dehydrate()
+    // {
+    //     $this->dispatchBrowserEvent('initSomething');
+    // }
+
     public function render()
     {
         return view('livewire.admin.pencatatan.index');
     }
 
-    public function updatedInputKelas(){
-        $this->students = Student::where("class_id", $this->inputKelas)->get();
-    }
+    // public function updatedInputKelas(){
 
-    function incrementPostCount() {
-        $this->count += 1;
+    //     dd("hiii");
+    //     $this->students = Student::where("class_id", $this->inputKelas)->get();
+    // }
+
+    function updateSiswa($value) {
+        // dd($value);
+        // $this->count += 1;
+        // $this->students = Student::where("class_id", $value)->get();
+
+        $this->inputSiswa = $value;
     }
 
     function store(){
@@ -56,6 +66,7 @@ class Index extends Component
             "status" => "confirm"
         ];
 
+        // dd($data);
 
        $simpan = ViolationLists::create($data);
 
