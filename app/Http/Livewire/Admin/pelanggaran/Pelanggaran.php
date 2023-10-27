@@ -8,6 +8,6 @@ class Pelanggaran extends Component
 {
     public function render()
     {
-        return view('livewire.pelanggaran');
+        return view('livewire.admin.pelanggaran.index');
     }
 }

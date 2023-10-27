@@ -17,7 +17,7 @@
                         @foreach($this->students as $student)
                             <option value="{{$student->id.",".$student->kelas->name}}">{{$student->kelas->name}} - {{$student->full_name}}</option>
                         @endforeach
-                    </optgroup>
+                    </optgroup> 
                     {{-- <option value="10 RPL">10 RPL</option>
                     <option value="10 TKJ">10 TKJ</option>
                     <option value="10 TKR">10 TKR</option>
@@ -91,7 +91,7 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $value->student->full_name }}</td>
-                                    <td>{{ $value->student->kelas->name }}</td>
+                                    <td>{{ $value->clas }}</td>
                                     <td>{{ $value->jenisPelanggaran->name }}</td>
                                     <td>{{ $value->jenisPelanggaran->point }}</td>
                                     <td><button class="btn btn-danger btn-sm" wire:click.prevent="delete({{$value->id}})">Hapus</button></td>

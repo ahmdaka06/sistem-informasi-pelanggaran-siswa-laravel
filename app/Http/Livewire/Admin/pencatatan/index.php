@@ -26,7 +26,7 @@ class Index extends Component
         $tanggalSekarang = date("Y-m-d");
         $this->students = Student::with("kelas")->get();
         $this->pelanggarans = ViolationCategory::all();
-        $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+        $this->pelanggaranSiswa = ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
         // 'name','LIKE',"%{$search}%"
         // $this->students = Student::all();
     }
@@ -68,12 +68,12 @@ class Index extends Component
 
             // dd($data);
 
-           ViolationLists::create($data);
+            $newData = ViolationLists::create($data);
+            // dd($newData);
 
+            $this->pelanggaranSiswa = ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
 
-           $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
-
-           $this->resetInput();
+            $this->resetInput();
 
         } catch (Exception $e) {
             // return $e;
@@ -86,6 +86,14 @@ class Index extends Component
         $tanggalSekarang = date("Y-m-d");
         $pelanggaran = ViolationLists::find($id);
         $pelanggaran->delete();
+
+        // $data = collect($this->pelanggaranSiswa);
+
+        // $filtered = $data->reject(function ($value, int $key) use ($id) {
+        //     return $value->id == $id;
+        // });
+
+        // $this->pelanggaranSiswa = $filtered->all();
 
         $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
         // dd("$id");
