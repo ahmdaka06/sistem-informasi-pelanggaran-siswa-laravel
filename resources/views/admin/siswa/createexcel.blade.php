@@ -34,8 +34,8 @@
             </form>
         </div>
 
-        <div class="text-center mt-4">
-            <button type="button" class="btn btn-primary waves-effect waves-light">Send Files</button>
+        <div class="mt-4">
+            <a href="{{ route('admin.siswa.index') }}" class="btn btn-primary waves-effect waves-light">Kembali</a>
         </div>
     </div>
 </div>

@@ -2,6 +2,8 @@
 
 return [
 
+    'link_panduan_data_siswa_excel' => 'rezawp.com',
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
