@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +43,7 @@ class StudentService
                 'full_name' => $namaLengkap,
                 'password' => Hash::make('password'),
                 'gender' => $jenisKelamin,
-        ]);
+            ]);
 
             $this->status = true;
 
@@ -52,5 +53,31 @@ class StudentService
             Log::error($e->getMessage());
             throw $e; // harus bikin error handling yang menyatakan bahwa validasi gagal
         }
+    }
+
+    function getDataForGraphic(Student $student)
+    {
+        $pelanggaranBaru = $student->pelanggaran->map(function ($item) {
+            $createdAt = Carbon::parse($item->created_at);
+            $dayOfWeek = $createdAt->dayOfWeek;
+            $monthOfYear = $createdAt->month;
+            $day = $createdAt->day;
+            $weekOfMonth = $createdAt->weekOfMonth;
+            $dayName = $createdAt->format('l');
+
+            $item->day_name = $dayName;
+            $item->day = $day;
+            $item->week_of_month = $weekOfMonth;
+            $item->day_of_week = $dayOfWeek;
+            $item->month = $monthOfYear;
+
+            return $item;
+        });
+
+        unset($student->pelanggaran);
+
+        $student->pelanggaran = $pelanggaranBaru->toArray();
+
+        // dd($student->toArray());
     }
 }
