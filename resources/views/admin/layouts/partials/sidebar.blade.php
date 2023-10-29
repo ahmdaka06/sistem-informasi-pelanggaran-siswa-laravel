@@ -35,6 +35,18 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('admin.kelas.index') }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Kelas</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.siswa.index') }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Siswa</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.inbox.index') }}">
                                     <i class="mdi mdi-mailbox-open-up-outline"></i>
                                     <span>Mailbox</span>
