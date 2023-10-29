@@ -23,6 +23,12 @@
                                 </a>
                             </li> --}}
                             <li>
+                                <a href="{{ route('admin.pelanggaran.index') }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Pelanggaran</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.pencatatan.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>
                                     <span>Pencatatan</span>

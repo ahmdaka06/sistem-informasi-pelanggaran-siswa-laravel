@@ -34,10 +34,10 @@ Route::get("data-siswa", function(){
     // $filtered[] = [
     //     "name" => "hi"
     // ];
-     
+
     // $filtered->all();
 
-    
+
         // dd($data);
         // return $data;
     return response()->json($data, 200);
@@ -54,7 +54,7 @@ route::get("pelanggaran", function(){
         });
     });
 
-    $result = $groupedData->sortBy(function ($item, $key) {
+    $result = $pelanggaran->sortBy(function ($item, $key) {
         if ($key == 'pelanggaran-ringan') {
             return 1;
         } elseif ($key == 'pelanggaran-sedang') {
@@ -65,5 +65,5 @@ route::get("pelanggaran", function(){
             return 999;
         }
     });
-    return $groupedData;
+    return $result;
 });

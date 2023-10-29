@@ -47,6 +47,8 @@
                                     <td>{{ $value->jenis_pelanggaran }}</td>
                                     <td>{{ $value->name }}</td>
                                     <td>{{ $value->point }}</td>
+                                    {{-- <td><button class="btn btn-sm btn-danger" wire:click.prevent="delete({{$value->id}})">Hapus</button></td> --}}
+                                    <td><button class="btn btn-sm btn-danger" onclick="hapus({{$value->id}})">Hapus</button></td>
                                     {{-- <td>
                                         <div class="form-check form-switch mb-3" dir="ltr">
                                             <input type="checkbox" class="form-check-input" id="customSwitch1" wire:click="changeIsActive({{ $value->id }}, {{ $value->is_active }})" {{ $value->is_active == 1 ? 'checked' : '' }}>
@@ -107,6 +109,16 @@
             $('.bs-example-modal-xl').modal('hide');
         });
     </script> --}}
+
+
+    <script>
+        function hapus(id){
+            if(confirm("apakah anda ingin menghapus data ini ?")  == true) {
+                Livewire.emit('delete',id)
+                // alert(id);
+            }
+        }
+    </script>
 </div>
 
 

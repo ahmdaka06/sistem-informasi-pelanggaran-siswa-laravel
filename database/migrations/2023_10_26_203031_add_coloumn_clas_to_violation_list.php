@@ -14,8 +14,8 @@ class AddColoumnClasToViolationList extends Migration
     public function up()
     {
         Schema::table('violation_lists', function (Blueprint $table) {
-            $table->dropColumn('class_id');
-            $table->string("clas", 100)->after("student_id");
+            // $table->dropColumn('class_id');
+            // $table->string("clas", 100)->after("student_id");
         });
     }
 
