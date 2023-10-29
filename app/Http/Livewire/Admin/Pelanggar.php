@@ -10,8 +10,9 @@ class Pelanggar extends Component
 {
 
     public $pelanggaran; public $no = 1;
-    protected $listeners = ['delete' => 'delete'];
-
+    protected $listeners = ['delete', 'adminRefresh',];
+    public $isFormEdit = false;
+    
     public function mount(){
         $this->pelanggaran = $this->getDataPelanggaran();
     }
@@ -20,6 +21,12 @@ class Pelanggar extends Component
     {
         return view('livewire.admin.pelanggaran.index');
     }
+
+    public function adminRefresh()
+    {
+        # code...
+    }
+
 
     function delete($id){
 

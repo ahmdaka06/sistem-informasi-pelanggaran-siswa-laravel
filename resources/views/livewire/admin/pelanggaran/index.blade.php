@@ -74,29 +74,21 @@
     </div>
     <!-- end row -->
     <!--  Extra Large modal example -->
-    {{-- <div wire:ignore.self class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i> {{ typeForm($typeForm, $primaryKey) }}</h5>
+                    {{-- <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i> {{ (!$isFormEdit) ? 'Tambah Admin' : 'Edit Admin #' . $primaryKey }}</h5> --}}
                     <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
-                    @switch($typeForm)
-                        @case('create')
-                            @include('livewire.admin.admin.create')
-                            @break
-                        @case('edit')
-                            @include('livewire.admin.admin.edit')
-                            @break
-                        {{-- @case('detail')
-                            @include('livewire.admin.admin.create')
-                            @break --}}
-                        {{-- @default
-
-                    @endswitch --}}
-                {{-- </div>
+                    @if (!$isFormEdit)
+                    @include('livewire.admin.pelanggaran.create')
+                    @else
+                    @include('livewire.admin.pelanggaran.edit')
+                    @endif
+                </div>
                 <div class="modal-footer">
                     <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -108,7 +100,7 @@
             Swal.hideLoading()
             $('.bs-example-modal-xl').modal('hide');
         });
-    </script> --}}
+    </script>
 
 
     <script>
