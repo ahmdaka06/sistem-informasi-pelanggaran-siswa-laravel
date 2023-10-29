@@ -9,7 +9,8 @@ use App\Models\ViolationCategory;
 class Pelanggar extends Component
 {
 
-    public $pelanggaran;
+    public $pelanggaran; public $no = 1;
+    protected $listeners = ['delete' => 'delete'];
 
     public function mount(){
         $this->pelanggaran = $this->getDataPelanggaran();
@@ -22,7 +23,7 @@ class Pelanggar extends Component
 
     function delete($id){
 
-        dd("$id");
+        // dd("$id");
         $pelanggaran = ViolationCategory::find($id);
         $pelanggaran->delete();
 
@@ -31,18 +32,18 @@ class Pelanggar extends Component
 
     function getDataPelanggaran(){
 
-        $groupedData = ViolationCategory::all();
-        $result = $groupedData->sortBy(function ($item, $key) {
-            if ($key == 'pelanggaran ringan') {
+        $groupedData = collect(ViolationCategory::all());
+        $sorted = $groupedData->sortBy(function ($item, $key) {
+            if ($item['jenis_pelanggaran'] == 'pelanggaran ringan') {
                 return 1;
-            } elseif ($key == 'pelanggaran sedang') {
+            } elseif ($item['jenis_pelanggaran'] == 'pelanggaran sedang') {
                 return 2;
-            } elseif ($key == 'pelanggaran berat') {
+            } elseif ($item['jenis_pelanggaran'] == 'pelanggaran berat') {
                 return 3;
             } else {
                 return 999;
             }
         });
-        return $result;
+        return $sorted->values()->all();
     }
 }

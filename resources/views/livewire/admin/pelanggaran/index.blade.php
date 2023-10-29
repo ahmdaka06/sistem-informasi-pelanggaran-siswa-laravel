@@ -43,7 +43,7 @@
                             <tbody>
                                 @foreach ($pelanggaran as $value)
                                 <tr>
-                                    <td>{{ $value->id }}</td>
+                                    <td>{{ $no++ }}</td>
                                     <td>{{ $value->jenis_pelanggaran }}</td>
                                     <td>{{ $value->name }}</td>
                                     <td>{{ $value->point }}</td>

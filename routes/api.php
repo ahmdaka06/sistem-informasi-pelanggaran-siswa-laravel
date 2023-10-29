@@ -44,26 +44,19 @@ Route::get("data-siswa", function(){
 });
 
 route::get("pelanggaran", function(){
-    $pelanggaran = ViolationCategory::all();
-    $groupedData = $pelanggaran->groupBy('jenis_pelanggaran')->map(function ($group) {
-        return $group->map(function ($item) {
-            return [
-                'name' => $item->name,
-                'point' => $item->point,
-            ];
-        });
-    });
+    $pelanggaran = collect(ViolationCategory::all());
 
-    $result = $pelanggaran->sortBy(function ($item, $key) {
-        if ($key == 'pelanggaran-ringan') {
+    $sorted = $pelanggaran->sortBy(function ($item, $key) {
+        if ($item['jenis_pelanggaran'] == 'pelanggaran ringan') {
             return 1;
-        } elseif ($key == 'pelanggaran-sedang') {
+        } elseif ($item['jenis_pelanggaran'] == 'pelanggaran sedang') {
             return 2;
-        } elseif ($key == 'pelanggaran-berat') {
+        } elseif ($item['jenis_pelanggaran'] == 'pelanggaran berat') {
             return 3;
         } else {
             return 999;
         }
     });
-    return $result;
+
+    return $sorted->values()->all();
 });
