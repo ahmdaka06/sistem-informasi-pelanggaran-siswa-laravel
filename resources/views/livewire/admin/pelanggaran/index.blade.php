@@ -41,7 +41,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pelanggaran as $value)
+                                @foreach ($data as $value)
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $value->jenis_pelanggaran }}</td>
@@ -90,7 +90,8 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    {{-- <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -110,6 +111,11 @@
                 // alert(id);
             }
         }
+
+        window.livewire.on('adminRefresh', () => {
+            Swal.hideLoading()
+            $('.bs-example-modal-xl').modal('hide');
+        });
     </script>
 </div>
 

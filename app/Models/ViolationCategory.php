@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ViolationCategory extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['jenis_pelanggaran','name', 'point'];
 }

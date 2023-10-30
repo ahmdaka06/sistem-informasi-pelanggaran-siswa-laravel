@@ -1,18 +1,23 @@
 <div>
     <form>
         <div class="form-group">
-            <label for="exampleFormControlInput1">Nama Lengkap</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nama lengkap" wire:model="full_name">
+            <label for="exampleFormControlInput1">Jenis Pelanggaran</label>
+            <select class="form-select" aria-label="Default select example" wire:model="jenis_pelanggaran">
+                <option selected>Pilh Jenis Pelanggaran</option>
+                <option value="pelanggaran ringan">Pelanggaran Ringan</option>
+                <option value="pelanggaran sedang">Pelanggaran Sedang</option>
+                <option value="pelanggaran berat">Pelanggaran Berat</option>
+              </select>
             {{-- @error('full_name') <span class="text-danger error">{{ $message }}</span>@enderror --}}
         </div>
         <div class="form-group">
-            <label for="exampleFormControlInput2">Username</label>
-            <input type="text" class="form-control" id="exampleFormControlInput2" wire:model="username" placeholder="Username">
+            <label for="exampleFormControlInput2">Nama Pelanggaran</label>
+            <input type="text" class="form-control" id="exampleFormControlInput2" wire:model="name" placeholder="Nama Pelanggaran">
             {{-- @error('username') <span class="text-danger error">{{ $message }}</span>@enderror --}}
         </div>
         <div class="form-group">
-            <label for="exampleFormControlInput2">Password</label>
-            <input type="password" class="form-control" id="exampleFormControlInput2" wire:model="password" placeholder="Password">
+            <label for="exampleFormControlInput2">Point</label>
+            <input type="number" class="form-control" id="exampleFormControlInput2" wire:model="point">
             {{-- @error('password') <span class="text-danger error">{{ $message }}</span>@enderror --}}
         </div>
         {{-- <div class="form-group">

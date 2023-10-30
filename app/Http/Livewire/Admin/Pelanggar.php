@@ -4,27 +4,74 @@ namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\ViolationCategory;
-
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Pelanggar extends Component
 {
+    use LivewireAlert;
 
-    public $pelanggaran; public $no = 1;
-    protected $listeners = ['delete', 'adminRefresh',];
+    public $pelanggaran, $no = 1, $search;
+    protected $listeners = ['delete', 'adminRefresh'];
     public $isFormEdit = false;
-    
-    public function mount(){
-        $this->pelanggaran = $this->getDataPelanggaran();
+
+    public $jenis_pelanggaran, $name, $point;
+
+    public function resetInput(){
+        $this->jenis_pelanggaran = "";
+        $this->name = "";
+        $this->point = "";
     }
 
     public function render()
     {
-        return view('livewire.admin.pelanggaran.index');
+        // $this->pelanggaran = $this->getSortedData();
+       
+        $dataQuery = ViolationCategory::orderBy('id', 'DESC');
+        if ($this->search <> null) {
+            // dd($this->search);
+            $dataQuery->where(function ($query) {
+                $query->where('id', 'like', '%'.$this->search.'%')
+                ->orWhere('jenis_pelanggaran', 'like', '%'.$this->search.'%')
+                ->orWhere('name', 'like', '%'.$this->search.'%')
+                ->orWhere('point', 'like', '%'.$this->search.'%');
+            });
+            $data = $this->getSortedData($dataQuery->get());
+        } else{
+            $dataQuery = ViolationCategory::all();
+            $data = $this->getSortedData($dataQuery);
+        }
+
+
+        return view('livewire.admin.pelanggaran.index', compact('data'));
     }
 
     public function adminRefresh()
     {
         # code...
+    }
+
+    function store(){
+
+        try {
+            $data = [
+                "jenis_pelanggaran" => $this->jenis_pelanggaran,
+                "name" => $this->name,
+                "point" => $this->point,
+            ];
+
+
+
+            // dd($data);
+
+            $newData = ViolationCategory::create($data);
+            $this->alert('success', 'Berhasil menambahkan data Pelanggaran #' . $newData->id);
+            $this->resetInput();
+            $this->emit('adminRefresh');
+        } catch (Exception $e) {
+            // return $e;
+            dd($e);
+        }
+
     }
 
 
@@ -34,12 +81,12 @@ class Pelanggar extends Component
         $pelanggaran = ViolationCategory::find($id);
         $pelanggaran->delete();
 
-        $this->pelanggaran = $this->getDataPelanggaran();
+        $this->pelanggaran = $this->getSortedData(ViolationCategory::all());
     }
 
-    function getDataPelanggaran(){
+    function getSortedData($data){
 
-        $groupedData = collect(ViolationCategory::all());
+        $groupedData = collect($data);
         $sorted = $groupedData->sortBy(function ($item, $key) {
             if ($item['jenis_pelanggaran'] == 'pelanggaran ringan') {
                 return 1;
@@ -51,6 +98,15 @@ class Pelanggar extends Component
                 return 999;
             }
         });
+
+        // return $sorted;
         return $sorted->values()->all();
+    }
+
+
+    public function closeModal(){
+        // $this->resetInputFields();
+        // dd($this->pelanggaran);
+        $this->isFormEdit = false;
     }
 }
