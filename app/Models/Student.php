@@ -43,15 +43,28 @@ class Student extends Model
         }
 
         if ($kelas && $search) {
-            // if ($search) {
             return $builder->where(function (Builder $sql) use ($search, $kelas) {
                 $sql->where('class_id', $kelas)->where("full_name", "like", "%{$search}%")->with(self::$withRelation);
             });
-            // }
         }
 
         return $builder->where(function (Builder $sql) use ($search, $kelas) {
             $sql->where('class_id', $kelas)->with(self::$withRelation);
         });
+    }
+
+    function scopeMineViolation(Builder $builder, int $id, string $year)
+    {
+        if (empty($id)) {
+            return null;
+        }
+
+        $student = $builder->with(['pelanggaran' => function ($q) use ($year) {
+            $q->where('status', 'confirm')->whereYear('created_at', $year);
+        }, 'pelanggaran.category_pelanggaran', 'kelas'])->find($id);
+
+        $violation = $student->pelanggaran;
+
+        return $violation;
     }
 }

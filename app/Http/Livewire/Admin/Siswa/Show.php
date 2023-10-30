@@ -2,17 +2,37 @@
 
 namespace App\Http\Livewire\Admin\Siswa;
 
+use App\Models\Student;
 use App\Services\StudentService;
 use Livewire\Component;
 
 class Show extends Component
 {
-    public $detailSiswa;
+    public $idSiswa, $bulan;
+
+    protected $listeners = ['updateBulan' => 'updateBulan'];
+
+    function mount()
+    {
+        $this->bulan = date('Y-m');
+    }
 
     public function render()
     {
         $student = new StudentService;
-        $student->getDataForGraphic($this->detailSiswa);
-        return view('livewire.admin.siswa.show');
+        $yoi = $student->getMineViolationDataForGraphic($this->idSiswa, $this->bulan);
+        $this->emit('mingguan', json_encode($yoi['sum_per_week']));
+        $this->emit('bulanan', json_encode($yoi['sum_per_month']));
+        return view('livewire.admin.siswa.show', ['detailSiswa' => $yoi['detail_siswa']]);
+    }
+
+    function updateBulan($value)
+    {
+        $this->bulan = $value;
+    }
+
+    function coba()
+    {
+        dd($this->bulan);
     }
 }

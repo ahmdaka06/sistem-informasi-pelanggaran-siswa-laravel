@@ -110,14 +110,14 @@ class SiswaController extends Controller
     public function show(int $id)
     {
 
-        $detailSiswa = Student::with(Student::$withRelation)->find($id);
         $page = [
-            'title' => 'Detail Siswa ' . $detailSiswa->full_name,
+            'title' => 'Detail Siswa',
             'breadcrumb' => [
-                'first' => 'Detail Siswa ' . $detailSiswa->full_name
+                'first' => 'Detail Siswa'
             ]
         ];
-        return view('admin.siswa.show', ['detailSiswa' => $detailSiswa, 'page' => $page]);
+
+        return view('admin.siswa.show', ['id' => $id, 'page' => $page]);
     }
 
     /**

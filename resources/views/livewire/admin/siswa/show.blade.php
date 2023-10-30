@@ -1,8 +1,20 @@
 <div>
+    @php
+        use Carbon\Carbon;
+    @endphp
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     {{-- Success is as dangerous as failure. --}}
-
+    {{-- {{ $detailSiswa }} --}}
     <div class="container-fluid">
+        <div class="row">
+            <div class="mb-3 row">
+                <label for="example-month-input" class="col-md-1 col-form-label">Month</label>
+                <div class="col-md-11">
+                    <input class="form-control" type="month" value="2019-08" id="month-input">
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <div style="width: 100%; height: 100%;">
@@ -47,7 +59,7 @@
                                         <div class="simplebar-content-wrapper"
                                             style="height: auto; padding-right: 20px; padding-bottom: 0px; overflow: hidden scroll;">
                                             <div class="simplebar-content" style="padding: 0px 0px 0px 8px;">
-                                                <li class="feed-item">
+                                                {{-- <li class="feed-item">
                                                     <div class="feed-item-list">
                                                         <p class="text-muted mb-1 font-size-13">Today<small
                                                                 class="d-inline-block ms-1">12:20 pm</small></p>
@@ -67,8 +79,30 @@
                                                             class="text-primary">tawuran</span></p>
                                                     <p class="text-muted mb-1 font-size-13">~<small
                                                             class="d-inline-block ms-1">Menunggu konfirmasi</small></p>
-                                                </li>
-
+                                                </li> --}}
+                                                @foreach ($detailSiswa as $item)
+                                                    <li class="feed-item">
+                                                        <p class="text-muted mb-1 font-size-13">
+                                                            {{ Carbon::parse($item->created_at)->format('d M, Y') }}<small
+                                                                class="d-inline-block ms-1">{{ Carbon::parse($item->created_at)->format('h:i A') }}</small>
+                                                        </p>
+                                                        <p class="mb-0">Telah dilaporan oleh seseorang karena
+                                                            telah melakukan pelanggaran <span
+                                                                class="text-primary">{{ $item->category_pelanggaran->name }}</span>
+                                                        </p>
+                                                        @if ($item->status === 'confirm')
+                                                            <p class="text-muted mb-1 font-size-13">+<small
+                                                                    class="d-inline-block ms-1">{{ $item->category_pelanggaran->point }}
+                                                                    Point</small></p>
+                                                        @endif
+                                                        @if ($item->status == 'pending')
+                                                            <p class="text-muted mb-1 font-size-13">~<small
+                                                                    class="d-inline-block ms-1">Menunggu
+                                                                    konfirmasi</small>
+                                                            </p>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -106,9 +140,10 @@
                                             transform="translate(0, 0)">
                                             <defs id="SvgjsDefs1374">
                                                 <clipPath id="gridRectMaskp29zxgiv">
-                                                    <rect id="SvgjsRect1377" width="51" height="47" x="-3" y="-1"
-                                                        rx="0" ry="0" opacity="1" stroke-width="0"
-                                                        stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                                                    <rect id="SvgjsRect1377" width="51" height="47" x="-3"
+                                                        y="-1" rx="0" ry="0" opacity="1"
+                                                        stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                        fill="#fff"></rect>
                                                 </clipPath>
                                                 <clipPath id="gridRectMarkerMaskp29zxgiv">
                                                     <rect id="SvgjsRect1378" width="49" height="49" x="-2"
@@ -184,69 +219,80 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 
     <script>
-        options = {
-            chart: {
-                type: 'line',
-                // events: {
-                //     animationEnd: convertTDToImage
-                // }
-            },
-            title: {
-                text: 'Laporan Mingguan',
-                align: 'center',
-                style: {
-                    fontSize: '20px'
+        Livewire.on('mingguan', (data) => {
+            data = JSON.parse(data)
+            options = {
+                chart: {
+                    type: 'line',
+                    // events: {
+                    //     animationEnd: convertTDToImage
+                    // }
+                },
+                title: {
+                    text: 'Laporan Mingguan',
+                    align: 'center',
+                    style: {
+                        fontSize: '20px'
+                    }
+                },
+                series: [{
+                    name: 'Jumlah',
+                    data: data[1]
+                }],
+                xaxis: {
+                    categories: data[0]
+                },
+                markers: {
+                    size: 6 // Ukuran marker
                 }
-            },
-            series: [{
-                name: 'Rata Rata Tekanan Darah',
-                data: [123, 144, 112, 150]
-            }],
-            xaxis: {
-                categories: ['Januari', 'Feb', 'Mar', 'April']
-            },
-            markers: {
-                size: 6 // Ukuran marker
-            }
-        };
+            };
 
-        bulanan = {
-            chart: {
-                type: 'line',
-                // events: {
-                //     animationEnd: convertTDToImage
-                // }
-            },
-            title: {
-                text: 'Laporan Bulanan',
-                align: 'center',
-                style: {
-                    fontSize: '20px'
+            var minggu = new ApexCharts(document.querySelector("#minggu"), options);
+            minggu.render();
+        })
+
+        Livewire.on('bulanan', (data) => {
+            data = JSON.parse(data)
+            console.log('bulanan => ', data)
+            bulanan = {
+                chart: {
+                    type: 'line',
+                    // events: {
+                    //     animationEnd: convertTDToImage
+                    // }
+                },
+                title: {
+                    text: 'Laporan Bulanan',
+                    align: 'center',
+                    style: {
+                        fontSize: '20px'
+                    }
+                },
+                series: [{
+                    name: 'Jumlah',
+                    data: data[1]
+                }],
+                xaxis: {
+                    categories: data[0]
+                },
+                markers: {
+                    size: 6 // Ukuran marker
                 }
-            },
-            series: [{
-                name: 'Rata Rata Tekanan Darah',
-                data: [123, 144, 112, 150]
-            }],
-            xaxis: {
-                categories: ['Januari', 'Feb', 'Mar', 'April']
-            },
-            markers: {
-                size: 6 // Ukuran marker
-            }
-        };
+            };
+            var chart = new ApexCharts(document.querySelector("#bulan"), bulanan);
+            chart.render();
+        })
 
 
-        var chart = new ApexCharts(document.querySelector("#bulan"), bulanan);
-        chart.render();
 
-        var minggu = new ApexCharts(document.querySelector("#minggu"), options);
-        minggu.render();
+
+        $('#month-input').on('change', function() {
+            // alert(this.value);
+            Livewire.emit('updateBulan', this.value)
+        });
     </script>
 </div>
