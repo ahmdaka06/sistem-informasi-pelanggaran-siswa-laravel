@@ -23,14 +23,13 @@ class Show extends Component
         $student = new StudentService;
         $yoi = $student->getMineViolationDataForGraphic($this->idSiswa, $this->bulan);
         if ($yoi) {
-            $this->emit('mingguan', json_encode($yoi['sum_per_week']));
-            $this->emit('bulanan', json_encode($yoi['sum_per_month']));
+            $this->emit('mingguan', json_encode($yoi));
+            $this->emit('bulanan', json_encode($yoi));
             $this->totalPoint = $yoi['sum_month'];
             $this->rataRataPointTahunan = $yoi['avg_month']; // => hati hati, belum di round !
             $this->rataRataPointBulanan = $yoi['avg_week']; // => hati hati, belum di round !
             $this->totalPointPerBulan = $yoi['sum_week'];
         }
-
 
         $pisah = explode("-", $this->bulan);
         $this->tahun = isset($pisah[0]) ? $pisah[0] : null;

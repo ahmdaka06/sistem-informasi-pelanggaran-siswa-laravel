@@ -91,9 +91,12 @@
                                                                 class="text-primary">{{ $item->category_pelanggaran->name }}</span>
                                                         </p>
                                                         @if ($item->status === 'confirm')
-                                                            <p class="text-muted mb-1 font-size-13">+<small
+                                                            <p class="text-muted mb-1 font-size-13">
+                                                                <span>Catatan : {{ $item->note }}</span> <br />
+                                                                +<small
                                                                     class="d-inline-block ms-1">{{ $item->category_pelanggaran->point }}
-                                                                    Point</small></p>
+                                                                    Point</small>
+                                                            </p>
                                                         @endif
                                                         @if ($item->status == 'pending')
                                                             <p class="text-muted mb-1 font-size-13">~<small
@@ -518,7 +521,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $rataRataPointTahunan }}</span>
+                                    <h4 class="mb-1 mt-1"><span
+                                            data-plugin="counterup">{{ $rataRataPointTahunan }}</span>
                                     </h4>
                                     <p class="text-muted mb-0">Rata-rata Point (di tahun {{ $tahun }})</p>
                                 </div>
@@ -553,10 +557,13 @@
                 },
                 series: [{
                     name: 'Jumlah',
-                    data: data[1]
+                    data: data.sum_per_week[1]
+                }, {
+                    name: 'Rata-rata',
+                    data: data.avg_per_week[1]
                 }],
                 xaxis: {
-                    categories: data[0]
+                    categories: data.sum_per_week[0]
                 },
                 markers: {
                     size: 6 // Ukuran marker
@@ -586,10 +593,13 @@
                 },
                 series: [{
                     name: 'Jumlah',
-                    data: data[1]
+                    data: data.sum_per_month[1]
+                }, {
+                    name: 'Rata-rata',
+                    data: data.avg_per_month[1]
                 }],
                 xaxis: {
-                    categories: data[0]
+                    categories: data.sum_per_month[0]
                 },
                 markers: {
                     size: 6 // Ukuran marker

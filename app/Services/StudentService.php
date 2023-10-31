@@ -59,128 +59,143 @@ class StudentService
 
     private function prosesMengolahDataMingguan($dataBulanan)
     {
-        $jumlahHasilMingguan = [];
-        $rataRataHasilMungguan = [];
+        try {
+            $jumlahHasilMingguan = [];
+            $rataRataHasilMungguan = [];
 
-        foreach ($dataBulanan as $key => $values) {
-            foreach ($values as $i) {
-                $jumlahHasilMingguan[$key] = !isset($jumlahHasilMingguan[$key]) ? 0 + $i['category_pelanggaran']['point'] : $jumlahHasilMingguan[$key] + $i['category_pelanggaran']['point'];
+            foreach ($dataBulanan as $key => $values) {
+                foreach ($values as $i) {
+                    $jumlahHasilMingguan[$key] = !isset($jumlahHasilMingguan[$key]) ? 0 + $i['category_pelanggaran']['point'] : $jumlahHasilMingguan[$key] + $i['category_pelanggaran']['point'];
+                }
+
+                $rataRataHasilMungguan[$key] = round($jumlahHasilMingguan[$key] / count($values));
             }
 
-            $rataRataHasilMungguan[$key] = round($jumlahHasilMingguan[$key] / count($values));
+            /* *
+                [
+                    [1,2,3,4], -> ini adalah minggu
+                    [100, 120, 123, 23] -> ini adalah nilai point
+                ]
+            */
+            $hasilAkhirMingguan = []; // -> index ke 0 = minggu , index ke 1 value nya
+            $hasilAkhirRataRataMingguan = [];
+
+            $mingguan = []; // -> mingguan akan dipakai dari hasil rata rata maupun dari hasil penjumlahan
+            $jumlahMingguan = [];
+            $rataRataMingguan = [];
+            foreach ($jumlahHasilMingguan as $key => $jumlah) { // -> karena sama key jumlan == key rata rata, langsung akses pake $key
+                array_push($mingguan, "Minggu ke-$key");
+                array_push($jumlahMingguan, $jumlah);
+                array_push($rataRataMingguan, $rataRataHasilMungguan[$key]);
+            }
+
+            $hasilAkhirMingguan[0] = $mingguan;
+            $hasilAkhirMingguan[1] = $jumlahMingguan;
+            $hasilAkhirRataRataMingguan[0] = $mingguan;
+            $hasilAkhirRataRataMingguan[1] = $rataRataMingguan;
+
+            $sumWeek = collect($jumlahHasilMingguan)->sum();
+            return [
+                'avg_per_week' => $hasilAkhirRataRataMingguan,
+                'sum_per_week' => $hasilAkhirMingguan,
+                'sum_week' => $sumWeek,
+                'avg_week' => count($rataRataHasilMungguan) <= 0 ? 0 : round(collect($rataRataHasilMungguan)->sum() / count($rataRataHasilMungguan))
+            ];
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+            abort(500);
         }
-
-        /* *
-            [
-                [1,2,3,4], -> ini adalah minggu
-                [100, 120, 123, 23] -> ini adalah nilai point
-            ]
-        */
-        $hasilAkhirMingguan = []; // -> index ke 0 = minggu , index ke 1 value nya
-        $hasilAkhirRataRataMingguan = [];
-
-        $mingguan = []; // -> mingguan akan dipakai dari hasil rata rata maupun dari hasil penjumlahan
-        $jumlahMingguan = [];
-        $rataRataMingguan = [];
-        foreach ($jumlahHasilMingguan as $key => $jumlah) { // -> karena sama key jumlan == key rata rata, langsung akses pake $key
-            array_push($mingguan, "Minggu ke-$key");
-            array_push($jumlahMingguan, $jumlah);
-            array_push($rataRataMingguan, $rataRataHasilMungguan[$key]);
-        }
-
-        $hasilAkhirMingguan[0] = $mingguan;
-        $hasilAkhirMingguan[1] = $jumlahMingguan;
-        $hasilAkhirRataRataMingguan[0] = $mingguan;
-        $hasilAkhirRataRataMingguan[1] = $rataRataMingguan;
-
-        $sumWeek = collect($jumlahHasilMingguan)->sum();
-        return [
-            'avg_per_week' => $hasilAkhirRataRataMingguan,
-            'sum_per_week' => $hasilAkhirMingguan,
-            'sum_week' => $sumWeek,
-            'avg_week' => count($jumlahHasilMingguan) <= 0 ? 0 : $sumWeek / count($jumlahHasilMingguan)
-        ];
     }
 
     private function prosesMengolahDataBulanan($dataBulanan)
     {
-        $jumlahHasilBulanan = [];
-        $rataRataHasilBulanan = [];
+        try {
+            $jumlahHasilBulanan = [];
+            $rataRataHasilBulanan = [];
 
-        $bulanTersedia = [];
+            $bulanTersedia = [];
 
-        $daftarBulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', "Desember"];
-        foreach ($dataBulanan as $key => $values) {
-            foreach ($values as $i) {
-                $jumlahHasilBulanan[$key] = !isset($jumlahHasilBulanan[$key]) ? 0 + $i['category_pelanggaran']['point'] : $jumlahHasilBulanan[$key] + $i['category_pelanggaran']['point'];
+            $daftarBulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', "Desember"];
+            foreach ($dataBulanan as $key => $values) {
+                foreach ($values as $i) {
+                    $jumlahHasilBulanan[$key] = !isset($jumlahHasilBulanan[$key]) ? 0 + $i['category_pelanggaran']['point'] : $jumlahHasilBulanan[$key] + $i['category_pelanggaran']['point'];
+                }
+                $rataRataHasilBulanan[$key] = round($jumlahHasilBulanan[$key] / count($values));
+
+                array_push($bulanTersedia, $daftarBulan[$key]);
             }
-            $rataRataHasilBulanan[$key] = round($jumlahHasilBulanan[$key] / count($values));
 
-            array_push($bulanTersedia, $daftarBulan[$key]);
+            $jumlahHasilBulanan = collect($jumlahHasilBulanan)->flatten()->toArray();
+            $rataRataHasilBulanan = collect($rataRataHasilBulanan)->flatten()->toArray();
+
+            $hasilAkhirRataRata = [$bulanTersedia, $rataRataHasilBulanan];
+            $hasilAkhirJumlah = [$bulanTersedia, $jumlahHasilBulanan];
+
+            $sumMonth = collect($jumlahHasilBulanan)->sum();
+
+            return [
+                'avg_per_month' => $hasilAkhirRataRata,
+                'sum_per_month' => $hasilAkhirJumlah,
+                'sum_month' => $sumMonth,
+                'avg_month' => count($rataRataHasilBulanan) <= 0 ? 0 : round(collect($rataRataHasilBulanan)->sum() / count($rataRataHasilBulanan))
+            ];
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+            abort(500);
         }
-
-        $jumlahHasilBulanan = collect($jumlahHasilBulanan)->flatten()->toArray();
-        $rataRataHasilBulanan = collect($rataRataHasilBulanan)->flatten()->toArray();
-
-        $hasilAkhirRataRata = [$bulanTersedia, $rataRataHasilBulanan];
-        $hasilAkhirJumlah = [$bulanTersedia, $jumlahHasilBulanan];
-
-        $sumMonth = collect($jumlahHasilBulanan)->sum();
-        return [
-            'avg_per_month' => $hasilAkhirRataRata,
-            'sum_per_month' => $hasilAkhirJumlah,
-            'sum_month' => $sumMonth,
-            'avg_month' => count($rataRataHasilBulanan) <= 0 ? 0 : $sumMonth / count($rataRataHasilBulanan)
-        ];
-
-        dd(['jumlah' => $hasilAkhirJumlah, 'rata_rata' => $hasilAkhirRataRata, 'bulan' => $bulanTersedia]);
+        // dd(['jumlah' => $hasilAkhirJumlah, 'rata_rata' => $hasilAkhirRataRata, 'bulan' => $bulanTersedia]);
     }
 
     function getMineViolationDataForGraphic($idSiswa, string $bulanDanTahun = null)
     {
-        $pisah = explode("-", $bulanDanTahun);
-        $tahun = isset($pisah[0]) ? $pisah[0] : null;
-        $bulan = isset($pisah[1]) ? $pisah[1] : null;
+        try {
+            $pisah = explode("-", $bulanDanTahun);
+            $tahun = isset($pisah[0]) ? $pisah[0] : null;
+            $bulan = isset($pisah[1]) ? $pisah[1] : null;
 
-        if (!$tahun || !$bulan) {
-            return false;
+            if (!$tahun || !$bulan) {
+                return false;
+            }
+
+            $bulan = (int)$bulan;
+            $detailSiswa = Student::mineViolation($idSiswa, $tahun); // -> data ini detail dari salah satu siswa dan menghasilkan data pertahun dan akan menampilkan yang status == 'confirm'
+
+            $student = $detailSiswa;
+
+            $mappingData = function ($item) {
+                $createdAt = Carbon::parse($item->created_at);
+                $dayOfWeek = $createdAt->dayOfWeek;
+                $monthOfYear = $createdAt->month;
+                $day = $createdAt->day;
+                $weekOfMonth = $createdAt->weekOfMonth;
+                $dayName = $createdAt->format('l');
+
+                $item->day_name = $dayName;
+                $item->day = $day;
+                $item->week_of_month = $weekOfMonth;
+                $item->day_of_week = $dayOfWeek;
+                $item->month = $monthOfYear;
+
+                return $item;
+            };
+
+            $data = $student->map($mappingData);
+            $dataMentah = $data->sortBy('created_at');
+
+            $dataMingguan = $data
+                ->filter(fn ($value) => $value['month'] == $bulan)
+                ->sortBy('day') // -> ini bisa optional
+                ->groupBy('week_of_month');
+
+            $dataBulanan = $data->groupBy('month')->sortKeys();
+
+            $hasilAkhirBulanan = $this->prosesMengolahDataBulanan($dataBulanan);
+            $hasilAkhirMingguan =  $this->prosesMengolahDataMingguan($dataMingguan);
+
+            return array_merge($hasilAkhirBulanan, $hasilAkhirMingguan, ['detail_siswa' => $dataMentah]);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+            abort();
         }
-
-        $bulan = (int)$bulan;
-        $detailSiswa = Student::mineViolation($idSiswa, $tahun); // -> data ini detail dari salah satu siswa dan menghasilkan data pertahun dan akan menampilkan yang status == 'confirm'
-
-        $student = $detailSiswa;
-
-        $mappingData = function ($item) {
-            $createdAt = Carbon::parse($item->created_at);
-            $dayOfWeek = $createdAt->dayOfWeek;
-            $monthOfYear = $createdAt->month;
-            $day = $createdAt->day;
-            $weekOfMonth = $createdAt->weekOfMonth;
-            $dayName = $createdAt->format('l');
-
-            $item->day_name = $dayName;
-            $item->day = $day;
-            $item->week_of_month = $weekOfMonth;
-            $item->day_of_week = $dayOfWeek;
-            $item->month = $monthOfYear;
-
-            return $item;
-        };
-
-        $data = $student->map($mappingData);
-        $dataMentah = $data->sortBy('created_at');
-
-        $dataMingguan = $data
-            ->filter(fn ($value) => $value['month'] == $bulan)
-            ->sortBy('day') // -> ini bisa optional
-            ->groupBy('week_of_month');
-
-        $dataBulanan = $data->groupBy('month')->sortKeys();
-
-        $hasilAkhirBulanan = $this->prosesMengolahDataBulanan($dataBulanan);
-        $hasilAkhirMingguan =  $this->prosesMengolahDataMingguan($dataMingguan);
-
-        return array_merge($hasilAkhirBulanan, $hasilAkhirMingguan, ['detail_siswa' => $dataMentah]);
     }
 }
