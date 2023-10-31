@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    public $idSiswa, $bulan, $totalPoint, $tahun, $totalPointPerBulan, $bulanFiler; // => variabel $bulan untuk menampung bulan dan tahun (saya males ngubah karna sudah terlanjur)
+    public $idSiswa, $bulan, $totalPoint, $tahun, $totalPointPerBulan, $bulanFiler, $rataRataPointTahunan, $rataRataPointBulanan; // => variabel $bulan untuk menampung bulan dan tahun (saya males ngubah karna sudah terlanjur)
 
     protected $listeners = ['updateBulan' => 'updateBulan'];
 
@@ -26,6 +26,8 @@ class Show extends Component
             $this->emit('mingguan', json_encode($yoi['sum_per_week']));
             $this->emit('bulanan', json_encode($yoi['sum_per_month']));
             $this->totalPoint = $yoi['sum_month'];
+            $this->rataRataPointTahunan = $yoi['avg_month']; // => hati hati, belum di round !
+            $this->rataRataPointBulanan = $yoi['avg_week']; // => hati hati, belum di round !
             $this->totalPointPerBulan = $yoi['sum_week'];
         }
 

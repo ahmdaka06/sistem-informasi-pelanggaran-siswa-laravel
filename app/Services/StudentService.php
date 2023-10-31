@@ -93,10 +93,12 @@ class StudentService
         $hasilAkhirRataRataMingguan[0] = $mingguan;
         $hasilAkhirRataRataMingguan[1] = $rataRataMingguan;
 
+        $sumWeek = collect($jumlahHasilMingguan)->sum();
         return [
             'avg_per_week' => $hasilAkhirRataRataMingguan,
             'sum_per_week' => $hasilAkhirMingguan,
-            'sum_week' => collect($jumlahHasilMingguan)->sum()
+            'sum_week' => $sumWeek,
+            'avg_week' => count($jumlahHasilMingguan) <= 0 ? 0 : $sumWeek / count($jumlahHasilMingguan)
         ];
     }
 
@@ -123,10 +125,12 @@ class StudentService
         $hasilAkhirRataRata = [$bulanTersedia, $rataRataHasilBulanan];
         $hasilAkhirJumlah = [$bulanTersedia, $jumlahHasilBulanan];
 
+        $sumMonth = collect($jumlahHasilBulanan)->sum();
         return [
             'avg_per_month' => $hasilAkhirRataRata,
             'sum_per_month' => $hasilAkhirJumlah,
-            'sum_month' => collect($jumlahHasilBulanan)->sum()
+            'sum_month' => $sumMonth,
+            'avg_month' => count($rataRataHasilBulanan) <= 0 ? 0 : $sumMonth / count($rataRataHasilBulanan)
         ];
 
         dd(['jumlah' => $hasilAkhirJumlah, 'rata_rata' => $hasilAkhirRataRata, 'bulan' => $bulanTersedia]);
