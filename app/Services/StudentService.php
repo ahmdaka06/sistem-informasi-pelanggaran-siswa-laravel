@@ -95,7 +95,8 @@ class StudentService
 
         return [
             'avg_per_week' => $hasilAkhirRataRataMingguan,
-            'sum_per_week' => $hasilAkhirMingguan
+            'sum_per_week' => $hasilAkhirMingguan,
+            'sum_week' => collect($jumlahHasilMingguan)->sum()
         ];
     }
 
@@ -124,7 +125,8 @@ class StudentService
 
         return [
             'avg_per_month' => $hasilAkhirRataRata,
-            'sum_per_month' => $hasilAkhirJumlah
+            'sum_per_month' => $hasilAkhirJumlah,
+            'sum_month' => collect($jumlahHasilBulanan)->sum()
         ];
 
         dd(['jumlah' => $hasilAkhirJumlah, 'rata_rata' => $hasilAkhirRataRata, 'bulan' => $bulanTersedia]);
@@ -132,7 +134,14 @@ class StudentService
 
     function getMineViolationDataForGraphic($idSiswa, string $bulanDanTahun = null)
     {
-        [$tahun, $bulan] = explode("-", $bulanDanTahun);
+        $pisah = explode("-", $bulanDanTahun);
+        $tahun = isset($pisah[0]) ? $pisah[0] : null;
+        $bulan = isset($pisah[1]) ? $pisah[1] : null;
+
+        if (!$tahun || !$bulan) {
+            return false;
+        }
+
         $bulan = (int)$bulan;
         $detailSiswa = Student::mineViolation($idSiswa, $tahun); // -> data ini detail dari salah satu siswa dan menghasilkan data pertahun dan akan menampilkan yang status == 'confirm'
 

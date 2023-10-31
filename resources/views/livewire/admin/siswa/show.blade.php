@@ -10,7 +10,7 @@
             <div class="mb-3 row">
                 <label for="example-month-input" class="col-md-1 col-form-label">Month</label>
                 <div class="col-md-11">
-                    <input class="form-control" type="month" value="2019-08" id="month-input">
+                    <input class="form-control" type="month" value="{{ date('Y-m') }}" id="month-input">
                 </div>
             </div>
         </div>
@@ -18,12 +18,12 @@
         <div class="row">
             <div class="col-md-6">
                 <div style="width: 100%; height: 100%;">
-                    <div id="bulan"></div>
+                    <div id="minggu"></div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div style="width: 100%; height: 100%;">
-                    <div id="minggu"></div>
+                    <div id="bulan"></div>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <h4 class="card-title mb-4">Aktivitas Pelanggaran</h4>
+                        <h4 class="card-title mb-4">Aktivitas Pelanggaran ({{ $tahun }})</h4>
 
                         <ol class="activity-feed mb-0 ps-2" data-simplebar="init" style="max-height: 339px;">
                             <div class="simplebar-wrapper" style="margin: 0px 0px 0px -8px;">
@@ -210,8 +210,104 @@
                             </div>
                         </div>
                         <div>
-                            <h4 class="mb-1 mt-1"><span data-plugin="counterup">10</span></h4>
-                            <p class="text-muted mb-0">Point</p>
+                            <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $totalPointPerBulan }}</span></h4>
+                            <p class="text-muted mb-0">Jumlah Point (di bulan {{ $bulanFiler }})</p>
+                        </div>
+                        <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
+                                    class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> beberapa minggu terakhir
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="float-end mt-2" style="position: relative;">
+                            <div id="customers-chart" data-colors="[&quot;--bs-primary&quot;]"
+                                style="min-height: 46px;">
+                                <div id="apexchartsp29zxgiv"
+                                    class="apexcharts-canvas apexchartsp29zxgiv apexcharts-theme-light"
+                                    style="width: 45px; height: 46px;"><svg id="SvgjsSvg1373" width="45"
+                                        height="46" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg"
+                                        xmlns:data="ApexChartsNS" transform="translate(0, 0)"
+                                        style="background: transparent;">
+                                        <g id="SvgjsG1375" class="apexcharts-inner apexcharts-graphical"
+                                            transform="translate(0, 0)">
+                                            <defs id="SvgjsDefs1374">
+                                                <clipPath id="gridRectMaskp29zxgiv">
+                                                    <rect id="SvgjsRect1377" width="51" height="47" x="-3"
+                                                        y="-1" rx="0" ry="0" opacity="1"
+                                                        stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                        fill="#fff"></rect>
+                                                </clipPath>
+                                                <clipPath id="gridRectMarkerMaskp29zxgiv">
+                                                    <rect id="SvgjsRect1378" width="49" height="49" x="-2"
+                                                        y="-2" rx="0" ry="0" opacity="1"
+                                                        stroke-width="0" stroke="none" stroke-dasharray="0"
+                                                        fill="#fff"></rect>
+                                                </clipPath>
+                                            </defs>
+                                            <g id="SvgjsG1379" class="apexcharts-radialbar">
+                                                <g id="SvgjsG1380">
+                                                    <g id="SvgjsG1381" class="apexcharts-tracks">
+                                                        <g id="SvgjsG1382"
+                                                            class="apexcharts-radialbar-track apexcharts-track"
+                                                            rel="1">
+                                                            <path id="apexcharts-radialbarTrack-0"
+                                                                d="M 22.5 7.134146341463413 A 15.365853658536587 15.365853658536587 0 1 1 22.497318152626402 7.134146575498747"
+                                                                fill="none" fill-opacity="1"
+                                                                stroke="rgba(242,242,242,0.85)" stroke-opacity="1"
+                                                                stroke-linecap="butt" stroke-width="4.258536585365854"
+                                                                stroke-dasharray="0" class="apexcharts-radialbar-area"
+                                                                data:pathOrig="M 22.5 7.134146341463413 A 15.365853658536587 15.365853658536587 0 1 1 22.497318152626402 7.134146575498747">
+                                                            </path>
+                                                        </g>
+                                                    </g>
+                                                    <g id="SvgjsG1384">
+                                                        <g id="SvgjsG1386"
+                                                            class="apexcharts-series apexcharts-radial-series"
+                                                            seriesName="seriesx1" rel="1" data:realIndex="0">
+                                                            <path id="SvgjsPath1387"
+                                                                d="M 22.5 7.134146341463413 A 15.365853658536587 15.365853658536587 0 1 1 17.751690086433737 37.11379525038895"
+                                                                fill="none" fill-opacity="0.85"
+                                                                stroke="rgba(91,115,232,0.85)" stroke-opacity="1"
+                                                                stroke-linecap="butt" stroke-width="4.390243902439025"
+                                                                stroke-dasharray="0"
+                                                                class="apexcharts-radialbar-area apexcharts-radialbar-slice-0"
+                                                                data:angle="198" data:value="55" index="0" j="0"
+                                                                data:pathOrig="M 22.5 7.134146341463413 A 15.365853658536587 15.365853658536587 0 1 1 17.751690086433737 37.11379525038895">
+                                                            </path>
+                                                        </g>
+                                                        <circle id="SvgjsCircle1385" r="13.23658536585366"
+                                                            cx="22.5" cy="22.5"
+                                                            class="apexcharts-radialbar-hollow" fill="transparent">
+                                                        </circle>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <line id="SvgjsLine1388" x1="0" y1="0" x2="45"
+                                                y2="0" stroke="#b6b6b6" stroke-dasharray="0"
+                                                stroke-width="1" class="apexcharts-ycrosshairs"></line>
+                                            <line id="SvgjsLine1389" x1="0" y1="0" x2="45"
+                                                y2="0" stroke-dasharray="0" stroke-width="0"
+                                                class="apexcharts-ycrosshairs-hidden"></line>
+                                        </g>
+                                        <g id="SvgjsG1376" class="apexcharts-annotations"></g>
+                                    </svg>
+                                    <div class="apexcharts-legend"></div>
+                                </div>
+                            </div>
+                            <div class="resize-triggers">
+                                <div class="expand-trigger">
+                                    <div style="width: 46px; height: 47px;"></div>
+                                </div>
+                                <div class="contract-trigger"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $totalPoint }}</span></h4>
+                            <p class="text-muted mb-0">Jumlah Point (di tahun {{ $tahun }})</p>
                         </div>
                         <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
                                     class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> beberapa minggu terakhir
@@ -288,7 +384,62 @@
         })
 
 
+        bulanan = {
+            chart: {
+                type: 'line',
+                // events: {
+                //     animationEnd: convertTDToImage
+                // }
+            },
+            title: {
+                text: 'Laporan Bulanan',
+                align: 'center',
+                style: {
+                    fontSize: '20px'
+                }
+            },
+            series: [{
+                name: 'Jumlah',
+                data: <?= json_encode(isset($grafikBulanan[1]) ? $grafikBulanan[1] : []) ?>
+            }],
+            xaxis: {
+                categories: <?= json_encode(isset($grafikBulanan[0]) ? $grafikBulanan[0] : []) ?>
+            },
+            markers: {
+                size: 6 // Ukuran marker
+            }
+        };
+        var chart = new ApexCharts(document.querySelector("#bulan"), bulanan);
+        chart.render();
 
+        options = {
+            chart: {
+                type: 'line',
+                // events: {
+                //     animationEnd: convertTDToImage
+                // }
+            },
+            title: {
+                text: 'Laporan Mingguan',
+                align: 'center',
+                style: {
+                    fontSize: '20px'
+                }
+            },
+            series: [{
+                name: 'Jumlah',
+                data: <?= json_encode(isset($grafikMingguan[1]) ? $grafikMingguan[1] : []) ?>
+            }],
+            xaxis: {
+                categories: <?= json_encode(isset($grafikMingguan[0]) ? $grafikMingguan[0] : []) ?>
+            },
+            markers: {
+                size: 6 // Ukuran marker
+            }
+        };
+
+        var minggu = new ApexCharts(document.querySelector("#minggu"), options);
+        minggu.render();
 
         $('#month-input').on('change', function() {
             // alert(this.value);
