@@ -98,10 +98,10 @@ class Pelanggar extends Component
     }
 
 
-    function delete($id){
-
-        // dd("$id");
-        $pelanggaran = ViolationCategory::find($id);
+    function delete(ViolationCategory $pelanggaran){
+        // return $pelanggaran;
+        // dd($pelanggaran);
+        // $pelanggaran = ViolationCategory::find($id);
         $pelanggaran->delete();
 
         $this->pelanggaran = $this->getSortedData(ViolationCategory::all());

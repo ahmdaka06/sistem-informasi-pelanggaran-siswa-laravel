@@ -28,6 +28,7 @@ class ViolationLists extends Model
     }
 
     public function jenisPelanggaran(){
-        return $this->belongsTo(ViolationCategory::class, "violation_category_id", "id");
+        return $this->belongsTo(ViolationCategory::class, "violation_category_id", "id")->withTrashed(); //jika ingin data pelanggaran yang sudah di soft delete tetap tampil
+        // return $this->belongsTo(ViolationCategory::class, "violation_category_id", "id")->where('deleted_at', '!==', NULL);
     }
 }
