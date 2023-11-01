@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Stmt\Return_;
 use SebastianBergmann\CodeUnit\FunctionUnit;
 use Throwable;
+use PDF;
 
 class StudentService
 {
@@ -157,10 +158,11 @@ class StudentService
                 return false;
             }
 
+            $daftarBulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', "Desember"];
             $bulan = (int)$bulan;
             $detailSiswa = Student::mineViolation($idSiswa, $tahun); // -> data ini detail dari salah satu siswa dan menghasilkan data pertahun dan akan menampilkan yang status == 'confirm'
 
-            $student = $detailSiswa;
+            $student = $detailSiswa['violations'];
 
             $mappingData = function ($item) {
                 $createdAt = Carbon::parse($item->created_at);
@@ -192,10 +194,38 @@ class StudentService
             $hasilAkhirBulanan = $this->prosesMengolahDataBulanan($dataBulanan);
             $hasilAkhirMingguan =  $this->prosesMengolahDataMingguan($dataMingguan);
 
-            return array_merge($hasilAkhirBulanan, $hasilAkhirMingguan, ['detail_siswa' => $dataMentah]);
+            return array_merge($hasilAkhirBulanan, $hasilAkhirMingguan, [
+                'detail_siswa' => $dataMentah,
+                'siswa' => $detailSiswa['student'],
+                'bulan' => $daftarBulan[$bulan],
+                'tahun' => $tahun
+            ]);
         } catch (Throwable $e) {
             Log::error($e->getMessage());
-            abort();
+            abort(500);
         }
+    }
+
+    function downloadPdfDetailStudent(int $id, string $tanggal)
+    {
+        $data = $this->getMineViolationDataForGraphic($id, $tanggal);
+
+        $detailSiswa = $data['siswa']->toArray();
+        $data = [
+            'nomorSurat' => $id, // => y
+            'jumlahSatuBulan' => $data['sum_week'], // => y
+            'jumlahSatuTahun' => $data['sum_month'], // => y
+            'rataRataSatuBulan' => $data['avg_week'], // => y
+            'rataRataSatuTahun' => $data['avg_month'],
+            'namaLengkap' => $detailSiswa['full_name'], // => y
+            'nis' => $detailSiswa['identity_number'], // => y
+            'kelas' => $detailSiswa['kelas']['name'], // => y
+            'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan", // => y
+            'totalPoint' => $data['sum_month'], // => y
+            'bulan' => $data['bulan'], // => y
+            'tahun' => $data['tahun'] // => y
+        ];
+        $pdf = PDF::loadView('admin.siswa.pdf.detail', $data)->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf;
     }
 }

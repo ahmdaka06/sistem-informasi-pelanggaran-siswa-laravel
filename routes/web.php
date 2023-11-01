@@ -33,6 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin']], function () 
     // Siswa
     Route::name('admin.')->group(function () {
         Route::resource('siswa', SiswaController::class);
+        Route::post('siswa/download/pdf', [SiswaController::class, 'cetakPdf'])->name('siswa.print');
         Route::resource('kelas', KelasController::class);
     });
 });

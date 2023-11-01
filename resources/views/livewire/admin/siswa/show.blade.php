@@ -9,9 +9,16 @@
         <div class="row">
             <div class="mb-3 row">
                 <label for="example-month-input" class="col-md-1 col-form-label">Month</label>
-                <div class="col-md-11">
+                <div class="col-md-11 d-flex">
                     <input class="form-control" type="month" value="{{ date('Y-m') }}" id="month-input">
+                    <form action="{{ route('admin.siswa.print') }}" method="post">
+                        @csrf
+                        <input type="text" name="id" value="{{ $idSiswa }}" hidden>
+                        <input type="text" value="{{ $bulan }}" name="tanggal" hidden>
+                        <button class="btn btn-success ms-2" type="submit">Cetak</button>
+                    </form>
                 </div>
+
             </div>
         </div>
 
@@ -627,6 +634,9 @@
             series: [{
                 name: 'Jumlah',
                 data: <?= json_encode(isset($grafikBulanan[1]) ? $grafikBulanan[1] : []) ?>
+            }, {
+                name: 'Rata-rata',
+                data: <?= json_encode(isset($grafikBulananRataRata[1]) ? $grafikBulananRataRata[1] : []) ?>
             }],
             xaxis: {
                 categories: <?= json_encode(isset($grafikBulanan[0]) ? $grafikBulanan[0] : []) ?>
@@ -655,6 +665,9 @@
             series: [{
                 name: 'Jumlah',
                 data: <?= json_encode(isset($grafikMingguan[1]) ? $grafikMingguan[1] : []) ?>
+            }, {
+                name: 'Rata-rata',
+                data: <?= json_encode(isset($grafikMingguanRataRata[1]) ? $grafikMingguanRataRata[1] : []) ?>
             }],
             xaxis: {
                 categories: <?= json_encode(isset($grafikMingguan[0]) ? $grafikMingguan[0] : []) ?>

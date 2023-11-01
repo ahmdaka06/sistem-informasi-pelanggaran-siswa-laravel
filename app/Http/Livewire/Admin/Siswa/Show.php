@@ -17,6 +17,11 @@ class Show extends Component
         $this->bulan = date('Y-m');
     }
 
+    function booted()
+    {
+        $this->emit('namaSiswa', "Keyla");
+    }
+
     public function render()
     {
         $daftarBulan = ['-', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', "Desember"];
@@ -38,7 +43,10 @@ class Show extends Component
         return view('livewire.admin.siswa.show', [
             'detailSiswa' => $yoi ? $yoi['detail_siswa'] : [],
             'grafikBulanan' => $yoi ? $yoi['sum_per_month'] : [],
-            'grafikMingguan' => $yoi ? $yoi['sum_per_week'] : []
+            'grafikMingguan' => $yoi ? $yoi['sum_per_week'] : [],
+            'grafikBulananRataRata' => $yoi ? $yoi['avg_per_month'] : [],
+            'grafikMingguanRataRata' => $yoi ? $yoi['avg_per_week'] : [],
+            'siswa' => $yoi ? $yoi['siswa'] : [],
         ]);
     }
 

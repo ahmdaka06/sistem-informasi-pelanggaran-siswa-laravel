@@ -88,6 +88,6 @@ class Student extends Model
 
         $violation = $student->pelanggaran;
 
-        return $violation;
+        return ['violations' => $violation, 'student' => $student];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Imports\StudentImport;
 use App\Models\Student;
+use App\Services\StudentService;
 use Illuminate\Http\Request;
 use Excel;
 use Exception;
@@ -152,5 +153,15 @@ class SiswaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    function cetakPdf(Request $req)
+    {
+        $id = (int)$req->id;
+        $tanggal = $req->tanggal;
+
+        $studentS = new StudentService;
+
+        return $studentS->downloadPdfDetailStudent($id, $tanggal)->download('detail siswa.pdf');
     }
 }

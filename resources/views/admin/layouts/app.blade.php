@@ -183,7 +183,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0">{{ $page['title'] }}</h4>
+                                <h4 class="mb-0" id="title_page">{{ $page['title'] }}</h4>
 
                                 <div class="page-title-right">
                                     @if (count($page['breadcrumb']) > 1)
@@ -313,6 +313,7 @@
     {{-- <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script> --}}
 
     @yield('scripts')
+
 </body>
 
 </html>
