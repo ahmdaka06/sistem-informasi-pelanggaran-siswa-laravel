@@ -1,3 +1,6 @@
+
+
+
 <div>
     {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
     <div class="row">
@@ -17,7 +20,7 @@
                         @foreach($this->students as $student)
                             <option value="{{$student->id.",".$student->kelas->name}}">{{$student->kelas->name}} - {{$student->full_name}}</option>
                         @endforeach
-                    </optgroup> 
+                    </optgroup>
                     {{-- <option value="10 RPL">10 RPL</option>
                     <option value="10 TKJ">10 TKJ</option>
                     <option value="10 TKR">10 TKR</option>

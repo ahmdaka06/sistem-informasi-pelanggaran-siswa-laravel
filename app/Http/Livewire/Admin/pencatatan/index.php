@@ -27,6 +27,9 @@ class Index extends Component
         $this->students = Student::with("kelas")->get();
         $this->pelanggarans = ViolationCategory::all();
         $this->pelanggaranSiswa = ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+
+        // dd(ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get());
+        // return ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
         // 'name','LIKE',"%{$search}%"
         // $this->students = Student::all();
     }

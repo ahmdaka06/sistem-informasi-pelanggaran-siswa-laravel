@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Admin;
 use Livewire\Component;
 use App\Models\ViolationCategory;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-
+use Exception;
 class Pelanggar extends Component
 {
     use LivewireAlert;
@@ -14,7 +14,7 @@ class Pelanggar extends Component
     protected $listeners = ['delete', 'adminRefresh'];
     public $isFormEdit = false;
 
-    public $jenis_pelanggaran, $name, $point;
+    public $primaryKey, $jenis_pelanggaran, $name, $point;
 
     public function resetInput(){
         $this->jenis_pelanggaran = "";
@@ -25,7 +25,7 @@ class Pelanggar extends Component
     public function render()
     {
         // $this->pelanggaran = $this->getSortedData();
-       
+
         $dataQuery = ViolationCategory::orderBy('id', 'DESC');
         if ($this->search <> null) {
             // dd($this->search);
@@ -74,6 +74,29 @@ class Pelanggar extends Component
 
     }
 
+    public function edit(ViolationCategory $pelanggaran){
+        // $this->isFormEdit = true;
+        $this->primaryKey = $pelanggaran->id;
+        $this->jenis_pelanggaran = $pelanggaran->jenis_pelanggaran;
+        $this->name = $pelanggaran->name;
+        $this->point = $pelanggaran->point;
+    }
+
+    public function update(ViolationCategory $pelanggaran){
+        $pelanggaran->update([
+            'jenis_pelanggaran' => $this->jenis_pelanggaran,
+            'name' => $this->name,
+            'point' => $this->point
+        ]);
+
+
+        $this->alert('success', 'Berhasil mengubah data Pelanggaran #' . $pelanggaran->id);
+
+        $this->resetInput();
+
+        $this->emit('adminRefresh');
+    }
+
 
     function delete($id){
 
@@ -107,6 +130,6 @@ class Pelanggar extends Component
     public function closeModal(){
         // $this->resetInputFields();
         // dd($this->pelanggaran);
-        $this->isFormEdit = false;
+        // $this->isFormEdit = false;
     }
 }

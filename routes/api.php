@@ -60,3 +60,8 @@ route::get("pelanggaran", function(){
 
     return $sorted->values()->all();
 });
+
+route::get("pelanggaran-siswa", function(){
+    $tanggalSekarang = date("Y-m-d");
+    return ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+});

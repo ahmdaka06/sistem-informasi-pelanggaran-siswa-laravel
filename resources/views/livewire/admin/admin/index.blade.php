@@ -18,7 +18,7 @@
                         <select wire:model="selectRole" class="form-control">
                             <option value="">Semua</option>
                             @foreach ($form_role as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
+                                <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
