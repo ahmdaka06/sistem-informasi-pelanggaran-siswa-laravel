@@ -50,7 +50,7 @@
                                     {{-- <td><button class="btn btn-sm btn-danger" wire:click.prevent="delete({{$value->id}})">Hapus</button></td> --}}
                                     <td>
                                         {{-- <button class="btn btn-sm btn-danger" onclick="hapus({{$value->id}})">Hapus</button> --}}
-                                        <a href="javascript:void(0);" class="px-3 text-danger"  wire:click="delete({{ $value->id }})"><i class="uil uil-trash-alt font-size-18"></i></a>
+                                        <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#edit" wire:click="edit({{ $value->id }})" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
                                     </td>
                                     {{-- <td>
