@@ -58,6 +58,24 @@ class StudentService
         }
     }
 
+    function simpanDataExcel($collection): void
+    {
+        foreach ($collection as $key => $row) {
+            if ($key == 0) {
+                continue;
+            }
+            Student::create([
+                'class_id' => $key,
+                'email' => "$row[3]@gamil.com",
+                'identity_number' => $row[3],
+                'full_name' => $row[0],
+                'username' => $row[3],
+                'password' => $row[1],
+                'gender' => 'l',
+            ]);
+        }
+    }
+
     private function prosesMengolahDataMingguan($dataBulanan)
     {
         try {
