@@ -69,6 +69,7 @@
                 </div>
             </div>
 
+            <a href="{{ route('admin.siswa.index') }}" class="btn btn-primary">Kembali</a>
             <button wire:click="simpan" class="btn btn-success disable">Simpan</button>
         </div>
     </div>

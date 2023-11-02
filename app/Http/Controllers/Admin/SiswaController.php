@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Imports\StudentImport;
+use App\Models\ClassList;
 use App\Models\Student;
 use App\Services\StudentService;
 use Illuminate\Http\Request;
@@ -129,7 +130,18 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Student::find($id);
+
+        $page = [
+            'title' => 'Edit Siswa',
+            'breadcrumb' => [
+                'first' => 'Edit Siswa'
+            ]
+        ];
+
+        $classList = ClassList::all();
+
+        return view('admin.siswa.edit', ['page' => $page, 'classList' => $classList, 'student' => $data]);
     }
 
     /**
@@ -139,9 +151,26 @@ class SiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $student = Student::find($id);
+        if (!$student) {
+            abort(404, 'Data tidak dapat ditemukan');
+        }
+
+        $update = $student->update([
+            'identity_number' => $request->nis,
+            'full_name' => $request->nama_lengkap,
+            'username' => $request->username,
+            'class_id' => (int)$request->kelas,
+            'gender' => $request->jenis_kelamin
+        ]);
+
+        if (!$update) {
+            return abort(500, 'Gagal disimpan');
+        }
+
+        return redirect()->back()->with('success', "Data sudah berhasil di update");
     }
 
     /**

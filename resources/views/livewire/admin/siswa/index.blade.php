@@ -39,6 +39,7 @@
                             <th>#</th>
                             <th>NIS</th>
                             <th>Nama Lengkap</th>
+                            <th>Jenis Kelamin</th>
                             <th>Kelas</th>
                             <th>Username</th>
                             <th>Point Pelanggaran</th>
@@ -52,11 +53,17 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $item->identity_number }}</td>
                                 <td>{{ $item->full_name }}</td>
+                                <td>{{ strtoupper($item->gender) }}</td>
                                 <td>{{ $item->kelas->name }}</td>
                                 <td>{{ $item->username }}</td>
                                 <td>{{ $item->total_point }}</td>
-                                <td><a href="{{ route('admin.siswa.show', $item->id) }}"
-                                        class="btn btn-primary">Detail</a></td>
+                                <td>
+                                    <a href="{{ route('admin.siswa.show', $item->id) }}"
+                                        class="btn btn-primary">Detail</a>
+                                    <button class="btn btn-danger" title="Delete"
+                                        data-delete-id={{ $item->id }}>Delete</button>
+                                        <a href="{{route('admin.siswa.edit', $item->id)}}" class="btn btn-primary">Edit</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -76,5 +83,22 @@
     $('.js-example-basic-single').on('change', function() {
         // alert(this.value);
         Livewire.emit('onChangeKelas', this.value)
+    });
+
+    $("button[title=\"Delete\"]").click(function() {
+        let _this = $(this);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Livewire.emit('delete', _this.data("delete-id"));
+            }
+        });
     });
 </script>

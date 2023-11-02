@@ -44,7 +44,6 @@ class Create extends Component
 
     function simpan()
     {
-        dd($this->username);
         $this->validate([
             'kelas' => ['required', 'numeric'],
             'namaLengkap' => ['required'],
