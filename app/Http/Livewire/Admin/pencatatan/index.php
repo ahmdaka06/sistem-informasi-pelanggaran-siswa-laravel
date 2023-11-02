@@ -24,7 +24,7 @@ class Index extends Component
 
     public function mount(){
         $tanggalSekarang = date("Y-m-d");
-        $this->students = Student::with("kelas")->get();
+        $this->students = Student::with(["kelas" => function($query){ $query->select('id','name'); }])->select("id", 'full_name', 'class_id')->get();
         $this->pelanggarans = ViolationCategory::all();
         $this->pelanggaranSiswa = ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
 
