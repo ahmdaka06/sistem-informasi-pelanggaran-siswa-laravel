@@ -18,7 +18,7 @@
                     <option value = "0" selected>Pilih Siswa</option>
                     {{-- <optgroup label="4-legged pets"> --}}
                         @foreach($this->students as $student)
-                            <option value="{{$student->id.",".$student->kelas->name}}">{{$student->kelas->name}} - {{$student->full_name}}</option>
+                            <option value="{{$student->id.",".$student->kelas->name}}">{{$student->id}} - {{$student->kelas->name}} - {{$student->full_name}}</option>
                         @endforeach
                     </optgroup>
                     {{-- <option value="10 RPL">10 RPL</option>
