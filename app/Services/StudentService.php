@@ -60,19 +60,24 @@ class StudentService
 
     function simpanDataExcel($collection): void
     {
-        foreach ($collection as $key => $row) {
-            if ($key == 0) {
-                continue;
+        try {
+            foreach ($collection as $key => $row) {
+                if ($key == 0) {
+                    continue;
+                }
+                Student::create([
+                    'class_id' => $key,
+                    'email' => "$row[3]@gamil.com",
+                    'identity_number' => $row[3],
+                    'full_name' => $row[0],
+                    'username' => $row[3],
+                    'password' => $row[1],
+                    'gender' => 'l',
+                ]);
             }
-            Student::create([
-                'class_id' => $key,
-                'email' => "$row[3]@gamil.com",
-                'identity_number' => $row[3],
-                'full_name' => $row[0],
-                'username' => $row[3],
-                'password' => $row[1],
-                'gender' => 'l',
-            ]);
+        } catch (Throwable $e) {
+            Log::info($e->getMessage());
+            abort(500);
         }
     }
 
@@ -226,24 +231,29 @@ class StudentService
 
     function downloadPdfDetailStudent(int $id, string $tanggal)
     {
-        $data = $this->getMineViolationDataForGraphic($id, $tanggal);
+        try {
+            $data = $this->getMineViolationDataForGraphic($id, $tanggal);
 
-        $detailSiswa = $data['siswa']->toArray();
-        $data = [
-            'nomorSurat' => $id, // => y
-            'jumlahSatuBulan' => $data['sum_week'], // => y
-            'jumlahSatuTahun' => $data['sum_month'], // => y
-            'rataRataSatuBulan' => $data['avg_week'], // => y
-            'rataRataSatuTahun' => $data['avg_month'],
-            'namaLengkap' => $detailSiswa['full_name'], // => y
-            'nis' => $detailSiswa['identity_number'], // => y
-            'kelas' => $detailSiswa['kelas']['name'], // => y
-            'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan", // => y
-            'totalPoint' => $data['sum_month'], // => y
-            'bulan' => $data['bulan'], // => y
-            'tahun' => $data['tahun'] // => y
-        ];
-        $pdf = PDF::loadView('admin.siswa.pdf.detail', $data)->setOptions(['defaultFont' => 'sans-serif']);
-        return $pdf;
+            $detailSiswa = $data['siswa']->toArray();
+            $data = [
+                'nomorSurat' => $id, // => y
+                'jumlahSatuBulan' => $data['sum_week'], // => y
+                'jumlahSatuTahun' => $data['sum_month'], // => y
+                'rataRataSatuBulan' => $data['avg_week'], // => y
+                'rataRataSatuTahun' => $data['avg_month'],
+                'namaLengkap' => $detailSiswa['full_name'], // => y
+                'nis' => $detailSiswa['identity_number'], // => y
+                'kelas' => $detailSiswa['kelas']['name'], // => y
+                'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan", // => y
+                'totalPoint' => $data['sum_month'], // => y
+                'bulan' => $data['bulan'], // => y
+                'tahun' => $data['tahun'] // => y
+            ];
+            $pdf = PDF::loadView('admin.siswa.pdf.detail', $data)->setOptions(['defaultFont' => 'sans-serif']);
+            return $pdf;
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+            abort(500);
+        }
     }
 }
