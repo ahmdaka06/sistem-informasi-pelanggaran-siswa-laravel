@@ -92,6 +92,7 @@
                                                         <p class="text-muted mb-1 font-size-13">
                                                             {{ Carbon::parse($item->created_at)->format('d M, Y') }}<small
                                                                 class="d-inline-block ms-1">{{ Carbon::parse($item->created_at)->format('h:i A') }}</small>
+                                                            | <a href="">Delete</a> - <a href="">Edit</a>
                                                         </p>
                                                         <p class="mb-0">Telah dilaporan oleh seseorang karena
                                                             telah melakukan pelanggaran <span
@@ -143,8 +144,9 @@
                                     class="apexcharts-canvas apexchartsp29zxgiv apexcharts-theme-light"
                                     style="width: 45px; height: 46px;"><svg id="SvgjsSvg1373" width="45"
                                         height="46" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"
-                                        class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg"
+                                        xmlns:data="ApexChartsNS" transform="translate(0, 0)"
                                         style="background: transparent;">
                                         <g id="SvgjsG1375" class="apexcharts-inner apexcharts-graphical"
                                             transform="translate(0, 0)">
