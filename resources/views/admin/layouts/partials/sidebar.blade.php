@@ -30,24 +30,29 @@
                             </li>
                             <li>
                                 <a href="{{ route('admin.pencatatan.index') }}">
+                            <li class="{{ Route::is('admin.pencatatan.*') ? 'mm-active' : '' }}">
+                                <a class="{{ Route::is('admin.pencatatan.*') ? 'active' : '' }}"
+                                    href="{{ route('admin.pencatatan.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>
                                     <span>Pencatatan</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('admin.kelas.index') }}">
+                            <li class="{{ Route::is('admin.kelas.*') ? 'mm-active' : '' }}">
+                                <a class="{{ Route::is('admin.kelas.*') ? 'active' : '' }}"
+                                    href="{{ route('admin.kelas.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>
                                     <span>Kelas</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('admin.siswa.index') }}">
+                            <li class="{{ Route::is('admin.siswa.*') ? 'mm-active' : '' }}">
+                                <a class="{{ Route::is('admin.siswa.*') ? 'active' : '' }}"
+                                    href="{{ route('admin.siswa.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>
                                     <span>Siswa</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.inbox.index') }}">
+                                <a class="" href="{{ route('admin.inbox.index') }}">
                                     <i class="mdi mdi-mailbox-open-up-outline"></i>
                                     <span>Mailbox</span>
                                 </a>

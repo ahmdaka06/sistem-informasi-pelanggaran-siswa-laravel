@@ -17,33 +17,31 @@
 <div class="card">
     <div class="card-body">
 
-        <h4 class="card-title">Dropzone</h4>
-        <p class="card-title-desc">DropzoneJS is an open source library
-            that provides drag’n’drop file uploads with image previews.
+        <h4 class="card-title">Upload</h4>
+        <p class="card-title-desc">Upload file data siswa berbentuk excel dan pastikan hanya upload 1 file saja !
         </p>
 
         <div>
-            <form action="#" class="dropzone dz-clickable">
-
+            <form action="{{ route('admin.siswa.store') }}" class="dropzone dz-clickable" enctype="multipart/form-data">
+                @csrf
                 <div class="dz-message needsclick">
                     <div class="mb-3">
                         <i class="display-4 text-muted uil uil-cloud-upload"></i>
                     </div>
 
-                    <h4>Drop files here or click to upload.</h4>
+                    <h4>Tarik file atau klik disini</h4>
                 </div>
             </form>
         </div>
 
-        <div class="text-center mt-4">
-            <button type="button" class="btn btn-primary waves-effect waves-light">Send Files</button>
+        <div class="mt-4">
+            <a href="{{ route('admin.siswa.index') }}" class="btn btn-primary waves-effect waves-light">Kembali</a>
         </div>
     </div>
 </div>
 @section('scripts')
     {{-- <script src="{{ asset('assets/libs/dropzone/min/dropzone.min.js') }}"></script> --}}
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>

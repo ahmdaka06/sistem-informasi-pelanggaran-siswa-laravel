@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ViolationList extends Model
 {
     use HasFactory;
+
+    function category_pelanggaran()
+    {
+        return $this->belongsTo(ViolationCategory::class, 'violation_category_id');
+    }
 }
