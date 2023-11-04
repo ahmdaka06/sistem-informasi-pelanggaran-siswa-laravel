@@ -8,11 +8,11 @@
 
             <div class="mb-3" wire:ignore>
                 <label for="exampleFormControlInput1" class="form-label">Siswa</label>
-                </select> --}}
+                </select>
                 <select class="form-select js-example-basic-single" id="selectSiswa" name="state" id="state">
                     <option value = "0" selected>Pilih Siswa</option>
                         @foreach($this->students as $student)
-                            <option value="{{$student->id.",".$student->kelas->name}}">{{$student->id}} - {{$student->kelas->name}} - {{$student->full_name}}</option>
+                            <option value="{{$student->id.",".$student->kelas->name}}">{{$student->kelas->name}} - {{$student->full_name}}</option>
                         @endforeach
                     </optgroup>
                 </select>
