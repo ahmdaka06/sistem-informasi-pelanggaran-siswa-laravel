@@ -5,6 +5,7 @@ use App\Models\ClassList;
 use App\Models\Student;
 use App\Models\ViolationCategory;
 use App\Models\ViolationLists;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Exception;
 
 
@@ -12,11 +13,12 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    use LivewireAlert;
     public $count = 0, $kelas = "", $students=[], $pelanggarans = [], $pelanggaranSiswa = [], $no = 1;
 
     public $inputKelas, $inputPelanggaran, $inputSiswa, $inputCatatan;
 
-    protected $listeners = ['updateSiswa' => 'updateSiswa', 'updatePelanggaran' => 'updatePelanggaran'];
+    protected $listeners = ['updateSiswa' => 'updateSiswa', 'updatePelanggaran' => 'updatePelanggaran', 'delete' => 'delete'];
 
     public function resetInput(){
         $this->inputCatatan = "";
@@ -78,6 +80,13 @@ class Index extends Component
 
             $this->resetInput();
 
+            $this->alert('success', 'Data berhasil di tambahkan', [
+                'toast' => true,
+                'position' => 'top-right',
+                'showConfirmButton' => false,
+                'timer' => 3000
+            ]);
+
         } catch (Exception $e) {
             // return $e;
             dd($e);
@@ -89,7 +98,6 @@ class Index extends Component
         $tanggalSekarang = date("Y-m-d");
         $pelanggaran = ViolationLists::find($id);
         $pelanggaran->delete();
-
         // $data = collect($this->pelanggaranSiswa);
 
         // $filtered = $data->reject(function ($value, int $key) use ($id) {
@@ -99,6 +107,12 @@ class Index extends Component
         // $this->pelanggaranSiswa = $filtered->all();
 
         $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+        $this->alert('success', 'Data berhasil di hapus', [
+            'toast' => true,
+            'position' => 'top-right',
+            'showConfirmButton' => false,
+            'timer' => 3000
+        ]);
         // dd("$id");
     }
 }

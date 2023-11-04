@@ -69,7 +69,7 @@
                                     <td>{{ $value->clas }}</td>
                                     <td>{{ $value->jenisPelanggaran->name }}</td>
                                     <td>{{ $value->jenisPelanggaran->point }}</td>
-                                    <td><button class="btn btn-danger btn-sm" wire:click.prevent="delete({{$value->id}})">Hapus</button></td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="hapus({{$value->id}})">Hapus</button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -86,7 +86,7 @@
     <script>
 
         // window.addEventListener('initSomething', event => {
-            $(document).ready(function() {
+        $(document).ready(function() {
             $('.js-example-basic-single').select2();
 
             $('#selectSiswa').on('change', function() {
@@ -98,6 +98,23 @@
                 Livewire.emit('updatePelanggaran', this.value)
             });
         });
+
+        function hapus(id) {
+            let _this = $(this);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.emit('delete', id);
+                }
+            });
+        };
         // }
     </script>
 
