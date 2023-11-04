@@ -51,7 +51,7 @@
                     <select class="form-select js-example-basic-single" id="selectPelanggaran">
                         <option value="0" selected>Pilih Pelanggaran</option>
                         @foreach($this->pelanggarans as $pelanggaran)
-                            <option value="{{$pelanggaran->id}}">{{$pelanggaran->name}}</option>
+                            <option value="{{$pelanggaran->id}}">{{substr($pelanggaran->jenis_pelanggaran, 12)}} - {{$pelanggaran->name}}</option>
                         @endforeach
                     </select>
                 @else
