@@ -65,14 +65,15 @@ class StudentService
                 if ($key == 0) {
                     continue;
                 }
+                $nis_tanpa_titik = str_replace('.', '', $row[1]);
                 Student::create([
-                    'class_id' => $key,
-                    'email' => "$row[3]@gamil.com",
-                    'identity_number' => $row[3],
+                    'class_id' => $row[3],
+                    'email' => "$nis_tanpa_titik@gmail.com",
+                    'identity_number' => $nis_tanpa_titik,
                     'full_name' => $row[0],
-                    'username' => $row[3],
-                    'password' => Hash::make($row[1]),
-                    'gender' => 'l',
+                    'username' => $nis_tanpa_titik,
+                    'password' => Hash::make($nis_tanpa_titik),
+                    'gender' => strtolower($row[2]),
                 ]);
             }
         } catch (Throwable $e) {
