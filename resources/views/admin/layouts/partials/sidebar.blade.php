@@ -30,13 +30,17 @@
                             </li>
                             <li>
                                 <a href="{{ route('admin.pencatatan.index') }}">
-                            <li class="{{ Route::is('admin.pencatatan.*') ? 'mm-active' : '' }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Pencatatan</span>
+                                </a>
+                            </li>
+                            {{-- <li class="{{ Route::is('admin.pencatatan.*') ? 'mm-active' : '' }}">
                                 <a class="{{ Route::is('admin.pencatatan.*') ? 'active' : '' }}"
                                     href="{{ route('admin.pencatatan.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>
                                     <span>Pencatatan</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="{{ Route::is('admin.kelas.*') ? 'mm-active' : '' }}">
                                 <a class="{{ Route::is('admin.kelas.*') ? 'active' : '' }}"
                                     href="{{ route('admin.kelas.index') }}">

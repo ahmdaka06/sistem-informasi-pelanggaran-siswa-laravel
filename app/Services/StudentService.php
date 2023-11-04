@@ -71,7 +71,7 @@ class StudentService
                     'identity_number' => $row[3],
                     'full_name' => $row[0],
                     'username' => $row[3],
-                    'password' => $row[1],
+                    'password' => Hash::make($row[1]),
                     'gender' => 'l',
                 ]);
             }
