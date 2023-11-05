@@ -42,6 +42,12 @@
         </div>
 
         <div class="mt-5 mt-xl-0 col-xl-8">
+            <div class="row mb-2">
+                <div class="form-group col-md-6">
+                    <label for="">Pencarian</label>
+                    <input wire:model="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i>Pelanggaran Siswa</h4>
@@ -61,7 +67,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pelanggaranSiswa as $value)
+                                @foreach ($data as $value)
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $value->student->full_name }}</td>
