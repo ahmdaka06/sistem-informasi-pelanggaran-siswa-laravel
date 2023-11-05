@@ -56,6 +56,7 @@
                                     <th>Kelas</th>
                                     <th>Pelanggaran</th>
                                     <th class="d-none d-lg-block">Point</th>
+                                    {{-- <th class="">Status</th> --}}
                                     <th>#</th>
                                 </tr>
                             </thead>
@@ -67,6 +68,7 @@
                                     <td>{{ $value->clas }}</td>
                                     <td>{{ $value->jenisPelanggaran->name }}</td>
                                     <td class="d-none d-lg-block">{{ $value->jenisPelanggaran->point }}</td>
+                                    {{-- <td class=""><span class="badge {{ $value->status === 'confirm' ? 'bg-primary' : ($value->status === 'pending' ? 'bg-warning' : 'bg-danger')}}">{{ $value->status  }}</span></td> --}}
                                     <td> <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a></td>
                                 </tr>
                                 @endforeach

@@ -25,10 +25,10 @@ class Index extends Component
     }
 
     public function mount(){
-        $tanggalSekarang = date("Y-m-d");
-        $this->students = Student::with(["kelas" => function($query){ $query->select('id','name'); }])->select("id", 'full_name', 'class_id')->get();
+       
+        $this->students = $this->getDataSiswa();
         $this->pelanggarans = ViolationCategory::all();
-        $this->pelanggaranSiswa = ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+        $this->pelanggaranSiswa = $this->getDataListPelangaran();
 
         // dd(ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get());
         // return ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
@@ -60,8 +60,6 @@ class Index extends Component
     function store(){
 
         try {
-
-            $tanggalSekarang = date("Y-m-d");
             $data = [
                 "clas" => $this->inputKelas,
                 "violation_category_id" => $this->inputPelanggaran,
@@ -76,7 +74,7 @@ class Index extends Component
             $newData = ViolationLists::create($data);
             // dd($newData);
 
-            $this->pelanggaranSiswa = ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+            $this->pelanggaranSiswa = $this->getDataListPelangaran();
 
             $this->resetInput();
 
@@ -95,7 +93,6 @@ class Index extends Component
     }
 
     function delete($id){
-        $tanggalSekarang = date("Y-m-d");
         $pelanggaran = ViolationLists::find($id);
         $pelanggaran->delete();
         // $data = collect($this->pelanggaranSiswa);
@@ -106,7 +103,7 @@ class Index extends Component
 
         // $this->pelanggaranSiswa = $filtered->all();
 
-        $this->pelanggaranSiswa = ViolationLists::with("student", "student.kelas", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
+        $this->pelanggaranSiswa = $this->getDataListPelangaran();
         $this->alert('success', 'Data berhasil di hapus', [
             'toast' => true,
             'position' => 'top-right',
@@ -114,5 +111,14 @@ class Index extends Component
             'timer' => 3000
         ]);
         // dd("$id");
+    }
+
+    function getDataSiswa(){
+        return Student::with(["kelas" => function($query){ $query->select('id','name'); }])->select("id", 'full_name', 'class_id')->get();
+    }
+
+    function getDataListPelangaran(){
+        $tanggalSekarang = date("Y-m-d");
+        return  ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->orderBy('created_at', 'desc')->get();
     }
 }

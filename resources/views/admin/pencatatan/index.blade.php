@@ -6,6 +6,11 @@
             background: #86bae77a;
         }
 
+        .table-responsive{
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
         @media(min-width : 1200px){
             .form_pencatatan{
                 background: none;
