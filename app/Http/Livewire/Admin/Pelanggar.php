@@ -104,7 +104,7 @@ class Pelanggar extends Component
         // $pelanggaran = ViolationCategory::find($id);
         $pelanggaran->delete();
 
-        $this->pelanggaran = $this->getSortedData(ViolationCategory::all());
+        // $this->pelanggaran = $this->getSortedData(ViolationCategory::all());
     }
 
     function getSortedData($data){
