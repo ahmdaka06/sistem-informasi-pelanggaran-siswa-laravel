@@ -1,5 +1,18 @@
 @extends('admin.layouts.app')
 @section('title', $page['title'])
+@section('style')
+    <style>
+        .form_pencatatan{
+            background: #86bae77a;
+        }
+
+        @media(min-width : 1200px){
+            .form_pencatatan{
+                background: none;
+            }
+        }
+    </style>
+@endsection
 @section('content')
 @livewire('admin.pencatatan.index')
 @endsection
