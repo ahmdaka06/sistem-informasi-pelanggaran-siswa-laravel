@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Imports\StudentImport;
+use App\Models\ClassList;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CobaImport;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +40,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin']], function () 
         Route::post('siswa/download/pdf', [SiswaController::class, 'cetakPdf'])->name('siswa.print');
         Route::resource('kelas', KelasController::class);
     });
+});
+
+Route::get('coba', function () {
+    // ClassList::create([
+    //     'teacher_id' => rand(1, 5),
+    //     'name' => 'Yoi',
+    //     'is_active' => 1,
+    //     'kelas' => "RPL",
+    //     'jurusan' => "hai"
+    // ]);
+    Excel::import(new StudentImport, public_path('Data Siswa SMK MUTU - 1.xlsx'));
+    return null;
 });
