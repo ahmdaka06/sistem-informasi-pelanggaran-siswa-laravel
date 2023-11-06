@@ -16,9 +16,9 @@ class Index extends Component
     use LivewireAlert;
     public $count = 0, $kelas = "", $students=[], $pelanggarans = [], $pelanggaranSiswa = [], $no = 1;
 
-    public $inputKelas, $inputPelanggaran, $inputSiswa, $inputCatatan, $search;
+    public $inputKelas, $inputPelanggaran, $inputSiswa, $inputCatatan, $search, $searchKelas;
 
-    protected $listeners = ['updateSiswa' => 'updateSiswa', 'updatePelanggaran' => 'updatePelanggaran', 'delete' => 'delete'];
+    protected $listeners = ['updateSiswa' => 'updateSiswa', 'updatePelanggaran' => 'updatePelanggaran', 'delete' => 'delete', 'searchKelas'];
 
     public function resetInput(){
         $this->inputCatatan = "";
@@ -31,8 +31,23 @@ class Index extends Component
 
     public function render()
     {
+        $dataKelas = ClassList::all();
+        // dd($kelas);
         $tanggalSekarang = date("Y-m-d");
-        if ($this->search <> null) {
+        if ($this->search <> null AND $this->searchKelas <> null) {
+            $data = ViolationLists::with("student","jenisPelanggaran")
+            ->whereHas("student", function($query){
+                $query->where("full_name", "LIKE", "%{$this->search}%");
+                $query->where("class_id", "=", "$this->searchKelas");
+            })
+            ->orWhereHas("jenisPelanggaran", function($query){
+                $query->where("jenis_pelanggaran", "LIKE", "%{$this->search}%");
+                $query->orWhere("name", "LIKE", "%{$this->search}%");
+            })
+            ->where("created_at", "LIKE", "%$tanggalSekarang%")
+            ->orderBy('created_at', 'desc')
+            ->get();
+        }elseif($this->search <> null){
             $data = ViolationLists::with("student","jenisPelanggaran")
             ->where("created_at", "LIKE", "%$tanggalSekarang%")
             ->whereHas("student", function($query){
@@ -44,12 +59,22 @@ class Index extends Component
             })
             ->orderBy('created_at', 'desc')
             ->get();
-        }else{
+        }elseif($this->searchKelas <> null){
+            $data = ViolationLists::with("student","jenisPelanggaran")
+            ->where("created_at", "LIKE", "%$tanggalSekarang%")
+            ->whereHas("student", function($query){
+                $query->where("class_id", "=", "$this->searchKelas");
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+        }
+        
+        else{
             $data = ViolationLists::with("student","jenisPelanggaran")
             ->where("created_at", "LIKE", "%$tanggalSekarang%")->orderBy('created_at', 'desc')
             ->get();
         }
-        return view('livewire.admin.pencatatan.index', compact('data'));
+        return view('livewire.admin.pencatatan.index', compact('data', 'dataKelas'));
     }
 
     function updateSiswa($value) {
@@ -108,5 +133,9 @@ class Index extends Component
 
     function getDataSiswa(){
         return Student::with(["kelas" => function($query){ $query->select('id','name'); }])->select("id", 'full_name', 'class_id')->get();
+    }
+
+    function searchKelas($id){
+        $this->searchKelas = $id;
     }
 }

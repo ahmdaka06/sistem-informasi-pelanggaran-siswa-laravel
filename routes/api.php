@@ -65,3 +65,20 @@ route::get("pelanggaran-siswa", function(){
     $tanggalSekarang = date("Y-m-d");
     return ViolationLists::with("student", "jenisPelanggaran")->where("created_at", "LIKE", "%{$tanggalSekarang}%")->get();
 });
+
+route::get("siswa-relasi", function(){
+    $data = ViolationLists::with("student", 'jenisPelanggaran')
+    ->get();
+
+
+    $data = ViolationLists::with("student", 'jenisPelanggaran')
+    ->whereHas("student", function($query){
+        $query->where("identity_number", "23245010");
+    })
+    ->orWhereHas("jenisPelanggaran", function($query){
+        $query->where("name", "23245010");
+    })
+    ->get();
+
+    return $data;
+});

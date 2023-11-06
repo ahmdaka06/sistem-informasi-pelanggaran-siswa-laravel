@@ -5,7 +5,6 @@
 
                 <div class="mb-3" wire:ignore>
                     <label for="exampleFormControlInput1" class="form-label">Siswa</label>
-                    </select>
                     <select class="form-select js-example-basic-single" id="selectSiswa" name="state" id="state">
                         <option value = "0" selected>Pilih Siswa</option>
                             @foreach($this->students as $student)
@@ -46,6 +45,17 @@
                 <div class="form-group col-md-6">
                     <label for="">Pencarian</label>
                     <input wire:model="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                </div>
+
+                <div class="col-md-6" wire:ignore>
+                    <label for="exampleFormControlInput1" class="form-label">Kelas</label>
+                    <select class="form-select js-example-basic-single" id="selectSearchKelas" name="state" id="state">
+                        <option value = "" selected>Pilih Kelas</option>
+                            @foreach($dataKelas as $kelas)
+                                <option value="{{$kelas->id}}">{{$kelas->name}}</option>
+                            @endforeach
+                    </select>
+
                 </div>
             </div>
             <div class="card">
@@ -102,6 +112,10 @@
             $('#selectPelanggaran').on('change', function() {
                 // alert( this.value );
                 Livewire.emit('updatePelanggaran', this.value)
+            });
+            $('#selectSearchKelas').on('change', function() {
+                // alert( this.value );
+                Livewire.emit('searchKelas', this.value)
             });
         });
 
