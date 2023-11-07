@@ -22,7 +22,7 @@
         </p>
 
         <div>
-            <form action="{{ route('admin.siswa.store') }}" class="dropzone dz-clickable" enctype="multipart/form-data">
+            <form action="{{ route('admin.kelas.store') }}" class="dropzone dz-clickable" enctype="multipart/form-data">
                 @csrf
                 <div class="dz-message needsclick">
                     <div class="mb-3">
