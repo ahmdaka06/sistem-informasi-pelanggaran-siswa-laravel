@@ -10,4 +10,9 @@ class ClassList extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    function guru()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
+    }
 }

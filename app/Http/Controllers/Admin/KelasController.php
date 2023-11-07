@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClassList;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
@@ -14,7 +16,15 @@ class KelasController extends Controller
      */
     public function index()
     {
-        //
+        $page = [
+            'title' => 'Kelas',
+            'breadcrumb' => [
+                'first' => 'Kelas'
+            ]
+        ];
+
+        return view('admin.kelas.index', ['page' => $page]);
+        // return "ini adalah halman index";
     }
 
     /**
@@ -25,6 +35,35 @@ class KelasController extends Controller
     public function create()
     {
         //
+        // $page = [
+        //     'title' => 'Input Kelas',
+        //     'breadcrumb' => [
+        //         'first' => 'Input Kelas'
+        //     ]
+        // ];
+
+        // return view('admin.kelas.create', ['page' => $page]);
+        $req = request()->all();
+
+        if (isset($req['excel'])) {
+            $page = [
+                'title' => 'Tambah Siswa Excel',
+                'breadcrumb' => [
+                    'first' => 'Tambah Siswa Excel'
+                ]
+            ];
+
+            return view('admin.kelas.createexcel', ['page' => $page]);
+        }
+
+        $page = [
+            'title' => 'Tambah Siswa',
+            'breadcrumb' => [
+                'first' => 'Tambah Siswa'
+            ]
+        ];
+
+        return view('admin.kelas.create', ['page' => $page]);
     }
 
     /**
@@ -55,9 +94,21 @@ class KelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
-        //
+        $data = ClassList::with('guru')->find($id);
+
+        $teachers = Teacher::all();
+
+        $page = [
+            'title' => 'Edit Kelas',
+            'breadcrumb' => [
+                'first' => 'Edit Kelas'
+            ]
+        ];
+
+        return view('admin.kelas.edit', ['data' => $data, 'page' => $page, 'teachers' => $teachers]);
+        // return "ini adalah halaman edit";
     }
 
     /**
@@ -70,6 +121,8 @@ class KelasController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        return $request->all();
     }
 
     /**
