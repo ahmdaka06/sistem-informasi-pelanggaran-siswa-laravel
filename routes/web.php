@@ -43,6 +43,28 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin']], function () 
     });
 });
 
+Route::group(['prefix' => 'guru'], function () {
+    Route::group(['prefix' => 'auth'], function () {
+        Route::get('/login', [\App\Http\Controllers\Guru\Auth\LoginController::class, 'index'])->withoutMiddleware(['auth:admin'])->name('admin.auth.login');
+        Route::get('/logout', [\App\Http\Controllers\Guru\Auth\LoginController::class, 'logout'])->name('admin.auth.logout');
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::get('coba', function () {
     // ClassList::create([
     //     'teacher_id' => rand(1, 5),
