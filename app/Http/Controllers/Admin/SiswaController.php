@@ -74,6 +74,8 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd("hiii");
         DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
@@ -88,7 +90,7 @@ class SiswaController extends Controller
             }
 
             $file = $request->file('file');
-
+            // return response()->json("hiiii");
             // https://stackoverflow.com/questions/38104348/install-php-zip-on-php-5-6-on-ubuntu -> install php zip di linux
             Excel::import(new StudentImport, $file); // required for extension zip library (apache)
 
