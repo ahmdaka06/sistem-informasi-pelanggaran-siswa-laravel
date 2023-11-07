@@ -6,13 +6,15 @@ use App\Models\ClassList;
 use App\Models\Student;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithPagination;
+use Log;
 
 
 class Index extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithPagination;
 
-    public $textFilter, $kelasId, $datas;
+    public $textFilter, $kelasId, $datas, $filterSort = 'asc';
 
     protected $listeners = ['onChangeKelas' => 'onChangeKelas', 'delete' => 'delete'];
 
@@ -34,22 +36,34 @@ class Index extends Component
 
     public function render()
     {
-        $datas = $this->datas = collect(Student::search($this->textFilter, $this->kelasId)->get());
-        $students = $datas
-            ->map(function ($item) {
-                $totalPoint = 0;
-                $pelanggarans = $item->pelanggaran;
+        $data_from = ($this->page - 1) * 10 == 0 ? 1 : ($this->page - 1) * 10;
+        $data_to = $this->page * 10;
+        $data_all = Student::search($this->textFilter, $this->kelasId)->count('id');
 
-                foreach ($pelanggarans as $pelanggaran) {
-                    $point = $pelanggaran['category_pelanggaran']['point'];
-                    $totalPoint += $point;
-                }
+        // Masih ada problem ketika mencari data diluar scope paginate, data nya tidak muncul
+        $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("created_at", $this->filterSort)->simplePaginate(10);
+        $items = $datas->getCollection()->map(function ($item) {
+            $totalPoint = 0;
+            $pelanggarans = $item->pelanggaran;
 
-                $item->total_point = $totalPoint;
-                return $item;
-            });
+            foreach ($pelanggarans as $pelanggaran) {
+                $point = $pelanggaran['category_pelanggaran']['point'];
+                $totalPoint += $point;
+            }
+
+            $item->total_point = $totalPoint;
+            return $item;
+        });
 
         $classList = ClassList::all();
-        return view('livewire.admin.siswa.index', ['students' => $students, 'classList' => $classList]);
+
+        return view('livewire.admin.siswa.index', [
+            'students' => $items,
+            'itemsPaginate' => $datas,
+            'classList' => $classList,
+            "data_from" => $data_from,
+            "data_to" => $data_to,
+            "data_all" => $data_all,
+        ]);
     }
 }

@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Log;
 use Throwable;
 
 class SiswaController extends Controller
@@ -100,8 +101,13 @@ class SiswaController extends Controller
             if ($e instanceof QueryException) { // jika ada query gagal
                 DB::rollBack();
                 // https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html
-                return response()->json(['err_sql' => $e->errorInfo,  'error' => 'Gagal memasukan data. Cek format penulisan data excel di ' . config('app.link_panduan_data_siswa_excel') . " | [ {$e->errorInfo[2]} ]"], 500);
-            };
+                return response()->json(['err_sql' => $e->errorInfo, 'error' => 'Gagal memasukan data. Cek format penulisan data excel di ' . config('app.link_panduan_data_siswa_excel') . " | [ {$e->errorInfo[2]} ]"], 500);
+            }
+            ;
+
+            Log::error($e->getMessage());
+
+            abort(500);
         }
     }
 
@@ -164,7 +170,7 @@ class SiswaController extends Controller
             'identity_number' => $request->nis,
             'full_name' => $request->nama_lengkap,
             'username' => $request->username,
-            'class_id' => (int)$request->kelas,
+            'class_id' => (int) $request->kelas,
             'gender' => $request->jenis_kelamin
         ]);
 
@@ -188,7 +194,7 @@ class SiswaController extends Controller
 
     function cetakPdf(Request $req)
     {
-        $id = (int)$req->id;
+        $id = (int) $req->id;
         $tanggal = $req->tanggal;
 
         $studentS = new StudentService;

@@ -2,12 +2,15 @@
 
 namespace App\Services;
 
+use App\Jobs\ProsesInsertSiswa;
+use App\Models\ClassList;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Stmt\Return_;
+use Psy\Readline\Hoa\Console;
 use SebastianBergmann\CodeUnit\FunctionUnit;
 use Throwable;
 use PDF;
@@ -62,16 +65,6 @@ class StudentService
     {
         // dd($collection);
         try {
-
-            // Student::create([
-            //     'class_id' => 1,
-            //     'email' => "1@gmail.com",
-            //     'identity_number' => "1",
-            //     'full_name' =>"1",
-            //     'username' =>"1",
-            //     'password' => Hash::make("1"),
-            //     'gender' => "1",
-            // ]);
             foreach ($collection as $key => $row) {
                 if ($key == 0) {
                     continue;
@@ -87,6 +80,8 @@ class StudentService
                     'gender' => strtolower($row[2]),
                 ]);
             }
+            dispatch(new ProsesInsertSiswa($collection));
+
         } catch (Throwable $e) {
             Log::info($e->getMessage());
             abort(500);
@@ -194,7 +189,7 @@ class StudentService
             }
 
             $daftarBulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', "Desember"];
-            $bulan = (int)$bulan;
+            $bulan = (int) $bulan;
             $detailSiswa = Student::mineViolation($idSiswa, $tahun); // -> data ini detail dari salah satu siswa dan menghasilkan data pertahun dan akan menampilkan yang status == 'confirm'
 
             $student = $detailSiswa['violations'];
@@ -220,14 +215,14 @@ class StudentService
             $dataMentah = $data->sortBy('created_at');
 
             $dataMingguan = $data
-                ->filter(fn ($value) => $value['month'] == $bulan)
+                ->filter(fn($value) => $value['month'] == $bulan)
                 ->sortBy('day') // -> ini bisa optional
                 ->groupBy('week_of_month');
 
             $dataBulanan = $data->groupBy('month')->sortKeys();
 
             $hasilAkhirBulanan = $this->prosesMengolahDataBulanan($dataBulanan);
-            $hasilAkhirMingguan =  $this->prosesMengolahDataMingguan($dataMingguan);
+            $hasilAkhirMingguan = $this->prosesMengolahDataMingguan($dataMingguan);
 
             return array_merge($hasilAkhirBulanan, $hasilAkhirMingguan, [
                 'detail_siswa' => $dataMentah,
@@ -248,10 +243,14 @@ class StudentService
             $dataPelanggaranSiswa = Student::with('pelanggaran.category_pelanggaran')->where('id', 19)->first();
             $detailSiswa = $data['siswa']->toArray();
             $data = [
-                'nomorSurat' => $id, // => y
-                'jumlahSatuBulan' => $data['sum_week'], // => y
-                'jumlahSatuTahun' => $data['sum_month'], // => y
-                'rataRataSatuBulan' => $data['avg_week'], // => y
+                'nomorSurat' => $id,
+                // => y
+                'jumlahSatuBulan' => $data['sum_week'],
+                // => y
+                'jumlahSatuTahun' => $data['sum_month'],
+                // => y
+                'rataRataSatuBulan' => $data['avg_week'],
+                // => y
                 'rataRataSatuTahun' => $data['avg_month'],
                 'namaLengkap' => $detailSiswa['full_name'], // => y
                 'nis' => $detailSiswa['identity_number'], // => y
