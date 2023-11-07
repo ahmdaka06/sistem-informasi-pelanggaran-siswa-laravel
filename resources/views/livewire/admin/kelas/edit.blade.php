@@ -6,8 +6,8 @@
         @csrf
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Formulir Edit Data Siswa</h4>
-                <p class="card-title-desc">Silahkan edit data di bawah ini.</p>
+                <h4 class="card-title">Formulir Input Data Siswa</h4>
+                <p class="card-title-desc">Silahkan isi input di bawah ini.</p>
 
                 <div class="mb-3 row">
                     <label for="example-text-input" class="col-md-2 col-form-label">NIS</label>

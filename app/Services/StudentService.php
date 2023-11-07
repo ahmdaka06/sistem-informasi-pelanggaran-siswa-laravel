@@ -2,12 +2,15 @@
 
 namespace App\Services;
 
+use App\Jobs\ProsesInsertSiswa;
+use App\Models\ClassList;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Stmt\Return_;
+use Psy\Readline\Hoa\Console;
 use SebastianBergmann\CodeUnit\FunctionUnit;
 use Throwable;
 use PDF;
@@ -61,21 +64,9 @@ class StudentService
     function simpanDataExcel($collection): void
     {
         try {
-            foreach ($collection as $key => $row) {
-                if ($key == 0) {
-                    continue;
-                }
-                $nis_tanpa_titik = str_replace('.', '', $row[1]);
-                Student::create([
-                    'class_id' => $row[3],
-                    'email' => "$nis_tanpa_titik@gmail.com",
-                    'identity_number' => $nis_tanpa_titik,
-                    'full_name' => $row[0],
-                    'username' => $nis_tanpa_titik,
-                    'password' => Hash::make($nis_tanpa_titik),
-                    'gender' => strtolower($row[2]),
-                ]);
-            }
+
+            dispatch(new ProsesInsertSiswa($collection));
+
         } catch (Throwable $e) {
             Log::info($e->getMessage());
             abort(500);
@@ -183,7 +174,7 @@ class StudentService
             }
 
             $daftarBulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', "Desember"];
-            $bulan = (int)$bulan;
+            $bulan = (int) $bulan;
             $detailSiswa = Student::mineViolation($idSiswa, $tahun); // -> data ini detail dari salah satu siswa dan menghasilkan data pertahun dan akan menampilkan yang status == 'confirm'
 
             $student = $detailSiswa['violations'];
@@ -209,14 +200,14 @@ class StudentService
             $dataMentah = $data->sortBy('created_at');
 
             $dataMingguan = $data
-                ->filter(fn ($value) => $value['month'] == $bulan)
+                ->filter(fn($value) => $value['month'] == $bulan)
                 ->sortBy('day') // -> ini bisa optional
                 ->groupBy('week_of_month');
 
             $dataBulanan = $data->groupBy('month')->sortKeys();
 
             $hasilAkhirBulanan = $this->prosesMengolahDataBulanan($dataBulanan);
-            $hasilAkhirMingguan =  $this->prosesMengolahDataMingguan($dataMingguan);
+            $hasilAkhirMingguan = $this->prosesMengolahDataMingguan($dataMingguan);
 
             return array_merge($hasilAkhirBulanan, $hasilAkhirMingguan, [
                 'detail_siswa' => $dataMentah,
@@ -237,17 +228,27 @@ class StudentService
 
             $detailSiswa = $data['siswa']->toArray();
             $data = [
-                'nomorSurat' => $id, // => y
-                'jumlahSatuBulan' => $data['sum_week'], // => y
-                'jumlahSatuTahun' => $data['sum_month'], // => y
-                'rataRataSatuBulan' => $data['avg_week'], // => y
+                'nomorSurat' => $id,
+                // => y
+                'jumlahSatuBulan' => $data['sum_week'],
+                // => y
+                'jumlahSatuTahun' => $data['sum_month'],
+                // => y
+                'rataRataSatuBulan' => $data['avg_week'],
+                // => y
                 'rataRataSatuTahun' => $data['avg_month'],
-                'namaLengkap' => $detailSiswa['full_name'], // => y
-                'nis' => $detailSiswa['identity_number'], // => y
-                'kelas' => $detailSiswa['kelas']['name'], // => y
-                'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan", // => y
-                'totalPoint' => $data['sum_month'], // => y
-                'bulan' => $data['bulan'], // => y
+                'namaLengkap' => $detailSiswa['full_name'],
+                // => y
+                'nis' => $detailSiswa['identity_number'],
+                // => y
+                'kelas' => $detailSiswa['kelas']['name'],
+                // => y
+                'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan",
+                // => y
+                'totalPoint' => $data['sum_month'],
+                // => y
+                'bulan' => $data['bulan'],
+                // => y
                 'tahun' => $data['tahun'] // => y
             ];
             $pdf = PDF::loadView('admin.siswa.pdf.detail', $data)->setOptions(['defaultFont' => 'sans-serif']);
