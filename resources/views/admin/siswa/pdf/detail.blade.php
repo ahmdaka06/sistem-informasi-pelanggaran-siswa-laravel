@@ -115,6 +115,8 @@
             </tr>
         </table>
         <br />
+        <br />
+        <br />
 
         {{-- <font align="justify">Seluruh barang yang diserahterimakan dalam keadaan baik, baru dan lengkap. Berita Acara
             Serah
@@ -152,6 +154,30 @@
             dengan
             sebenarnya.</font>
         <br /> <br /> --}}
+        <table border="1" width="100%" class="tabelku">
+            <tr>
+                <th class="tdku">NO</th>
+                <th class="tdku">Jenis</th>
+                <th class="tdku">Pelanggaran</th>
+                <th class="tdku">Point</th>
+                <th class="tdku">Tanggal</th>
+
+            </tr>
+            @foreach ($pelanggaran as $pelanggaranSiswa)
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $pelanggaranSiswa->category_pelanggaran->jenis_pelanggaran }}</td>
+                    <td>{{ $pelanggaranSiswa->category_pelanggaran->name }}</td>
+                    <td>{{ $pelanggaranSiswa->category_pelanggaran->point }}</td>
+                    <td>{{ $pelanggaranSiswa->created_at  }}</td>
+                </tr>
+            @endforeach
+
+        </table>
+        <br />
+        <br />  
+        <br />
+        <br />
         <font align="justify" style="text-align: justify">
             Kehadiran anda sangat penting untuk membahas masalah ini dan mencari solusi yang tepat. Kami sangat
             menghargai
@@ -233,6 +259,8 @@
                 </td>
             </tr>
         </table>
+
+
 
     </div>
 </body>

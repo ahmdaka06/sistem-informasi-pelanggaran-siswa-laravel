@@ -60,7 +60,18 @@ class StudentService
 
     function simpanDataExcel($collection): void
     {
+        // dd($collection);
         try {
+
+            // Student::create([
+            //     'class_id' => 1,
+            //     'email' => "1@gmail.com",
+            //     'identity_number' => "1",
+            //     'full_name' =>"1",
+            //     'username' =>"1",
+            //     'password' => Hash::make("1"),
+            //     'gender' => "1",
+            // ]);
             foreach ($collection as $key => $row) {
                 if ($key == 0) {
                     continue;
@@ -234,7 +245,7 @@ class StudentService
     {
         try {
             $data = $this->getMineViolationDataForGraphic($id, $tanggal);
-
+            $dataPelanggaranSiswa = Student::with('pelanggaran.category_pelanggaran')->where('id', 19)->first();
             $detailSiswa = $data['siswa']->toArray();
             $data = [
                 'nomorSurat' => $id, // => y
@@ -248,7 +259,9 @@ class StudentService
                 'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan", // => y
                 'totalPoint' => $data['sum_month'], // => y
                 'bulan' => $data['bulan'], // => y
-                'tahun' => $data['tahun'] // => y
+                'tahun' => $data['tahun'], // => y
+                'pelanggaran' =>  $dataPelanggaranSiswa->pelanggaran,
+                'no' => 1
             ];
             $pdf = PDF::loadView('admin.siswa.pdf.detail', $data)->setOptions(['defaultFont' => 'sans-serif']);
             return $pdf;
