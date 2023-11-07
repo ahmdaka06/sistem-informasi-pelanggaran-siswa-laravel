@@ -39,10 +39,8 @@ class Index extends Component
         $data_from = ($this->page - 1) * 10 == 0 ? 1 : ($this->page - 1) * 10;
         $data_to = $this->page * 10;
         $data_all = Student::search($this->textFilter, $this->kelasId)->count('id');
-        // search($this->text_filter)->mine()->orderBy("created_at", "desc")->simplePaginate(10)
 
-        Log::info("textFilter : {$this->textFilter}");
-        Log::info("kelasId : {$this->kelasId}");
+        // Masih ada problem ketika mencari data diluar scope paginate, data nya tidak muncul
         $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("created_at", $this->filterSort)->simplePaginate(10);
         $items = $datas->getCollection()->map(function ($item) {
             $totalPoint = 0;
@@ -56,23 +54,8 @@ class Index extends Component
             $item->total_point = $totalPoint;
             return $item;
         });
-        // $students = $datas
-        //     ->map(function ($item) {
-        //         $totalPoint = 0;
-        //         $pelanggarans = $item->pelanggaran;
-
-        //         foreach ($pelanggarans as $pelanggaran) {
-        //             $point = $pelanggaran['category_pelanggaran']['point'];
-        //             $totalPoint += $point;
-        //         }
-
-        //         $item->total_point = $totalPoint;
-        //         return $item;
-        //     });
 
         $classList = ClassList::all();
-
-        Log::info($datas->toJson());
 
         return view('livewire.admin.siswa.index', [
             'students' => $items,
