@@ -20,11 +20,20 @@ class ProsesInsertSiswa implements ShouldQueue
      *
      * @return void
      */
+
+    public $tries = 5;
+
+    public $timeout = 360;
     public $collection;
     public function __construct($collection)
     {
         //
         $this->collection = $collection;
+    }
+
+    public function retryUntil()
+    {
+        return now()->addMinutes(10);
     }
 
     /**
@@ -43,12 +52,12 @@ class ProsesInsertSiswa implements ShouldQueue
             $nis = $row[1];
             $gender = strtolower($row[2]);
             $fullName = $row[0];
-            $kelas = $row[3];
+            // $kelas = $row[3];
             $username = strtr(strtolower($fullName), [
                 " " => "_"
             ]) . "_$key";
 
-            $classId = $dataKelas->filter(fn($item) => $item['name'] == $kelas)->toArray();
+            // $classId = $dataKelas->filter(fn($item) => $item['name'] == $kelas)->toArray();
             // $classId = $classId[0]['id'];
             // dd($classId[0]['id']);
             // if (count($classId) == 0) {
@@ -71,9 +80,9 @@ class ProsesInsertSiswa implements ShouldQueue
         }
 
         foreach ($dataResult as $key => $result) {
-            if ($key % 100 == 0) {
-                sleep(1);
-            }
+            // if ($key % 100 == 0) {
+            //     sleep(1);
+            // }
             Student::create($result);
         }
     }
