@@ -25,6 +25,12 @@
                             @endforeach
                         </select>
                     </div>
+                    <div wire:ignore>
+                        <select class="form-select form-control" style="width: 80px" wire:model='filterSort' name="state" id="state">
+                            <option value = "asc" selected>ASC</option>
+                            <option value="desc">DESC</option>
+                        </select>
+                    </div>
                     @error('kelas')
                         <span class="text-danger error">{{ $message }}</span>
                     @enderror
@@ -62,12 +68,27 @@
                                         class="btn btn-primary">Detail</a>
                                     <button class="btn btn-danger" title="Delete"
                                         data-delete-id={{ $item->id }}>Delete</button>
-                                        <a href="{{route('admin.siswa.edit', $item->id)}}" class="btn btn-primary">Edit</a>
+                                    <a href="{{ route('admin.siswa.edit', $item->id) }}"
+                                        class="btn btn-primary">Edit</a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+
+            <div class="row align-items-center mt-3">
+                <div class="pagination d-none"></div>
+                <div class="col">
+                    <p class="mb-0 fs--1">
+                        <span class="d-none d-sm-inline-block" data-list-info="data-list-info">{{ $data_from }} to
+                            {{ $data_to }} of {{ $data_all }}</span>
+                    </p>
+                </div>
+
+                <div class="col-auto d-flex">
+                    {{ $itemsPaginate->links() }}
+                </div>
             </div>
         </div>
     </div>
