@@ -240,7 +240,7 @@ class StudentService
     {
         try {
             $data = $this->getMineViolationDataForGraphic($id, $tanggal);
-            $dataPelanggaranSiswa = Student::with('pelanggaran.category_pelanggaran')->where('id', 19)->first();
+            $dataPelanggaranSiswa = Student::with('pelanggaran.category_pelanggaran')->where('id', $id)->first();
             $detailSiswa = $data['siswa']->toArray();
             $data = [
                 'nomorSurat' => $id,
@@ -252,14 +252,21 @@ class StudentService
                 'rataRataSatuBulan' => $data['avg_week'],
                 // => y
                 'rataRataSatuTahun' => $data['avg_month'],
-                'namaLengkap' => $detailSiswa['full_name'], // => y
-                'nis' => $detailSiswa['identity_number'], // => y
-                'kelas' => $detailSiswa['kelas']['name'], // => y
-                'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan", // => y
-                'totalPoint' => $data['sum_month'], // => y
-                'bulan' => $data['bulan'], // => y
-                'tahun' => $data['tahun'], // => y
-                'pelanggaran' =>  $dataPelanggaranSiswa->pelanggaran,
+                'namaLengkap' => $detailSiswa['full_name'],
+                // => y
+                'nis' => $detailSiswa['identity_number'],
+                // => y
+                'kelas' => $detailSiswa['kelas']['name'],
+                // => y
+                'jenisKelamin' => $detailSiswa['gender'] == 'l' ? "Laki-Laki" : "Perempuan",
+                // => y
+                'totalPoint' => $data['sum_month'],
+                // => y
+                'bulan' => $data['bulan'],
+                // => y
+                'tahun' => $data['tahun'],
+                // => y
+                'pelanggaran' => $dataPelanggaranSiswa->pelanggaran,
                 'no' => 1
             ];
             $pdf = PDF::loadView('admin.siswa.pdf.detail', $data)->setOptions(['defaultFont' => 'sans-serif']);
