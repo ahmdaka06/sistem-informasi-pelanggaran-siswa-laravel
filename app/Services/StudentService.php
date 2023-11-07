@@ -240,7 +240,7 @@ class StudentService
     {
         try {
             $data = $this->getMineViolationDataForGraphic($id, $tanggal);
-            $dataPelanggaranSiswa = Student::with('pelanggaran.category_pelanggaran')->where('id', $id)->first();
+            $dataPelanggaranSiswa = $data['siswa'];
             $detailSiswa = $data['siswa']->toArray();
             $data = [
                 'nomorSurat' => $id,
