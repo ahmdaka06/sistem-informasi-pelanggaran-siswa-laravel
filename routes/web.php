@@ -43,11 +43,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin']], function () 
     });
 });
 
-Route::group(['prefix' => 'guru'], function () {
+Route::group(['prefix' => 'guru', 'middleware' => ['CekTeacher']], function () {
     Route::group(['prefix' => 'auth'], function () {
-        Route::get('/login', [\App\Http\Controllers\Guru\Auth\LoginController::class, 'index'])->withoutMiddleware(['auth:admin'])->name('admin.auth.login');
-        Route::get('/logout', [\App\Http\Controllers\Guru\Auth\LoginController::class, 'logout'])->name('admin.auth.logout');
+        Route::get('/login', [\App\Http\Controllers\Admin\Auth\Guru\LoginController::class, 'index'])->withoutMiddleware(['CekTeacher'])->name('guru.auth.login');
+        Route::get('/logout', [\App\Http\Controllers\Admin\Auth\Guru\LoginController::class, 'logout'])->name('admin.auth.logout');
     });
+    // Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('guru.dashboard');
+    Route::get('/guru/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('guru.dashboard');
 });
 
 

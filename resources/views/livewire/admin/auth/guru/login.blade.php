@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body p-4">
                     <div class="text-center mt-2">
-                        <h5 class="text-primary">Login</h5>
+                        <h5 class="text-primary">Login Guru</h5>
                     </div>
                     <div class="p-2 mt-4">
                         <form wire:submit.prevent="login">
