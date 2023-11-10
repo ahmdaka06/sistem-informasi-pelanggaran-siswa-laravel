@@ -51,9 +51,7 @@
                             <th>Kelas</th>
                             <th>Username</th>
                             <th>Point Pelanggaran</th>
-                            @auth("admin")
-                                <th>Action</th>
-                            @endauth
+                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -67,16 +65,16 @@
                                 <td>{{ $item->kelas->name }}</td>
                                 <td>{{ $item->username }}</td>
                                 <td>{{ $item->total_point }}</td>
-                                @auth("admin")
-                                    <td>
-                                        <a href="{{ route('admin.siswa.show', $item->id) }}"
-                                            class="btn btn-primary">Detail</a>
+                                <td>
+                                    <a href="{{ route('admin.siswa.show', $item->id) }}"
+                                        class="btn btn-primary">Detail</a>
+                                        @auth("admin")
                                         <button class="btn btn-danger" title="Delete"
                                             data-delete-id={{ $item->id }}>Delete</button>
                                         <a href="{{ route('admin.siswa.edit', $item->id) }}"
                                             class="btn btn-primary">Edit</a>
+                                        @endauth
                                     </td>
-                                @endauth
                             </tr>
                         @endforeach
                     </tbody>

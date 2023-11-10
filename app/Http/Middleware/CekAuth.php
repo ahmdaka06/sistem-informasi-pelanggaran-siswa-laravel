@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CekTeacher
+class CekAuth
 {
     /**
      * Handle an incoming request.
@@ -23,8 +23,6 @@ class CekTeacher
                 session()->flash('error', 'Akun anda telah dinonaktifkan');
                 return route('admin.auth.guru.login');
             }
-
-            // dd("teacher aktif");
             return $next($request);
         }else if(Auth::guard('admin')->check()){
             if (Auth::guard('admin')->user()->is_active == 0) {
