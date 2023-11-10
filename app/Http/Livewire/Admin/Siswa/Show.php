@@ -40,6 +40,8 @@ class Show extends Component
         $this->tahun = isset($pisah[0]) ? $pisah[0] : null;
         $this->bulanFiler = $daftarBulan[isset($pisah[1]) ? (int)$pisah[1] : 0];
 
+        // Log::info($yoi['siswa']->)
+
         return view('livewire.admin.siswa.show', [
             'detailSiswa' => $yoi ? $yoi['detail_siswa'] : [],
             'grafikBulanan' => $yoi ? $yoi['sum_per_month'] : [],

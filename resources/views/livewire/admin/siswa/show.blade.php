@@ -8,6 +8,21 @@
     <div class="container-fluid">
         <div class="row">
             <div class="mb-3 row">
+                <label class="col-md-1 col-form-label">Nama</label>
+                <div class="col-md-11 d-flex">
+                    <input class="form-control form-control-sm" disabled type="text" value="{{ $siswa->full_name }}">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label class="col-md-1 col-form-label">Kelas</label>
+                <div class="col-md-11 d-flex">
+                    <input class="form-control form-control-sm" disabled type="text"
+                        value="{{ $siswa->kelas->name }}">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
                 <label for="example-month-input" class="col-md-1 col-form-label">Month</label>
                 <div class="col-md-11 d-flex">
                     <input class="form-control" type="month" value="{{ date('Y-m') }}" id="month-input">
@@ -18,7 +33,6 @@
                         <button class="btn btn-success ms-2" type="submit">Cetak</button>
                     </form>
                 </div>
-
             </div>
         </div>
 
@@ -225,9 +239,9 @@
                             <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $totalPointPerBulan }}</span></h4>
                             <p class="text-muted mb-0">Jumlah Point (di bulan {{ $bulanFiler }})</p>
                         </div>
-                        <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
+                        {{-- <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
                                     class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> beberapa minggu terakhir
-                        </p>
+                        </p> --}}
                     </div>
                 </div>
 
@@ -321,9 +335,9 @@
                             <h4 class="mb-1 mt-1"><span data-plugin="counterup">{{ $totalPoint }}</span></h4>
                             <p class="text-muted mb-0">Jumlah Point (di tahun {{ $tahun }})</p>
                         </div>
-                        <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
+                        {{-- <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
                                     class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> beberapa minggu terakhir
-                        </p>
+                        </p> --}}
                     </div>
                 </div>
 
@@ -428,10 +442,10 @@
                                     </h4>
                                     <p class="text-muted mb-0">Rata-rata Point (di bulan {{ $bulanFiler }})</p>
                                 </div>
-                                <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
+                                {{-- <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
                                             class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> beberapa minggu
                                     terakhir
-                                </p>
+                                </p> --}}
                             </div>
                         </div>
                     </div>
@@ -535,12 +549,47 @@
                                     </h4>
                                     <p class="text-muted mb-0">Rata-rata Point (di tahun {{ $tahun }})</p>
                                 </div>
-                                <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
+                                {{-- <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i
                                             class="mdi mdi-arrow-down-bold me-1"></i>6.24%</span> beberapa minggu
                                     terakhir
-                                </p>
+                                </p> --}}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i>Pelanggaran Siswa Per
+                        Tahun {{ $tahun }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive mt-2">
+                        <table class="table table-bordered mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Jenis</th>
+                                    <th>Pelanggaran</th>
+                                    <th>Point</th>
+                                    <th class="d-none d-lg-block">Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($detailSiswa as $no => $pelanggaranSiswa)
+                                    <tr>
+                                        <td>{{ $no + 1 }}</td>
+                                        <td>{{ $pelanggaranSiswa->category_pelanggaran->jenis_pelanggaran }}</td>
+                                        <td>{{ $pelanggaranSiswa->category_pelanggaran->name }}</td>
+                                        <td>{{ $pelanggaranSiswa->category_pelanggaran->point }}</td>
+                                        <td>{{ $pelanggaranSiswa->created_at }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
