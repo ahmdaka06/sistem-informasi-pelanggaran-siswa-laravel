@@ -26,9 +26,11 @@
                     <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i> Pelanggaran</h4>
                 </div>
                 <div class="card-body">
-                    <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#create">
-                        <i class="fa fa-plus fa-fw"></i> Tambah Data Pelanggaran
-                    </button>
+                    @auth("admin")
+                        <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#create">
+                            <i class="fa fa-plus fa-fw"></i> Tambah Data Pelanggaran
+                        </button>
+                    @endauth
                     <div class="table-responsive mt-2">
                         <table class="table table-bordered mb-0">
                             <thead  class="table-light">
@@ -37,7 +39,9 @@
                                     <th>jenis Pelanggaran</th>
                                     <th>Nama</th>
                                     <th>Point</th>
-                                    <th>Aksi</th>
+                                    @auth("admin")
+                                        <th>Aksi</th>
+                                    @endauth
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,11 +52,13 @@
                                     <td>{{ $value->name }}</td>
                                     <td>{{ $value->point }}</td>
                                     {{-- <td><button class="btn btn-sm btn-danger" wire:click.prevent="delete({{$value->id}})">Hapus</button></td> --}}
-                                    <td>
-                                        {{-- <button class="btn btn-sm btn-danger" onclick="hapus({{$value->id}})">Hapus</button> --}}
-                                        <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
-                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#edit" wire:click="edit({{ $value->id }})" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
-                                    </td>
+                                    @auth("admin")
+                                        <td>
+                                            {{-- <button class="btn btn-sm btn-danger" onclick="hapus({{$value->id}})">Hapus</button> --}}
+                                            <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
+                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#edit" wire:click="edit({{ $value->id }})" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
+                                        </td>
+                                    @endauth
                                     {{-- <td>
                                         <div class="form-check form-switch mb-3" dir="ltr">
                                             <input type="checkbox" class="form-check-input" id="customSwitch1" wire:click="changeIsActive({{ $value->id }}, {{ $value->is_active }})" {{ $value->is_active == 1 ? 'checked' : '' }}>
@@ -77,71 +83,73 @@
         </div>
     </div>
     <!-- end row -->
-    <!--  Extra Large modal example -->
-    <div wire:ignore.self id="create" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i>Tambah Pelanggaran</h5>
-                    <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                        @include('livewire.admin.pelanggaran.create')
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    {{-- <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    @auth("admin")
+        <!--  Extra Large modal example -->
+        <div wire:ignore.self id="create" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i>Tambah Pelanggaran</h5>
+                        <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            @include('livewire.admin.pelanggaran.create')
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        {{-- <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
 
 
-    <div wire:ignore.self id="edit" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i> Edit Pelanggaaran</h5>
-                    <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                        @include('livewire.admin.pelanggaran.edit')
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    {{-- <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        <div wire:ignore.self id="edit" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i> Edit Pelanggaaran</h5>
+                        <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            @include('livewire.admin.pelanggaran.edit')
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        {{-- <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
 
 
 
-    <script type="text/javascript">
-        window.livewire.on('adminRefresh', () => {
-            Swal.hideLoading()
-            $('.bs-example-modal-xl#create').modal('hide');
-        });
-    </script>
+        <script type="text/javascript">
+            window.livewire.on('adminRefresh', () => {
+                Swal.hideLoading()
+                $('.bs-example-modal-xl#create').modal('hide');
+            });
+        </script>
 
 
-    <script>
-        function hapus(id){
-            if(confirm("apakah anda ingin menghapus data ini ?")  == true) {
-                Livewire.emit('delete',id)
-                // alert(id);
+        <script>
+            function hapus(id){
+                if(confirm("apakah anda ingin menghapus data ini ?")  == true) {
+                    Livewire.emit('delete',id)
+                    // alert(id);
+                }
             }
-        }
 
-        window.livewire.on('adminRefresh', () => {
-            Swal.hideLoading()
-            $('.bs-example-modal-xl').modal('hide');
-        });
-    </script>
+            window.livewire.on('adminRefresh', () => {
+                Swal.hideLoading()
+                $('.bs-example-modal-xl').modal('hide');
+            });
+        </script>
+    @endauth
 </div>
 
 

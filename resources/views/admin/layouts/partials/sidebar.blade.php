@@ -10,12 +10,14 @@
                                     <span>Dashboard</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('admin.admin.index') }}">
-                                    <i class="mdi mdi-account-multiple-outline"></i>
-                                    <span>Admin</span>
-                                </a>
-                            </li>
+                            @auth("admin")
+                                <li>
+                                    <a href="{{ route('admin.admin.index') }}">
+                                        <i class="mdi mdi-account-multiple-outline"></i>
+                                        <span>Admin</span>
+                                    </a>
+                                </li>
+                            @endauth
                             {{-- <li>
                                 <a href="{{ route('admin.teacher.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>

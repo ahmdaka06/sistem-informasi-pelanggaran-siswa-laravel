@@ -26,6 +26,15 @@ class CekTeacher
 
             // dd("teacher aktif");
             return $next($request);
+        }else if(Auth::guard('admin')->check()){
+            if (Auth::guard('admin')->user()->is_active == 0) {
+                Auth::guard('admin')->logout();
+                session()->flash('error', 'Akun anda telah dinonaktifkan');
+                return route('admin.auth.login');
+            }
+            return $next($request);
+        }else{
+            return redirect("admin/auth/login");
         }
 
     }

@@ -5,6 +5,7 @@ use App\Models\ClassList;
 use App\Models\Student;
 use App\Models\ViolationCategory;
 use App\Models\ViolationLists;
+use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Exception;
 
@@ -68,7 +69,7 @@ class Index extends Component
             ->orderBy('created_at', 'desc')
             ->get();
         }
-        
+
         else{
             $data = ViolationLists::with("student","jenisPelanggaran")
             ->where("created_at", "LIKE", "%$tanggalSekarang%")->orderBy('created_at', 'desc')
@@ -90,6 +91,16 @@ class Index extends Component
     }
 
     function store(){
+        $admin = Auth::guard('admin')->check();
+        $teacher = Auth::guard('teacher')->check();
+        // dd( Auth::guard('admin')->user()->id);
+        $report_by = "";
+
+        if($admin){
+            $report_by = "admin";
+        }else if($teacher){
+            $report_by = "teacher";
+        }
 
         try {
             $data = [
@@ -97,7 +108,9 @@ class Index extends Component
                 "violation_category_id" => $this->inputPelanggaran,
                 "student_id" => $this->inputSiswa,
                 "note" => $this->inputCatatan,
-                "report_by" => "teacher",
+                "report_by" => $report_by,
+                "admin_id" => $admin ? Auth::guard('admin')->user()->id : Null,
+                "teacher_id" => $teacher ? Auth::guard('teacher')->user()->id : Null,
                 "status" => "confirm"
             ];
 

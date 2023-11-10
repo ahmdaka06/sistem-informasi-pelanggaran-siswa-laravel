@@ -18,7 +18,7 @@ class LoginController extends Controller
     //     $this->middleware('guest:admin')->only('index');
     // }
     public function index(){
-        return view('admin.'. request()->segment(2) .'.guru.login');
+        return view('admin.auth.guru.login');
     }
 
     public function login(){

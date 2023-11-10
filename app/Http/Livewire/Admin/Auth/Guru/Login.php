@@ -12,6 +12,10 @@ class Login extends Component
 
     public $username, $password, $remember, $count = 0;
 
+    public function render()
+    {
+        return view('livewire.admin.auth.guru.login');
+    }
     private function resetInputFields(){
         $this->username = '';
         $this->password = '';
@@ -34,10 +38,6 @@ class Login extends Component
     // public function data(){
     //     rert
     // }
-    public function render()
-    {
-        return view('livewire.admin.auth.login');
-    }
 
 
 
