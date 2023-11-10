@@ -6,15 +6,17 @@
         </div>
         <div class="card-body">
             <div class="container-fluid d-flex justify-content-between">
+                @auth("admin")
                 <div>
-                    <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary waves-effect waves-light">
-                        <i class="fa fa-plus fa-fw"></i> Tambah Siswa
-                    </a>
-                    <a href="{{ route('admin.siswa.create', ['excel' => true]) }}"
-                        class="btn btn-success waves-effect waves-light mt-">
-                        <i class="fa fa-plus fa-fw"></i> Tambah Siswa via Excel
-                    </a>
-                </div>
+                        <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary waves-effect waves-light">
+                            <i class="fa fa-plus fa-fw"></i> Tambah Siswa
+                        </a>
+                        <a href="{{ route('admin.siswa.create', ['excel' => true]) }}"
+                            class="btn btn-success waves-effect waves-light mt-">
+                            <i class="fa fa-plus fa-fw"></i> Tambah Siswa via Excel
+                        </a>
+                    </div>
+                @endauth
 
                 <div class="d-flex">
                     <div wire:ignore>
@@ -66,11 +68,13 @@
                                 <td>
                                     <a href="{{ route('admin.siswa.show', $item->id) }}"
                                         class="btn btn-primary">Detail</a>
-                                    <button class="btn btn-danger" title="Delete"
-                                        data-delete-id={{ $item->id }}>Delete</button>
-                                    <a href="{{ route('admin.siswa.edit', $item->id) }}"
-                                        class="btn btn-primary">Edit</a>
-                                </td>
+                                        @auth("admin")
+                                        <button class="btn btn-danger" title="Delete"
+                                            data-delete-id={{ $item->id }}>Delete</button>
+                                        <a href="{{ route('admin.siswa.edit', $item->id) }}"
+                                            class="btn btn-primary">Edit</a>
+                                        @endauth
+                                    </td>
                             </tr>
                         @endforeach
                     </tbody>

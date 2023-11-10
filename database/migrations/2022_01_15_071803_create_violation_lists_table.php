@@ -19,7 +19,7 @@ class CreateViolationListsTable extends Migration
             $table->foreignId('student_id');
             $table->foreignId('class_id');
             $table->foreignId('student_parent_id');
-            $table->enum('report_by', ['student', 'teacher']);
+            $table->enum('report_by', ['student', 'teacher', 'admin']);
             $table->timestamp('report_at')->nullable();
             $table->longText('note');
             $table->mediumText('photo_proof');

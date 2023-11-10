@@ -16,6 +16,8 @@ class ViolationLists extends Model
         'clas',
         'student_parent_id',
         'report_by',
+        'admin_id',
+        'teacher_id',
         'report_at',
         'note',
         'photo_proof',
