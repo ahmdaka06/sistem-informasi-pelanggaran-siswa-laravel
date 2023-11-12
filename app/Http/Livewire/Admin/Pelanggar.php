@@ -26,7 +26,7 @@ class Pelanggar extends Component
     {
         // $this->pelanggaran = $this->getSortedData();
 
-        $dataQuery = ViolationCategory::orderBy('id', 'DESC');
+        $dataQuery = ViolationCategory::orderBy('name', 'ASC');
         if ($this->search <> null) {
             // dd($this->search);
             $dataQuery->where(function ($query) {
@@ -35,9 +35,9 @@ class Pelanggar extends Component
                 ->orWhere('name', 'like', '%'.$this->search.'%')
                 ->orWhere('point', 'like', '%'.$this->search.'%');
             });
-            $data = $this->getSortedData($dataQuery->get());
+            $data = $this->getSortedData($dataQuery->orderBy('name', 'asc')->get());
         } else{
-            $dataQuery = ViolationCategory::all();
+            $dataQuery = ViolationCategory::orderBy('name', 'asc')->get();
             $data = $this->getSortedData($dataQuery);
         }
 
@@ -84,8 +84,6 @@ class Pelanggar extends Component
     }
 
     public function update($inputPelanggaran){
-
-        // dd(["Pelanggaran" => $pelanggaran]);
         $pelanggaran = ViolationCategory::find($inputPelanggaran['id']);
         $pelanggaran->update([
             'jenis_pelanggaran' => $inputPelanggaran['jenis'],
@@ -103,12 +101,15 @@ class Pelanggar extends Component
 
 
     function delete(ViolationCategory $pelanggaran){
-        // return $pelanggaran;
-        // dd($pelanggaran);
-        // $pelanggaran = ViolationCategory::find($id);
+
         $pelanggaran->delete();
 
-        // $this->pelanggaran = $this->getSortedData(ViolationCategory::all());
+        $this->alert('success', 'Data berhasil di hapus', [
+            'toast' => true,
+            'position' => 'top-right',
+            'showConfirmButton' => false,
+            'timer' => 3000
+        ]);
     }
 
     function getSortedData($data){
