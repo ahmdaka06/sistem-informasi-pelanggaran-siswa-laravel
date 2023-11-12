@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\ViolationLists;
 use App\Models\ViolationCategory;
 use App\Models\Student;
+use App\Models\Tatib_bab;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,4 +87,8 @@ route::get("siswa-relasi", function(){
 
 route::get("detail-pelanggaran-siswa", function(){
     return Student::with('pelanggaran.category_pelanggaran')->where('id', 19)->first();
+});
+
+route::get('tatib', function(){
+    return Tatib_bab::with('pasal', 'pasal.butir')->get();
 });
