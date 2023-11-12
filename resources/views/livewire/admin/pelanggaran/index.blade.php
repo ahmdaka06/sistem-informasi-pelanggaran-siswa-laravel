@@ -1,7 +1,7 @@
 <div>
 
     <div wire:ignore>
-        <div id="selectSiswa" class="sidebar" style="background: white">
+        <div id="selectSiswa" class="sidebar">
             <button class="btn btn-warning btn-sm mb-3" id="tombolTutupSidebar">Tutup</button>
             <form>
                 <input type="hidden" id="idPelanggaran">
@@ -29,7 +29,6 @@
                 </div>
 
                 <div class="form-group mt-3">
-                    {{-- <button type="button" wire:loading.attr="disabled" wire:click.prevent="update({{ $primaryKey }})" class="btn btn-success">Update</button> --}}
                     <button type="button" wire:loading.attr="disabled" onclick="updateDataPelanggaran()" class="btn btn-success">Update</button>
                 </div>
             </form>
@@ -78,27 +77,12 @@
                                     <td>{{ $value->jenis_pelanggaran }}</td>
                                     <td>{{ $value->name }}</td>
                                     <td>{{ $value->point }}</td>
-                                    {{-- <td><button class="btn btn-sm btn-danger" wire:click.prevent="delete({{$value->id}})">Hapus</button></td> --}}
                                     @auth("admin")
                                         <td>
-                                            {{-- <button class="btn btn-sm btn-danger" onclick="hapus({{$value->id}})">Hapus</button> --}}
                                             <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
-                                            {{-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#edit" wire:click="edit({{ $value->id }})" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a> --}}
                                             <a href="javascript:void(0);" class="munculkanselect" onclick="munculkan('{{$value->id}}', '{{$value->name}}', '{{ $value->point }}', '{{$value->jenis_pelanggaran}}' )" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
                                         </td>
                                     @endauth
-                                    {{-- <td>
-                                        <div class="form-check form-switch mb-3" dir="ltr">
-                                            <input type="checkbox" class="form-check-input" id="customSwitch1" wire:click="changeIsActive({{ $value->id }}, {{ $value->is_active }})" {{ $value->is_active == 1 ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="customSwitch1">{{ $value->is_active == 1 ? 'Aktif' : 'Nonaktif' }}</label>
-                                        </div>
-                                    </td>
-                                    <td>{{ parseCarbon($value->created_at)->isoFormat('dddd, D MMMM Y, HH:mm:ss') }}</td>
-                                    <td>{{ parseCarbon($value->updated_at)->isoFormat('dddd, D MMMM Y, HH:mm:ss') }}</td> --}}
-                                    <td>
-                                        {{-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl" wire:click="edit({{ $value->id }})" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a> --}}
-                                        {{-- <a href="javascript:void(0);" class="px-3 text-danger"  wire:click="delete({{ $value->id }})"><i class="uil uil-trash-alt font-size-18"></i></a> --}}
-                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -123,27 +107,6 @@
                     </div>
                     <div class="modal-body">
                             @include('livewire.admin.pelanggaran.create')
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        {{-- <button wire:click.prevent="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-
-
-        <div wire:ignore.self id="edit" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i> Edit Pelanggaaran</h5>
-                        <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                            @include('livewire.admin.pelanggaran.edit')
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -211,10 +174,21 @@
 
         <script>
             function hapus(id){
-                if(confirm("apakah anda ingin menghapus data ini ?")  == true) {
-                    Livewire.emit('delete',id)
-                    // alert(id);
+
+                let _this = $(this);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.emit('delete', id);
                 }
+            });
             }
 
             window.livewire.on('adminRefresh', () => {
