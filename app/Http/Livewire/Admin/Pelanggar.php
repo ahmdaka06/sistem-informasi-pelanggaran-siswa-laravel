@@ -11,7 +11,7 @@ class Pelanggar extends Component
     use LivewireAlert;
 
     public $pelanggaran, $no = 1, $search;
-    protected $listeners = ['delete', 'adminRefresh'];
+    protected $listeners = ['delete', 'adminRefresh', 'update'];
     public $isFormEdit = false;
 
     public $primaryKey, $jenis_pelanggaran, $name, $point;
@@ -80,13 +80,17 @@ class Pelanggar extends Component
         $this->jenis_pelanggaran = $pelanggaran->jenis_pelanggaran;
         $this->name = $pelanggaran->name;
         $this->point = $pelanggaran->point;
+
     }
 
-    public function update(ViolationCategory $pelanggaran){
+    public function update($inputPelanggaran){
+
+        // dd(["Pelanggaran" => $pelanggaran]);
+        $pelanggaran = ViolationCategory::find($inputPelanggaran['id']);
         $pelanggaran->update([
-            'jenis_pelanggaran' => $this->jenis_pelanggaran,
-            'name' => $this->name,
-            'point' => $this->point
+            'jenis_pelanggaran' => $inputPelanggaran['jenis'],
+            'name' => $inputPelanggaran['nama'],
+            'point' =>$inputPelanggaran['point']
         ]);
 
 

@@ -1,18 +1,45 @@
 <div>
 
+    <div wire:ignore>
+        <div id="selectSiswa" class="sidebar" style="background: white">
+            <button class="btn btn-warning btn-sm mb-3" id="tombolTutupSidebar">Tutup</button>
+            <form>
+                <input type="hidden" id="idPelanggaran">
+                <div class="form-group mb-3">
+                    <label for="exampleFormControlInput1">Jenis Pelanggaran</label>
+                    <select class="form-select js-example-basic-single" aria-label="Default select example">
+                        <option selected>Pilh Jenis Pelanggaran</option>
+                        <option value="pelanggaran ringan">Pelanggaran Ringan</option>
+                        <option value="pelanggaran sedang">Pelanggaran Sedang</option>
+                        <option value="pelanggaran berat">Pelanggaran Berat</option>
+                    </select>
+                    {{-- @error('full_name') <span class="text-danger error">{{ $message }}</span>@enderror --}}
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="exampleFormControlInput2">Nama Pelanggaran</label>
+                    <textarea class="form-control" id="namaPelanggaran" placeholder="Nama Pelanggaran" rows="5"></textarea>
+                    @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
+                </div>
+        
+                <div class="form-group mb-3">
+                    <label for="exampleFormControlInput2">Point</label>
+                    <input type="number" class="form-control" id="point">
+                    @error('point') <span class="text-danger error">{{ $message }}</span>@enderror
+                </div>
+
+                <div class="form-group mt-3">
+                    {{-- <button type="button" wire:loading.attr="disabled" wire:click.prevent="update({{ $primaryKey }})" class="btn btn-success">Update</button> --}}
+                    <button type="button" wire:loading.attr="disabled" onclick="updateDataPelanggaran()" class="btn btn-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12 mb-2">
             <form>
                 <div class="row">
-                    {{-- <div class="form-group col-md-6">
-                        <label for="">Limit</label>
-                        <select wire:model="paginate" class="form-control">
-                            <option value="10">Default</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="50">100</option>
-                        </select>
-                    </div> --}}
                     <div class="form-group col-md-6">
                         <label for="">Pencarian</label>
                         <input wire:model="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
@@ -56,7 +83,8 @@
                                         <td>
                                             {{-- <button class="btn btn-sm btn-danger" onclick="hapus({{$value->id}})">Hapus</button> --}}
                                             <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#edit" wire:click="edit({{ $value->id }})" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
+                                            {{-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#edit" wire:click="edit({{ $value->id }})" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a> --}}
+                                            <a href="javascript:void(0);" class="munculkanselect" onclick="munculkan('{{$value->id}}', '{{$value->name}}', '{{ $value->point }}', '{{$value->jenis_pelanggaran}}' )" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
                                         </td>
                                     @endauth
                                     {{-- <td>
@@ -126,7 +154,52 @@
         </div><!-- /.modal -->
 
 
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+            var buttonMuncul = document.querySelectorAll(".munculkanselect");
+            var selectSiswa = document.querySelector("#selectSiswa");
+            var buttonTutupSidebar = document.querySelector("#tombolTutupSidebar");
 
+            function munculkan(id, nama, point, jenisPelanggaran){
+                // alert("haiiii");
+                    id  = document.querySelector("#idPelanggaran").value = id;
+                    namaPelanggaran  = document.querySelector("#namaPelanggaran").value = nama;
+                    point            = document.querySelector("#point").value = point;
+
+
+                    $('.js-example-basic-single').val(jenisPelanggaran);
+                    $('.js-example-basic-single').trigger('change'); 
+                    selectSiswa.classList.add('sidebarshow');
+            }
+
+            function updateDataPelanggaran(){
+                id  = document.querySelector("#idPelanggaran").value;
+                namaPelanggaran  = document.querySelector("#namaPelanggaran").value;
+                point            = document.querySelector("#point").value;
+                jenisPelanggaran = document.querySelector(".js-example-basic-single").value;
+                
+                dataPelanggaran = {id: id, nama : namaPelanggaran, point : point, jenis : jenisPelanggaran};
+                console.log(dataPelanggaran);
+                Livewire.emit('update', dataPelanggaran)
+
+                /* JIKA INGIN KETIKA SELESAI UPDATE, SIDEBAR LANGSUNG TERSEMBUNYI LAGI  */
+
+                // window.livewire.on('adminRefresh', () => {
+                //     selectSiswa.classList.remove('sidebarshow');
+                // });
+            }
+
+            buttonTutupSidebar.onclick = function(){
+                selectSiswa.classList.remove('sidebarshow');
+            }
+        </script>
+
+        <script>
+            // window.addEventListener('initSomething', event => {
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2();
+            });
+        </script>
 
         <script type="text/javascript">
             window.livewire.on('adminRefresh', () => {
