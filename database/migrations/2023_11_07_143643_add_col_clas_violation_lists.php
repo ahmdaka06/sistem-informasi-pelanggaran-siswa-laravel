@@ -15,7 +15,7 @@ class AddColClasViolationLists extends Migration
     {
         Schema::table('violation_lists', function (Blueprint $table) {
             //
-            $table->string('clas', 100);
+            // $table->string('clas', 100);
         });
     }
 

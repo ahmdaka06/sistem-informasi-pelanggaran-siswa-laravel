@@ -15,9 +15,9 @@ class RemoveClassIdViolLists extends Migration
     {
         Schema::table('violation_lists', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('class_id')->nullable()->change();
-            $table->unsignedBigInteger('student_parent_id')->nullable()->change();
-            $table->mediumText('photo_proof')->nullable()->change();
+            // $table->unsignedBigInteger('class_id')->nullable()->change();
+            // $table->unsignedBigInteger('student_parent_id')->nullable()->change();
+            // $table->mediumText('photo_proof')->nullable()->change();
         });
     }
 

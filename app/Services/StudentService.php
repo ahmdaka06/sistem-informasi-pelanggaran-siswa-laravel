@@ -78,9 +78,10 @@ class StudentService
                     'username' => $nis_tanpa_titik,
                     'password' => Hash::make($nis_tanpa_titik),
                     'gender' => strtolower($row[2]),
+                    'class_id' => strtolower($row[3]),
                 ]);
             }
-            dispatch(new ProsesInsertSiswa($collection));
+            // dispatch(new ProsesInsertSiswa($collection));
 
         } catch (Throwable $e) {
             Log::info($e->getMessage());
