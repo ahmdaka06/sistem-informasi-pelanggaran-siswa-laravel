@@ -16,7 +16,7 @@ class CreteTatibButirPasal extends Migration
         Schema::create('tatib_pasal_butir', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("pasal_id");
-            $table->string("isi_pasal");
+            $table->text("isi_pasal");
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ class CreteTatibButirPasal extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('tatib_pasal_butir');
     }
 }
