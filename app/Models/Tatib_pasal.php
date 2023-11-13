@@ -13,7 +13,7 @@ class Tatib_pasal extends Model
         'bab_id',
         'nomor_pasal',
         'judul_pasal',
-        'penjelasan'
+        'isi_pasal'
     ];
 
     function butir()

@@ -16,7 +16,7 @@ class CreateTatibBabTable extends Migration
         Schema::create('tatib_bab', function (Blueprint $table) {
             $table->id();
             $table->string("nomor_bab");
-            $table->string("judul");
+            $table->string("judul_bab");
             $table->timestamps();
             $table->softDeletes();
         });
