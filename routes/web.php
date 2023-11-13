@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\PasalController;
 use App\Imports\StudentImport;
 use App\Models\ClassList;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,8 @@ Route::middleware('CekAuth')->group(function () {
         Route::get('/inbox', [\App\Http\Controllers\Admin\InboxController::class, 'index'])->name('admin.inbox.index');
         Route::get('/pencatatan-pelanggaran', [\App\Http\Controllers\Admin\PencatatanPelanggaranController::class, 'index'])->name('admin.pencatatan.index');
         Route::get('/pelanggaran', [\App\Http\Controllers\Admin\PelanggaranController::class, 'index'])->name('admin.pelanggaran.index');
-
+        Route::get("pasal", [PasalController::class, "index"]);
+        Route::get("pasal/create", [PasalController::class, "create"])->name('admin.pasal.create');
         // Siswa
         Route::name('admin.')->group(function () {
             Route::resource('siswa', SiswaController::class);

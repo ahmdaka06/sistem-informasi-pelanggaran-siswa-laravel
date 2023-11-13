@@ -11,7 +11,7 @@ class Tatib_bab extends Model
     protected $table = "Tatib_bab";
     protected $fillable = [
         'nomor_bab',
-        'judul_babl'
+        'judul'
     ];
 
     function pasal()
