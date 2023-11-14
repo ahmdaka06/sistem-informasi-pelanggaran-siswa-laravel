@@ -46,8 +46,8 @@ class Index extends Component
         $datas = null;
         $items = null;
         if ($this->textFilter || $this->kelasId != '0') {
-            $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("created_at", $this->filterSort)->get()->toArray();
-            $datas = collect($datas);
+            $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("id", $this->filterSort)->get();
+            // $datas = collect($datas);
             $items = $datas->map(function ($item) {
                 $totalPoint = 0;
                 $pelanggarans = $item['pelanggaran'];
@@ -61,7 +61,7 @@ class Index extends Component
                 return $item;
             });
         } else {
-            $datas = Student::search()->orderBy("created_at", $this->filterSort)->simplePaginate(10); // => hati hati saat order by menggunakan query sql. harus menggunakan order by dari collection
+            $datas = Student::search()->orderBy("id", $this->filterSort)->simplePaginate(10); // => hati hati saat order by menggunakan query sql. harus menggunakan order by dari collection
             $items = $datas->getCollection()->map(function ($item) {
                 $totalPoint = 0;
                 $pelanggarans = $item['pelanggaran'];
