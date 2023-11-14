@@ -81,7 +81,7 @@
                     <div class="card-body">
                         <div class="float-end">
                             <div class="dropdown">
-                                <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1"
+                                {{-- <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="fw-semibold">Sort By:</span> <span class="text-muted">Yearly<i
                                             class="mdi mdi-chevron-down ms-1"></i></span>
@@ -91,7 +91,11 @@
                                     <a class="dropdown-item" href="#">Monthly</a>
                                     <a class="dropdown-item" href="#">Yearly</a>
                                     <a class="dropdown-item" href="#">Weekly</a>
-                                </div>
+                                </div> --}}
+                                {{-- <label for="example-month-input" class="col-md-1 col-form-label">Month</label> --}}
+                                <input class="form-control form-control-sm" type="month" value="{{ date('Y-m') }}"
+                                    id="month-input">
+
                             </div>
                         </div>
 
@@ -187,7 +191,7 @@
                     <div class="card-body">
                         <div class="float-end">
                             <div class="dropdown">
-                                <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1"
+                                {{-- <a class="dropdown-toggle text-reset" href="#" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="fw-semibold">Sort By:</span> <span class="text-muted">Yearly<i
                                             class="mdi mdi-chevron-down ms-1"></i></span>
@@ -197,7 +201,9 @@
                                     <a class="dropdown-item" href="#">Monthly</a>
                                     <a class="dropdown-item" href="#">Yearly</a>
                                     <a class="dropdown-item" href="#">Weekly</a>
-                                </div>
+                                </div> --}}
+                                <input class="form-control form-control-sm" type="month"
+                                    value="{{ date('Y-m') }}" id="month-input">
                             </div>
                         </div>
 

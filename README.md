@@ -11,3 +11,4 @@ dashboard admin akan berisikan :
 -   wali kelas bisa melihat data point siswa nya saja.
 -   untuk bisa mensimulasikan fitur, data kelas beserta wali kelas nya di butuhkan !
 -   masing masing wali kelas bisa menambahkan nomor whatsapp atau informasi orang tua dari masing masing siswa (karena harapannya, kesiswaan bisa dipermudah untuk mengetahui informasi dari orang tua siswa)
+-   bisa menambahkan bot whatsapp secara otomatis

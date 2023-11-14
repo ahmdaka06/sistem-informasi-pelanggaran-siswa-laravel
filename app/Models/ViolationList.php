@@ -13,4 +13,9 @@ class ViolationList extends Model
     {
         return $this->belongsTo(ViolationCategory::class, 'violation_category_id');
     }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Student::class, 'student_id', 'id');
+    }
 }
