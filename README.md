@@ -1,8 +1,8 @@
-bikin pengatuan admin supaya bisa setting, warning akan muncul ketika point sudah mencapai titik tertentu
+-   bikin pengatuan admin supaya bisa setting, warning akan muncul ketika point sudah mencapai titik tertentu
 
-dashboard admin akan berisikan :
-10 top (teratas) kelas dengan point terbanyak dalam rentan waktu yang ditentukan
-10 top (teratas) murid dengan point terbanyak dalam rentan waktu yang ditentukan
+-   dashboard admin akan berisikan :
+-   10 top (teratas) kelas dengan point terbanyak dalam rentan waktu yang ditentukan
+-   10 top (teratas) murid dengan point terbanyak dalam rentan waktu yang ditentukan
 
 -   data (row) 10 top akan berwarna merah jika admin belum mencetak atau memberikan peringatan ke wali kelasnya
 -   wali kelas akan memverifikasi bahwa orang tua sudah dapat atau bisa dipanggil ke sekolah
