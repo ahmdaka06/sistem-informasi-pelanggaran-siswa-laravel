@@ -15,14 +15,9 @@ class Index extends Component
 {
     use LivewireAlert, WithPagination;
 
-    public $textFilter, $kelasId, $datas, $filterSort = 'asc';
+    public $textFilter, $kelasId = '0', $datas, $filterSort = 'asc';
 
-    protected $listeners = ['onChangeKelas' => 'onChangeKelas', 'delete' => 'delete', 'echo:pelanggaran,PelanggaranInserted' => 'coba'];
-
-    function coba()
-    {
-        dd('coba');
-    }
+    protected $listeners = ['onChangeKelas' => 'onChangeKelas', 'delete' => 'delete'];
 
     function onChangeKelas($kelasId)
     {
@@ -47,19 +42,38 @@ class Index extends Component
         $data_all = Student::search($this->textFilter, $this->kelasId)->count('id');
 
         // Masih ada problem ketika mencari data diluar scope paginate, data nya tidak muncul
-        $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("created_at", $this->filterSort)->simplePaginate(10);
-        $items = $datas->getCollection()->map(function ($item) {
-            $totalPoint = 0;
-            $pelanggarans = $item->pelanggaran;
+        $datas = null;
+        $items = null;
+        if ($this->textFilter || $this->kelasId != '0') {
+            $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("created_at", $this->filterSort)->get();
+            $items = $datas->map(function ($item) {
+                $totalPoint = 0;
+                $pelanggarans = $item->pelanggaran;
 
-            foreach ($pelanggarans as $pelanggaran) {
-                $point = $pelanggaran['category_pelanggaran']['point'];
-                $totalPoint += $point;
-            }
+                foreach ($pelanggarans as $pelanggaran) {
+                    $point = $pelanggaran['category_pelanggaran']['point'];
+                    $totalPoint += $point;
+                }
 
-            $item->total_point = $totalPoint;
-            return $item;
-        });
+                $item->total_point = $totalPoint;
+                return $item;
+            });
+        } else {
+            $datas = Student::orderBy("created_at", $this->filterSort)->simplePaginate(10);
+            $items = $datas->getCollection()->map(function ($item) {
+                $totalPoint = 0;
+                $pelanggarans = $item->pelanggaran;
+
+                foreach ($pelanggarans as $pelanggaran) {
+                    $point = $pelanggaran['category_pelanggaran']['point'];
+                    $totalPoint += $point;
+                }
+
+                $item->total_point = $totalPoint;
+                return $item;
+            });
+        }
+
 
         $classList = ClassList::all();
 

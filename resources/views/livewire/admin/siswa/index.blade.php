@@ -92,7 +92,9 @@
                 </div>
 
                 <div class="col-auto d-flex">
-                    {{ $itemsPaginate->links() }}
+                    @if (!$textFilter && !$kelasId)
+                        {{ $itemsPaginate->links() }}
+                    @endif
                 </div>
             </div>
         </div>

@@ -38,7 +38,7 @@ Route::middleware('CekAuth')->group(function () {
                 ->middleware('CekAdmin')
                 ->name('admin.auth.logout');
         });
-        Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard')->middleware('503main');
         Route::get('/admin', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->middleware('CekAdmin')->name('admin.admin.index');
 
         Route::get('/teacher', [\App\Http\Controllers\Admin\TeacherController::class, 'index'])->name('admin.teacher.index');
