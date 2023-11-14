@@ -42,36 +42,55 @@ class Student extends Model
         $status = 'confirm';
 
         if (empty($search) && empty($kelas)) {
-            return $builder->with(array_merge(
-                self::$withRelation,
-                ['pelanggaran' => fn ($q) => $q->where('status', $status)]
-            ));
+            return $builder->with(
+                array_merge(
+                    self::$withRelation,
+                    ['pelanggaran' => fn($q) => $q->where('status', $status)]
+                )
+            );
         }
 
         if ($kelas && $search) {
-            return $builder->where(function (Builder $sql) use ($search, $kelas, $status) {
-                $sql->where('class_id', $kelas)->where("full_name", "like", "%{$search}%")->with(array_merge(
-                    self::$withRelation,
-                    ['pelanggaran' => fn ($q) => $q->where('status', $status)]
-                ));
-            });
+            // return $builder->where(function (Builder $sql) use ($search, $kelas, $status) {
+            //     $sql->where('class_id', $kelas)->where("full_name", "like", "%{$search}%")->with(
+            //         array_merge(
+            //             self::$withRelation,
+            //             ['pelanggaran' => fn($q) => $q->where('status', $status)]
+            //         )
+            //     );
+            // });
+            return $builder
+                ->where('class_id', $kelas)->where("full_name", "like", "%{$search}%")->with(
+                    array_merge(
+                        self::$withRelation,
+                        ['pelanggaran' => fn($q) => $q->where('status', $status)]
+                    )
+                );
         }
 
-        if (!$kelas && $search) {
-            return $builder->where(function (Builder $sql) use ($search, $kelas, $status) {
-                $sql->where("full_name", "like", "%{$search}%")->with(array_merge(
+        if ($kelas == '0' && $search) {
+            return $builder->where("full_name", "like", "%{$search}%")->with(
+                array_merge(
                     self::$withRelation,
-                    ['pelanggaran' => fn ($q) => $q->where('status', $status)]
-                ));
-            });
+                    ['pelanggaran' => fn($q) => $q->where('status', $status)]
+                )
+            );
+
+            // return $builder->with(
+            //     array_merge(
+            //         self::$withRelation,
+            //         ['pelanggaran' => fn($q) => $q->where('status', $status)]
+            //     )
+            // )->where("full_name", "like", "%{$search}%");
+
         }
 
-        return $builder->where(function (Builder $sql) use ($search, $kelas, $status) {
-            $sql->where('class_id', $kelas)->with(array_merge(
+        return $builder->where('class_id', $kelas)->with(
+            array_merge(
                 self::$withRelation,
-                ['pelanggaran' => fn ($q) => $q->where('status', $status)]
-            ));
-        });
+                ['pelanggaran' => fn($q) => $q->where('status', $status)]
+            )
+        );
     }
 
     function scopeMineViolation(Builder $builder, int $id, string $year)
@@ -82,9 +101,13 @@ class Student extends Model
             return null;
         }
 
-        $student = $builder->with(['pelanggaran' => function ($q) use ($year, $status) {
-            $q->where('status', $status)->whereYear('created_at', $year);
-        }, 'pelanggaran.category_pelanggaran', 'kelas'])->find($id);
+        $student = $builder->with([
+            'pelanggaran' => function ($q) use ($year, $status) {
+                $q->where('status', $status)->whereYear('created_at', $year);
+            },
+            'pelanggaran.category_pelanggaran',
+            'kelas'
+        ])->find($id);
 
         $violation = $student->pelanggaran;
 

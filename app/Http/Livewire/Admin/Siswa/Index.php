@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Siswa;
 use App\Events\PelanggaranInserted;
 use App\Models\ClassList;
 use App\Models\Student;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithPagination;
@@ -45,10 +46,11 @@ class Index extends Component
         $datas = null;
         $items = null;
         if ($this->textFilter || $this->kelasId != '0') {
-            $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("created_at", $this->filterSort)->get();
+            $datas = Student::search($this->textFilter, $this->kelasId)->orderBy("created_at", $this->filterSort)->get()->toArray();
+            $datas = collect($datas);
             $items = $datas->map(function ($item) {
                 $totalPoint = 0;
-                $pelanggarans = $item->pelanggaran;
+                $pelanggarans = $item['pelanggaran'];
 
                 foreach ($pelanggarans as $pelanggaran) {
                     $point = $pelanggaran['category_pelanggaran']['point'];
@@ -59,10 +61,10 @@ class Index extends Component
                 return $item;
             });
         } else {
-            $datas = Student::orderBy("created_at", $this->filterSort)->simplePaginate(10); // => hati hati saat order by menggunakan query sql. harus menggunakan order by dari collection
+            $datas = Student::search()->orderBy("created_at", $this->filterSort)->simplePaginate(10); // => hati hati saat order by menggunakan query sql. harus menggunakan order by dari collection
             $items = $datas->getCollection()->map(function ($item) {
                 $totalPoint = 0;
-                $pelanggarans = $item->pelanggaran;
+                $pelanggarans = $item['pelanggaran'];
 
                 foreach ($pelanggarans as $pelanggaran) {
                     $point = $pelanggaran['category_pelanggaran']['point'];
@@ -74,8 +76,9 @@ class Index extends Component
             });
         }
 
-
         $classList = ClassList::all();
+
+        \Log::info(DB::getQueryLog());
 
         return view('livewire.admin.siswa.index', [
             'students' => $items,
