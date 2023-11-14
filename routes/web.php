@@ -21,52 +21,6 @@ Route::get('ws', function () {
     // broadcast(new PelanggaranInserted(true));
 });
 
-Route::get('coba-data', function () {
-    // SELECT
-// 	violation_lists.id siswa_id,
-//     students.full_name nama_siswa,
-//     class_lists.name kelas,
-//     SUM(violation_categories.point) jumlah,
-//     COUNT(violation_lists.id) pelanggaran
-// FROM violation_lists
-// 	INNER JOIN violation_categories
-//     	ON violation_lists.violation_category_id = violation_categories.id
-// 	INNER JOIN students
-//     	ON violation_lists.student_id = students.id
-// 	INNER JOIN class_lists ON students.class_id = class_lists.id
-// GROUP BY violation_lists.student_id
-// ORDER BY jumlah DESC
-
-    // DB::table('violation_lists')
-    //     ->join('violation_categories', 'violation_lists.violation_category_id', '=', 'violation_categories.id')
-    //     ->join('students', 'violation_lists.student_id', '=', 'students.id')
-    //     ->join('class_lists', 'students.class_id', '=', 'class_lists.id')->get();
-    $data = ViolationList::with(['category_pelanggaran', 'siswa'])->get()->groupBy('siswa.id');
-    $result = [];
-    foreach ($data as $key => $pelanggarans) {
-        // ambil data pertama atau data keberapapun, jika yang di get nya atribut siswa, tidak akan ada perbedaan data
-        $siswa = $pelanggarans[0]['siswa'];
-
-        $totalPoint = 0;
-        foreach ($pelanggarans as $pelanggaran) {
-            $totalPoint += $pelanggaran['category_pelanggaran']['point'];
-        }
-
-        $result[$totalPoint] = $pelanggarans;
-
-    }
-
-    $result = collect($result); // -> hasilnya adalah array, key array nya adalah total point !
-
-    $result = $result->sortKeysDesc()->toArray();
-
-    dd($result);
-    // foreach ($result as $point => $data) {
-    //     dd(['point' => $point, 'nama siswa' => $data[0]['siswa']['full_name']]);
-    // }
-    // dd(['total' => $result[0]])
-});
-
 Route::get('503', function () {
     $page = [
         'title' => 'Maintenance',
