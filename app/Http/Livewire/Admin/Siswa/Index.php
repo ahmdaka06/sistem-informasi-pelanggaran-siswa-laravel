@@ -59,7 +59,7 @@ class Index extends Component
                 return $item;
             });
         } else {
-            $datas = Student::orderBy("created_at", $this->filterSort)->simplePaginate(10);
+            $datas = Student::orderBy("created_at", $this->filterSort)->simplePaginate(10); // => hati hati saat order by menggunakan query sql. harus menggunakan order by dari collection
             $items = $datas->getCollection()->map(function ($item) {
                 $totalPoint = 0;
                 $pelanggarans = $item->pelanggaran;
