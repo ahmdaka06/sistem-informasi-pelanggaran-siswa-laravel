@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Siswa;
 
+use App\Events\PelanggaranInserted;
 use App\Models\ClassList;
 use App\Models\Student;
 use Livewire\Component;
@@ -16,7 +17,12 @@ class Index extends Component
 
     public $textFilter, $kelasId, $datas, $filterSort = 'asc';
 
-    protected $listeners = ['onChangeKelas' => 'onChangeKelas', 'delete' => 'delete'];
+    protected $listeners = ['onChangeKelas' => 'onChangeKelas', 'delete' => 'delete', 'echo:pelanggaran,PelanggaranInserted' => 'coba'];
+
+    function coba()
+    {
+        dd('coba');
+    }
 
     function onChangeKelas($kelasId)
     {

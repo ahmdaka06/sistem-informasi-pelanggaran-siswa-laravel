@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\CobaEvent;
+use App\Events\PelanggaranInserted;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Imports\StudentImport;
@@ -12,6 +14,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('ws', function () {
+    // PelanggaranInserted::dispatch("Yoi");
+    event(new CobaEvent);
+    // broadcast(new PelanggaranInserted(true));
+});
 
 Route::middleware('CekAuth')->group(function () {
     Route::group(['prefix' => 'admin'], function () {

@@ -118,7 +118,7 @@
                             <img class="rounded-circle header-profile-user"
                                 src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="Header Avatar">
                             <span
-                                class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">{{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->username : Auth::guard('teacher')->user()->username}}</span>
+                                class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">{{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->username : Auth::guard('teacher')->user()->username }}</span>
                             <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -310,6 +310,7 @@
     </script>
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
     {{-- <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script> --}}
 
     @yield('scripts')

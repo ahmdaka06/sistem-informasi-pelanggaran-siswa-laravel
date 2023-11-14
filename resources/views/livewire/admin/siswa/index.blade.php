@@ -6,8 +6,8 @@
         </div>
         <div class="card-body">
             <div class="container-fluid d-flex justify-content-between">
-                @auth("admin")
-                <div>
+                @auth('admin')
+                    <div>
                         <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary waves-effect waves-light">
                             <i class="fa fa-plus fa-fw"></i> Tambah Siswa
                         </a>
@@ -28,7 +28,8 @@
                         </select>
                     </div>
                     <div wire:ignore>
-                        <select class="form-select form-control" style="width: 80px" wire:model='filterSort' name="state" id="state">
+                        <select class="form-select form-control" style="width: 80px" wire:model='filterSort'
+                            name="state" id="state">
                             <option value = "asc" selected>ASC</option>
                             <option value="desc">DESC</option>
                         </select>
@@ -68,13 +69,13 @@
                                 <td>
                                     <a href="{{ route('admin.siswa.show', $item->id) }}"
                                         class="btn btn-primary">Detail</a>
-                                        @auth("admin")
+                                    @auth('admin')
                                         <button class="btn btn-danger" title="Delete"
                                             data-delete-id={{ $item->id }}>Delete</button>
                                         <a href="{{ route('admin.siswa.edit', $item->id) }}"
                                             class="btn btn-primary">Edit</a>
-                                        @endauth
-                                    </td>
+                                    @endauth
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
