@@ -20,6 +20,16 @@ Route::get('ws', function () {
     // broadcast(new PelanggaranInserted(true));
 });
 
+Route::get('503', function () {
+    $page = [
+        'title' => 'Maintenance',
+        'breadcrumb' => [
+            'first' => 'Maintenance'
+        ]
+    ];
+    return view('error.maintenance', compact('page'));
+})->name('503main');
+
 Route::middleware('CekAuth')->group(function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'auth'], function () {
