@@ -2,7 +2,6 @@
     @php
         use Carbon\Carbon;
     @endphp
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     {{-- Success is as dangerous as failure. --}}
     {{-- {{ $detailSiswa }} --}}
     <div class="container-fluid">

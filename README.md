@@ -6,6 +6,7 @@ dashboard admin akan berisikan :
 
 -   data (row) 10 top akan berwarna merah jika admin belum mencetak atau memberikan peringatan ke wali kelasnya
 -   wali kelas akan memverifikasi bahwa orang tua sudah dapat atau bisa dipanggil ke sekolah
+-   admin bisa mencetak laporan wali kelas
 -   wali kelas bisa mencetak surat peringatan (fitur yang tidak di prioritaskan)
 -   wali kelas bisa melihat data point siswa nya saja.
 -   untuk bisa mensimulasikan fitur, data kelas beserta wali kelas nya di butuhkan !

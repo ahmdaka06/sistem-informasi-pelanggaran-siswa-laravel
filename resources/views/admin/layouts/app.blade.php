@@ -210,6 +210,7 @@
                     </div>
                     <!-- end page title -->
                     @include('livewire.components.alert')
+                    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
                     @yield('content')
                 </div> <!-- container-fluid -->
             </div>
