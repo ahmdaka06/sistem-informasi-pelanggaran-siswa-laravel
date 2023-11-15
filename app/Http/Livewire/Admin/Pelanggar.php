@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Tatib_pasal;
 use Livewire\Component;
 use App\Models\ViolationCategory;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -25,7 +26,7 @@ class Pelanggar extends Component
     public function render()
     {
         // $this->pelanggaran = $this->getSortedData();
-
+        $pasal = Tatib_pasal::with('bab')->get();
         $dataQuery = ViolationCategory::orderBy('name', 'ASC');
         if ($this->search <> null) {
             // dd($this->search);
@@ -42,7 +43,7 @@ class Pelanggar extends Component
         }
 
 
-        return view('livewire.admin.pelanggaran.index', compact('data'));
+        return view('livewire.admin.pelanggaran.index', compact('data', 'pasal'));
     }
 
     public function adminRefresh()
@@ -88,7 +89,8 @@ class Pelanggar extends Component
         $pelanggaran->update([
             'jenis_pelanggaran' => $inputPelanggaran['jenis'],
             'name' => $inputPelanggaran['nama'],
-            'point' =>$inputPelanggaran['point']
+            'point' =>$inputPelanggaran['point'],
+            'pasal_id' => $inputPelanggaran['pasal_id'],
         ]);
 
 

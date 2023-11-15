@@ -28,6 +28,17 @@
                     @error('point') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>
 
+                <div class="form-group mb-3">
+                    <label for="exampleFormControlInput1">Pasal</label>
+                    <select class="form-select js-example-basic-single" aria-label="Default select example" id="pasal_id">
+                        <option selected>Pilh Pasal</option>
+                        @foreach($pasal as $pasal)
+                            <option value="{{$pasal->id}}">Bab {{$pasal->bab->nomor_bab}} : Pasal {{$pasal->nomor_pasal}} {{ $pasal->judul_pasal }}</option>
+                        @endforeach
+                    </select>
+                    {{-- @error('full_name') <span class="text-danger error">{{ $message }}</span>@enderror --}}
+                </div>
+
                 <div class="form-group mt-3">
                     <button type="button" wire:loading.attr="disabled" onclick="updateDataPelanggaran()" class="btn btn-success">Update</button>
                 </div>
@@ -139,9 +150,10 @@
                 id  = document.querySelector("#idPelanggaran").value;
                 namaPelanggaran  = document.querySelector("#namaPelanggaran").value;
                 point            = document.querySelector("#point").value;
+                pasal_id            = document.querySelector("#pasal_id").value;
                 jenisPelanggaran = document.querySelector(".js-example-basic-single").value;
                 
-                dataPelanggaran = {id: id, nama : namaPelanggaran, point : point, jenis : jenisPelanggaran};
+                dataPelanggaran = {id: id, nama : namaPelanggaran, point : point, jenis : jenisPelanggaran, pasal_id : pasal_id};
                 console.log(dataPelanggaran);
                 Livewire.emit('update', dataPelanggaran)
 

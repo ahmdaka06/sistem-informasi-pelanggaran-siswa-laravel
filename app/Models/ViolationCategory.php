@@ -12,5 +12,5 @@ class ViolationCategory extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['jenis_pelanggaran','name', 'point'];
+    protected $fillable = ['jenis_pelanggaran','name', 'point', 'pasal_id'];
 }

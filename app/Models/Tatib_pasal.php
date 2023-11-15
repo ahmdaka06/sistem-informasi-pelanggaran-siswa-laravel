@@ -16,8 +16,12 @@ class Tatib_pasal extends Model
         'isi_pasal'
     ];
 
-    function butir()
+    function bab()
     {
-        return $this->hasMany(Tatib_butir_pasal::class, 'pasal_id');
+        return $this->belongsTo(Tatib_bab::class, 'bab_id', 'id');
     }
+    // function butir()
+    // {
+    //     return $this->hasMany(Tatib_butir_pasal::class, 'pasal_id');
+    // }
 }
