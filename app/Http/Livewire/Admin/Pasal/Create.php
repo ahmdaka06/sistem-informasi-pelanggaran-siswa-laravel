@@ -20,15 +20,15 @@ class Create extends Component
         return view('livewire.admin.pasal.create', compact('bab'));
     }
 
-    public function store($idBab){
-        $data = [
-            'bab_id' => $idBab,
-            'nomor_pasal' =>  $this->nomor_pasal,
-            'judul_pasal' => $this->judul_pasal,
-            "isi_pasal" => $this->isi_pasal
-        ];
+    public function store($data){
+        // $data = [
+        //     'bab_id' => $idBab,
+        //     'nomor_pasal' =>  $this->nomor_pasal,
+        //     'judul_pasal' => $this->judul_pasal,
+        //     "isi_pasal" => $this->isi_pasal
+        // ];
 
-        $simpan = Tatib_pasal::create($data);
+        $simpan = Tatib_pasal::insert($data);
 
         $this->alert('success', 'Data berhasil di tambahkan', [
             'toast' => true,

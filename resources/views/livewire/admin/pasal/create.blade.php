@@ -18,44 +18,58 @@
                     @enderror
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-primary waves-effect waves-light btn-sm" data-bs-toggle="modal" data-bs-target="#create">
+                    <button type="button" class="btn btn-primary waves-effect waves-light btn-sm mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create">
                         <i class="fa fa-plus fa-fw"></i> Tambah Bab
                     </button>
                 </div>
             </div>
-
-            <div class="mb-3 row">
-                <label for="example-text-input" class="col-md-2 col-form-label">Nomor Pasal</label>
-                <div class="col-md-10">
-                    <input class="form-control" type="number" wire:model="nomor_pasal"
-                        placeholder="Nomor Pasal">
-                    @error('namaLengkap')
-                        <span class="text-danger error">{{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="example-text-input" class="col-md-2 col-form-label">Judul Pasal</label>
-                <div class="col-md-10">
-                    <input class="form-control" type="text" wire:model="judul_pasal"
-                        placeholder="Judul Pasal">
-                    @error('namaLengkap')
-                        <span class="text-danger error">{{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="mb-3 row">
-                <label for="exampleFormControlTextarea1" class="col-md-2 col-form-label">Isi Pasal</label>
-                <div class="col-md-10">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" wire:model="isi_pasal"></textarea>
-                </div>
-            </div>
-
-
-            <a href="{{ route('admin.siswa.index') }}" class="btn btn-primary">Kembali</a>
-            <button onclick="simpan()" class="btn btn-success disable">Simpan</button>
         </div>
+    </div>
+
+    <button class="btn btn-success btn-sm my-3" id="addPasal">Tambah Pasal</button>
+
+
+     <!-- Form untuk pasal-pasal -->
+        <div id="pasalsContainer" wire:ignore>
+
+            <div class="card shadow-lg rounded form_input_pasal" id="pasal-1">
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <label for="nomor_pasal_1" class="col-md-2 col-form-label">Nomor Pasal</label>
+                        <div class="col-md-10">
+                            <input class="form-control input_nomor_pasal" type="number"
+                                placeholder="Nomor Pasal" id="nomor_pasal_1" name="pasals[1][nomor_pasal]" required>
+                            @error('namaLengkap')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="judul_pasal_1" class="col-md-2 col-form-label">Judul Pasal</label>
+                        <div class="col-md-10">
+                            <input class="form-control input_judul_pasal" type="text"
+                                placeholder="Judul Pasal" id="judul_pasal_1"  name="pasals[1][judul_pasal]"  required>
+                            @error('namaLengkap')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="penjelasan_pasal_1" class="col-md-2 col-form-label">Isi Pasal</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control input_isi_pasal" rows="3"
+                            id="isi_pasal_1" name="pasals[1][isi]" rows="3"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="bg-white shadow p-4">
+        <a href="{{ route('admin.siswa.index') }}" class="btn btn-primary">Kembali</a>
+        <button onclick="simpan()" class="btn btn-success disable">Simpan</button>
     </div>
 </div>
 
@@ -102,11 +116,89 @@
 </div><!-- /.modal -->
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    // Script untuk menambahkan form pasal dinamis
+    var pasalCount = 2;
+
+    function addPasalForm() {
+        var pasalForm = `
+
+        <div class="card shadow-lg rounded form_input_pasal" id="pasal-${pasalCount}">
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <label for="nomor_pasal_${pasalCount}" class="col-md-2 col-form-label">Nomor Pasal</label>
+                        <div class="col-md-10">
+                            <input class="form-control input_nomor_pasal" type="number"
+                                placeholder="Nomor Pasal" id="nomor_pasal_${pasalCount}" name="pasals[${pasalCount}][nomor_pasal]" required>
+                            @error('namaLengkap')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="judul_pasal_${pasalCount}" class="col-md-2 col-form-label">Judul Pasal</label>
+                        <div class="col-md-10">
+                            <input class="form-control input_judul_pasal" type="text"
+                                placeholder="Judul Pasal" id="judul_pasal_${pasalCount}"  name="pasals[${pasalCount}][judul_pasal]" required>
+                            @error('namaLengkap')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="isi_pasal_${pasalCount}" class="col-md-2 col-form-label">Isi Pasal</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control input_isi_pasal" id="isi_pasal_${pasalCount}" rows="3"
+                            name="pasals[${pasalCount}][isi]" rows="3"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-danger" onclick="removePasalForm(${pasalCount})">Hapus Pasal</button>
+                </div>
+            </div>
+        </div>
+        `;
+        document.getElementById('pasalsContainer').insertAdjacentHTML('beforeend', pasalForm);
+        pasalCount++;
+    }
+
+    function removePasalForm(pasalId) {
+        document.getElementById(`pasal-${pasalId}`).remove();
+    }
+
+    document.getElementById('addPasal').addEventListener('click', addPasalForm);
+</script>
+
 <script>
 
         function simpan(){
             let bab_id =  $('.js-example-basic-single').val();
-            Livewire.emit('store', bab_id)
+            let FORM_INPUT_PASAL = document.querySelectorAll(".form_input_pasal");
+            var inputNomorPasal = document.querySelectorAll(".input_nomor_pasal");
+            var inputJudulPasal = document.querySelectorAll(".input_judul_pasal");
+            var inputIsiPasal = document.querySelectorAll(".input_isi_pasal");
+
+            var dataInputPasal = [];
+
+            for(let i = 0; i < FORM_INPUT_PASAL.length; i++){
+                dataInput = {
+                    bab_id : bab_id,
+                    nomor_pasal : inputNomorPasal[i].value,
+                    judul_pasal : inputJudulPasal[i].value,
+                    isi_pasal : inputIsiPasal[i].value
+                };
+
+                dataInputPasal.push(dataInput)
+
+
+            }
+
+            // console.log(dataInputPasal);
+
+            Livewire.emit('store', dataInputPasal)
         }
 
         function simpan_bab(){
@@ -125,8 +217,8 @@
         }
 
         window.livewire.on('berhasil_simpan_bab', (data) => {
-                Swal.hideLoading()
-                $('.bs-example-modal-xl').modal('hide');
+                // Swal.hideLoading()
+                // $('.bs-example-modal-xl').modal('hide');
 
                 text = `Bab ${data.nomor_bab} - ${data.judul}`;
 

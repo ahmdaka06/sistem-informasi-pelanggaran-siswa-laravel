@@ -29,8 +29,15 @@ Route::middleware('CekAuth')->group(function () {
         Route::get('/inbox', [\App\Http\Controllers\Admin\InboxController::class, 'index'])->name('admin.inbox.index');
         Route::get('/pencatatan-pelanggaran', [\App\Http\Controllers\Admin\PencatatanPelanggaranController::class, 'index'])->name('admin.pencatatan.index');
         Route::get('/pelanggaran', [\App\Http\Controllers\Admin\PelanggaranController::class, 'index'])->name('admin.pelanggaran.index');
-        Route::get("pasal", [PasalController::class, "index"]);
-        Route::get("pasal/create", [PasalController::class, "create"])->name('admin.pasal.create');
+
+
+
+        Route::group(['prefix' => 'pasal', "name" => "admin.pasal."], function(){
+            Route::get("pasal", [PasalController::class, "index"])->name('admin.pasal.index');
+            Route::get("pasal/create", [PasalController::class, "create"])->name('admin.pasal.create');
+        });
+
+
         // Siswa
         Route::name('admin.')->group(function () {
             Route::resource('siswa', SiswaController::class);
