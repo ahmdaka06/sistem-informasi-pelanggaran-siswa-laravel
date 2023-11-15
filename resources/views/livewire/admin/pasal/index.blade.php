@@ -49,7 +49,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i> Pelanggaran</h4>
+                    <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i> Pasal</h4>
                 </div>
                 <div class="card-body">
                     @auth("admin")
@@ -63,20 +63,28 @@
                         <table class="table table-bordered mb-0">
                             <thead  class="table-light">
                                 <tr>
+                                    <th>Bab</th>
+                                    <th>Pasal</th>
                                     <th>#</th>
-                                    <th>jenis Pelanggaran</th>
-                                    <th>Nama</th>
-                                    <th>Point</th>
-                                    @auth("admin")
+                                    {{-- <th>Point</th> --}}
+                                    {{-- @auth("admin")
                                         <th>Aksi</th>
-                                    @endauth
+                                    @endauth --}}
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($data as $value)
+                                @foreach ($tatib as $value)
                                 <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $value->jenis_pelanggaran }}</td>
+                                    <td rowspan="{{count($value->pasal) + 1}}">Bab {{ $value->nomor_bab }} {{ $value->judul_bab}}</td>
+                                </tr>
+
+                                    @foreach($value->pasal as $pasal)
+                                    <tr>
+                                        <td>Pasal {{ $pasal->nomor_pasal }} {{ $pasal->judul_pasal }}</td>
+                                        <td><button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#detail" wire:click.prevent="detailPasal('{{$pasal->id}}')"><i class="mdi mdi-eye"></i></button></td>
+                                    </tr>
+                                    @endforeach
+                                    {{-- <td>{{ $value->jenis_pelanggaran }}</td>
                                     <td>{{ $value->name }}</td>
                                     <td>{{ $value->point }}</td>
                                     @auth("admin")
@@ -84,9 +92,9 @@
                                             <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
                                             <a href="javascript:void(0);" class="munculkanselect" onclick="munculkan('{{$value->id}}', '{{$value->name}}', '{{ $value->point }}', '{{$value->jenis_pelanggaran}}' )" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
                                         </td>
-                                    @endauth
-                                </tr>
-                                @endforeach --}}
+                                    @endauth --}}
+                                
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -99,16 +107,17 @@
     <!-- end row -->
     @auth("admin")
         <!--  Extra Large modal example -->
-        <div wire:ignore.self id="create" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div wire:ignore.self id="detail" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i>Tambah Pelanggaran</h5>
-                        <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body">
-                            @include('livewire.admin.pelanggaran.create')
+                        <h1>Isi Pasal</h1>
+                        <pre> {{$isiPasal}} </pre>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

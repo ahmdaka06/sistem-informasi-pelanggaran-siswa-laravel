@@ -1,76 +1,78 @@
 <div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Formulir Input Data Siswa</h4>
-            <p class="card-title-desc">Silahkan isi input di bawah ini.</p>
-
-            <div class="mb-3 row"  wire:ignore>
-                <label for="example-text-input" class="col-md-2 col-form-label">BAB</label>
-                <div class="col-md-8">
-                    <select class="form-select js-example-basic-single">
-                        <option value="" selected>Pilih Bab</option>
-                        @foreach ($bab as $bab)
-                            <option value="{{$bab->id}}">Bab {{ $bab->nomor_bab }} - {{ $bab->judul }}</option>
-                        @endforeach
-                    </select>
-                    @error('bab')
-                        <span class="text-danger error">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary waves-effect waves-light btn-sm mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#create">
-                        <i class="fa fa-plus fa-fw"></i> Tambah Bab
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <button class="btn btn-success btn-sm my-3" id="addPasal">Tambah Pasal</button>
-
-
-     <!-- Form untuk pasal-pasal -->
-        <div id="pasalsContainer" wire:ignore>
-
-            <div class="card shadow-lg rounded form_input_pasal" id="pasal-1">
-                <div class="card-body">
-                    <div class="mb-3 row">
-                        <label for="nomor_pasal_1" class="col-md-2 col-form-label">Nomor Pasal</label>
-                        <div class="col-md-10">
-                            <input class="form-control input_nomor_pasal" type="number"
-                                placeholder="Nomor Pasal" id="nomor_pasal_1" name="pasals[1][nomor_pasal]" required>
-                            @error('namaLengkap')
-                                <span class="text-danger error">{{ $message }}</span>
-                            @enderror
-                        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Formulir Input Data Siswa</h4>
+                <p class="card-title-desc">Silahkan isi input di bawah ini.</p>
+            
+                <div class="mb-3 row"  wire:ignore>
+                    <label for="example-text-input" class="col-md-2 col-form-label">BAB</label>
+                    <div class="col-md-8">
+                        <select class="form-select js-example-basic-single">
+                            <option value="" selected>Pilih Bab</option>
+                            @foreach ($bab as $bab)
+                                <option value="{{$bab->id}}">Bab {{ $bab->nomor_bab }} - {{ $bab->judul_bab }}</option>
+                            @endforeach
+                        </select>
+                        @error('bab')
+                            <span class="text-danger error">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="mb-3 row">
-                        <label for="judul_pasal_1" class="col-md-2 col-form-label">Judul Pasal</label>
-                        <div class="col-md-10">
-                            <input class="form-control input_judul_pasal" type="text"
-                                placeholder="Judul Pasal" id="judul_pasal_1"  name="pasals[1][judul_pasal]"  required>
-                            @error('namaLengkap')
-                                <span class="text-danger error">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="penjelasan_pasal_1" class="col-md-2 col-form-label">Isi Pasal</label>
-                        <div class="col-md-10">
-                            <textarea class="form-control input_isi_pasal" rows="3"
-                            id="isi_pasal_1" name="pasals[1][isi]" rows="3"
-                            ></textarea>
-                        </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary waves-effect waves-light btn-sm mt-2 mt-md-0" data-bs-toggle="modal" data-bs-target="#create">
+                            <i class="fa fa-plus fa-fw"></i> Tambah Bab
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-    <div class="bg-white shadow p-4">
-        <a href="{{ route('admin.siswa.index') }}" class="btn btn-primary">Kembali</a>
-        <button onclick="simpan()" class="btn btn-success disable">Simpan</button>
-    </div>
+        <button class="btn btn-success btn-sm my-3" id="addPasal">Tambah Pasal</button>
+
+
+        <!-- Form untuk pasal-pasal -->
+            <div id="pasalsContainer" wire:ignore>
+
+                <div class="card shadow-lg rounded form_input_pasal" id="pasal-1">
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <label for="nomor_pasal_1" class="col-md-2 col-form-label">Nomor Pasal</label>
+                            <div class="col-md-10">
+                                <input class="form-control input_nomor_pasal" type="number"
+                                    placeholder="Nomor Pasal" id="nomor_pasal_1" name="pasals[1][nomor_pasal]" required>
+                                @error('namaLengkap')
+                                    <span class="text-danger error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="judul_pasal_1" class="col-md-2 col-form-label">Judul Pasal</label>
+                            <div class="col-md-10">
+                                <input class="form-control input_judul_pasal" type="text"
+                                    placeholder="Judul Pasal" id="judul_pasal_1"  name="pasals[1][judul_pasal]"  required>
+                                @error('namaLengkap')
+                                    <span class="text-danger error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="penjelasan_pasal_1" class="col-md-2 col-form-label">Isi Pasal</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control input_isi_pasal" rows="3"
+                                id="isi_pasal_1" name="pasals[1][isi]" rows="3"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        <div class="bg-white shadow p-4">
+            <a href="{{ route('admin.siswa.index') }}" class="btn btn-primary">Kembali</a>
+            <button onclick="simpan()" class="btn btn-success disable">Simpan</button>
+        </div>
 </div>
 
 
@@ -170,11 +172,55 @@
     }
 
     document.getElementById('addPasal').addEventListener('click', addPasalForm);
+
+
+    function reset_pasal(){
+        let formPasal = `
+            <div class="card shadow-lg rounded form_input_pasal" id="pasal-1">
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <label for="nomor_pasal_1" class="col-md-2 col-form-label">Nomor Pasal</label>
+                        <div class="col-md-10">
+                            <input class="form-control input_nomor_pasal" type="number"
+                                placeholder="Nomor Pasal" id="nomor_pasal_1" name="pasals[1][nomor_pasal]" required>
+                            @error('namaLengkap')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="judul_pasal_1" class="col-md-2 col-form-label">Judul Pasal</label>
+                        <div class="col-md-10">
+                            <input class="form-control input_judul_pasal" type="text"
+                                placeholder="Judul Pasal" id="judul_pasal_1"  name="pasals[1][judul_pasal]"  required>
+                            @error('namaLengkap')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="penjelasan_pasal_1" class="col-md-2 col-form-label">Isi Pasal</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control input_isi_pasal" rows="3"
+                            id="isi_pasal_1" name="pasals[1][isi]" rows="3"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
+
+        document.getElementById('pasalsContainer').innerHTML = formPasal;
+    }
 </script>
 
 <script>
 
         function simpan(){
+            // alert("hiiiii");
+
+            // return;
             let bab_id =  $('.js-example-basic-single').val();
             let FORM_INPUT_PASAL = document.querySelectorAll(".form_input_pasal");
             var inputNomorPasal = document.querySelectorAll(".input_nomor_pasal");
@@ -199,6 +245,8 @@
             // console.log(dataInputPasal);
 
             Livewire.emit('store', dataInputPasal)
+            reset_pasal();
+
         }
 
         function simpan_bab(){
