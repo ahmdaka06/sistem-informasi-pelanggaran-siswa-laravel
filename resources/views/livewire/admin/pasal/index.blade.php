@@ -66,10 +66,6 @@
                                     <th>Bab</th>
                                     <th>Pasal</th>
                                     <th>#</th>
-                                    {{-- <th>Point</th> --}}
-                                    {{-- @auth("admin")
-                                        <th>Aksi</th>
-                                    @endauth --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,16 +80,7 @@
                                         <td><button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#detail" wire:click.prevent="detailPasal('{{$pasal->id}}')"><i class="mdi mdi-eye"></i></button></td>
                                     </tr>
                                     @endforeach
-                                    {{-- <td>{{ $value->jenis_pelanggaran }}</td>
-                                    <td>{{ $value->name }}</td>
-                                    <td>{{ $value->point }}</td>
-                                    @auth("admin")
-                                        <td>
-                                            <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
-                                            <a href="javascript:void(0);" class="munculkanselect" onclick="munculkan('{{$value->id}}', '{{$value->name}}', '{{ $value->point }}', '{{$value->jenis_pelanggaran}}' )" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
-                                        </td>
-                                    @endauth --}}
-                                
+
                                 @endforeach
                             </tbody>
                         </table>
@@ -116,8 +103,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h1>Isi Pasal</h1>
-                        <pre> {{$isiPasal}} </pre>
+                        {{-- <h1>{{ $detailPasal->bab->judul_bab }} {{ $detailPasal->bab->nomor_bab }}</h1> --}}
+                        <h2>Pasal {{ $detailPasal['nomor_pasal'] }} : {{ $detailPasal['judul_pasal'] }}</h2>
+                        <div class="mt-3">
+                            <pre> {{$detailPasal['isi_pasal']}} </pre>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

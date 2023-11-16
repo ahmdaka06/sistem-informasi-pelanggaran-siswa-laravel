@@ -21,6 +21,10 @@
     .sidebarshow{
         right: 0;
     }
+
+    table tr, td{
+        border:1px solid black;
+    }
 </style>
     @livewire('admin.pasal')
 @endsection
