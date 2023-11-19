@@ -7,21 +7,24 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    public $filterSiswaTeratas;
+
+    function mount()
+    {
+        $this->filterSiswaTeratas = date('Y-m');
+    }
+    private function siswaTeratas()
+    {
+        [$tahun, $bulan] = explode('-', $this->filterSiswaTeratas);
+        $siswaTeratas = ViolationList::dataTeratasSiswa(5, $bulan, $tahun);
+        return $siswaTeratas;
+    }
+
     public function render()
     {
-        $data = ViolationList::with(['category_pelanggaran', 'siswa'])->get()->groupBy('siswa.id')->map(function ($item) {
-            $totalPoint = 0;
-
-            $dataPelanggaranSiswa = $item;
-
-            foreach ($dataPelanggaranSiswa as $pelanggaran) {
-                $totalPoint += $pelanggaran['category_pelanggaran']['point'];
-            }
-
-            $item->total_point = $totalPoint;
-            return $item;
-        });
-        \Log::info($data->toJson());
-        return view('livewire.admin.dashboard.index');
+        $siswaTeratas = $this->siswaTeratas();
+        return view('livewire.admin.dashboard.index', [
+            'siswaTeratas' => $siswaTeratas
+        ]);
     }
 }
