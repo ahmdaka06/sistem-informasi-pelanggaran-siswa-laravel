@@ -22,7 +22,7 @@ Route::get('/', function () {
     ];
 
     return view('siswa.index', ['id' => Auth::guard('siswa')->user()->id, 'page' => $page]);
-})->name('siswa.dashboard');
+})->middleware('CekAuth', 'CekSiswa')->name('siswa.dashboard');
 
 // Route::get('ws', function () {
 //     // PelanggaranInserted::dispatch("Yoi");
