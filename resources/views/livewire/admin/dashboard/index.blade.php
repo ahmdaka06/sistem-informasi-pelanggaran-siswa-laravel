@@ -105,11 +105,12 @@
                             @foreach ($siswaTeratas as $index => $item)
                                 <div class="row align-items-center g-0 mt-3">
                                     <div class="col-sm-3">
-                                        <p class="text-truncate mt-1 mb-0"><i
-                                                class="mdi mdi-circle-medium text-primary me-2"></i>
-                                            {{ $item->kelas }} - {{ $item->nama_siswa }}
-
-                                        </p>
+                                        <a href="{{route('admin.siswa.show', $item->student_id)}}" class="text-body">
+                                            <p class="text-truncate mt-1 mb-0"><i
+                                                    class="mdi mdi-circle-medium text-primary me-2"></i>
+                                                {{ $item->kelas }} - {{ $item->nama_siswa }}
+                                            </p>
+                                        </a>
                                     </div>
 
                                     <div class="col-sm-8">
