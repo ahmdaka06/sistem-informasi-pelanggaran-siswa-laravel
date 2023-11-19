@@ -3,7 +3,7 @@
             <div class="card-body">
                 <h4 class="card-title">Formulir Input Data Siswa</h4>
                 <p class="card-title-desc">Silahkan isi input di bawah ini.</p>
-            
+
                 <div class="mb-3 row"  wire:ignore>
                     <label for="example-text-input" class="col-md-2 col-form-label">BAB</label>
                     <div class="col-md-8">
@@ -251,11 +251,11 @@
 
         function simpan_bab(){
             let nomor_bab = document.querySelector("#input_nomor_bab").value;
-            let judul = document.querySelector("#input_judul_bab").value;
+            let judul_bab = document.querySelector("#input_judul_bab").value;
 
             let data = {
                 nomor_bab,
-                judul
+                judul_bab
             }
 
             // console.log(data);

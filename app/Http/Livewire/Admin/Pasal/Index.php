@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $isiPasal = "";
+    public $detailPasal = [ 'nomor_pasal' => '' , 'judul_pasal' => "", "isi_pasal" => ""];
     public function render()
     {
         $tatib = Tatib_bab::with("pasal")->get();
@@ -16,10 +16,8 @@ class Index extends Component
     }
 
     public function detailPasal($id){
-        $pasal = Tatib_pasal::find($id);
+        $pasal = Tatib_pasal::with('bab')->where('id', $id)->first();
 
-
-        // dd($pasal->isi_pasal);
-        $this->isiPasal = $pasal->isi_pasal;
+        $this->detailPasal = $pasal;
     }
 }
