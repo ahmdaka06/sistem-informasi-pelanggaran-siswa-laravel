@@ -17,21 +17,28 @@ class CekAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::guard('teacher')->check()){
+        if (Auth::guard('teacher')->check()) {
             if (Auth::guard('teacher')->user()->is_active == 0) {
                 Auth::guard('teacher')->logout();
                 session()->flash('error', 'Akun anda telah dinonaktifkan');
                 return route('admin.auth.guru.login');
             }
             return $next($request);
-        }else if(Auth::guard('admin')->check()){
+        } else if (Auth::guard('admin')->check()) {
             if (Auth::guard('admin')->user()->is_active == 0) {
                 Auth::guard('admin')->logout();
                 session()->flash('error', 'Akun anda telah dinonaktifkan');
                 return route('admin.auth.login');
-        }
+            }
             return $next($request);
-        }else{
+        } else if (Auth::guard('siswa')->check()) {
+            if (Auth::guard('siswa')->user()->is_active == 0) {
+                Auth::guard('siswa')->logout();
+                session()->flash('error', 'Akun anda telah dinonaktifkan');
+                return route('auth.siswa.login');
+            }
+            return $next($request);
+        } else {
             return redirect("admin/auth/login");
         }
 
