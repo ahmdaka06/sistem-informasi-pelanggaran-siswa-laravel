@@ -13,21 +13,24 @@ class LoginController extends Controller
 {
     use LivewireAlert;
 
-
     // public function __construct() {
     //     $this->middleware('guest:admin')->only('index');
     // }
-    public function index(){
+    public function index()
+    {
         return view('admin.auth.guru.login');
     }
 
-    public function login(){
-       echo "hiiii";
+    public function login()
+    {
+        echo "hiiii";
     }
 
 
-    public function logout(){
-        if (Auth::guard('admin')->check() == false) return redirect(route('admin.auth.login'));
+    public function logout()
+    {
+        if (Auth::guard('admin')->check() == false)
+            return redirect(route('admin.auth.login'));
         Auth::guard('admin')->logout();
         session()->flash('success', 'Logout berhasil !!. Selamat datang kembali');
         return redirect(route('admin.auth.login'));

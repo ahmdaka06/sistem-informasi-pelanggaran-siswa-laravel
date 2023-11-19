@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CekAdmin
+class CekSiswa
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class CekAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        $notAdmin = !Auth::guard('admin')->check();
+        $notAdmin = !Auth::guard('siswa')->check();
         if ($notAdmin) {
             return abort(403);
         }

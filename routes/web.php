@@ -5,6 +5,7 @@ use App\Events\PelanggaranInserted;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\PasalController;
+use App\Http\Controllers\Auth\Siswa\LoginController;
 use App\Imports\StudentImport;
 use App\Models\ClassList;
 use App\Models\ViolationList;
@@ -13,14 +14,21 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CobaImport;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $page = [
+        'title' => 'Detail Siswa',
+        'breadcrumb' => [
+            'first' => 'Detail Siswa'
+        ]
+    ];
 
-Route::get('ws', function () {
-    // PelanggaranInserted::dispatch("Yoi");
-    event(new CobaEvent);
-    // broadcast(new PelanggaranInserted(true));
-});
+    return view('siswa.index', ['id' => Auth::guard('siswa')->user()->id, 'page' => $page]);
+})->name('siswa.dashboard');
+
+// Route::get('ws', function () {
+//     // PelanggaranInserted::dispatch("Yoi");
+//     event(new CobaEvent);
+//     // broadcast(new PelanggaranInserted(true));
+// });
 
 Route::get('503', function () {
     $page = [
@@ -35,7 +43,7 @@ Route::get('503', function () {
 Route::middleware('CekAuth')->group(function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'auth'], function () {
-            Route::get('/login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'index'])->withoutMiddleware(['CekAuth'])->name('admin.auth.login');
+            Route::get('/login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'index'])->withoutMiddleware(['CekAuth'])->name('admin.auth.login')->middleware('guest');
             Route::get('/logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])
                 ->middleware('CekAdmin')
                 ->name('admin.auth.logout');
@@ -50,7 +58,7 @@ Route::middleware('CekAuth')->group(function () {
 
 
 
-        Route::group(['prefix' => 'pasal', "name" => "admin.pasal."], function(){
+        Route::group(['prefix' => 'pasal', "name" => "admin.pasal."], function () {
             Route::get("pasal", [PasalController::class, "index"])->name('admin.pasal.index');
             Route::get("pasal/create", [PasalController::class, "create"])->name('admin.pasal.create');
         });
@@ -67,7 +75,7 @@ Route::middleware('CekAuth')->group(function () {
             Route::put('siswa/{siswa}', [SiswaController::class, 'update'])->middleware('CekAdmin')->name('siswa.update');
 
 
-            Route::post('siswa/download/pdf', [SiswaController::class, 'cetakPdf'])->name('siswa.print');
+            Route::post('siswa/download/pdf', [SiswaController::class, 'cetakPdf'])->name('siswa.print')->middleware('CekAdmin');
             Route::resource('kelas', KelasController::class);
         });
 
@@ -82,7 +90,8 @@ Route::middleware('CekAuth')->group(function () {
         Route::get('/guru/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('guru.dashboard');
     });
 
-
+    Route::get('login', [LoginController::class, 'index'])->withoutMiddleware('CehAuth')->name('auth.siswa.login')->middleware('guest');
+    Route::get('logout', [LoginController::class, 'logout'])->middleware('CekSiswa')->name('auth.siswa.logout');
 });
 
 

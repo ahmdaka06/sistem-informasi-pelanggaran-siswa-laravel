@@ -29,7 +29,7 @@ class CekAuth
                 Auth::guard('admin')->logout();
                 session()->flash('error', 'Akun anda telah dinonaktifkan');
                 return route('admin.auth.login');
-            }
+        }
             return $next($request);
         }else{
             return redirect("admin/auth/login");

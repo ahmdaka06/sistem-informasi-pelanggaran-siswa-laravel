@@ -28,6 +28,17 @@ class RedirectIfAuthenticated
                 return redirect(route('admin.dashboard'));
             }
         }
+        
+        if ($request->segment(1) == 'login') {
+            if (Auth::guard('siswa')->check()) {
+                if (Auth::guard('siswa')->user()->is_active == 0) {
+                    Auth::guard('siswa')->logout();
+                    session()->flash('error', 'Akun anda telah dinonaktifkan');
+                    return redirect(route('auth.siswa.login'));
+                }
+                return redirect(route('siswa.dashboard'));
+            }
+        }
         return $next($request);
     }
 }

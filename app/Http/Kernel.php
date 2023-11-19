@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CekSiswa;
 use App\Http\Middleware\MaintenanceMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -57,6 +58,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'CekAuth' => \App\Http\Middleware\CekAuth::class,
         'CekAdmin' => \App\Http\Middleware\CekAdmin::class,
+        'CekSiswa' => CekSiswa::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
