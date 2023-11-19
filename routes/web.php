@@ -43,7 +43,7 @@ Route::get('503', function () {
 Route::middleware('CekAuth')->group(function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'auth'], function () {
-            Route::get('/login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'index'])->withoutMiddleware(['CekAuth'])->name('admin.auth.login')->middleware('guest');
+            Route::get('/login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'index'])->withoutMiddleware(['CekAuth'])->name('admin.auth.login');
             Route::get('/logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])
                 ->middleware('CekAdmin')
                 ->name('admin.auth.logout');
@@ -90,7 +90,7 @@ Route::middleware('CekAuth')->group(function () {
         Route::get('/guru/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('guru.dashboard');
     });
 
-    Route::get('login', [LoginController::class, 'index'])->withoutMiddleware('CehAuth')->name('auth.siswa.login')->middleware('guest');
+    Route::get('login', [LoginController::class, 'index'])->withoutMiddleware('CehAuth')->name('auth.siswa.login');
     Route::get('logout', [LoginController::class, 'logout'])->middleware('CekSiswa')->name('auth.siswa.logout');
 });
 
