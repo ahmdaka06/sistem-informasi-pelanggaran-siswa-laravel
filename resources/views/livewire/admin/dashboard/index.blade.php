@@ -105,7 +105,7 @@
                             @foreach ($siswaTeratas as $index => $item)
                                 <div class="row align-items-center g-0 mt-3">
                                     <div class="col-sm-3">
-                                        <a href="{{route('admin.siswa.show', $item->student_id)}}" class="text-body">
+                                        <a href="{{ route('admin.siswa.show', $item->student_id) }}" class="text-body">
                                             <p class="text-truncate mt-1 mb-0"><i
                                                     class="mdi mdi-circle-medium text-primary me-2"></i>
                                                 {{ $item->kelas }} - {{ $item->nama_siswa }}
@@ -124,7 +124,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="ps-2 col-1">
+                                    <div class="ps-2 col-sm-1">
                                         <small> {{ round(($item->total_point / $siswaTeratas[0]->total_point) * 100) }}%
                                         </small>
                                     </div>
