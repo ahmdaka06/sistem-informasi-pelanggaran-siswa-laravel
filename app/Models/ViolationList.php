@@ -21,8 +21,15 @@ class ViolationList extends Model
         return $this->belongsTo(Student::class, 'student_id', 'id');
     }
 
-    function scopeDataTeratasSiswa(Builder $builder, int $limit = 5)
+    function scopeDataTeratasSiswa(Builder $builder, int $limit = 5, $bulan = null, $tahun = null)
     {
+        if ($bulan == null) {
+            $bulan = date('m');
+        }
+
+        if ($tahun == null) {
+            $tahun = date('Y');
+        }
         // SELECT
         // 	violation_lists.id siswa_id,
         //     students.full_name nama_siswa,
@@ -41,13 +48,18 @@ class ViolationList extends Model
             ->join('students', 'violation_lists.student_id', '=', 'students.id')
             ->join('class_lists', 'students.class_id', '=', 'class_lists.id')
             ->groupBy('violation_lists.student_id')
+            // ->where('violation_lists.created_at', '>=', '2023-01-01')
             ->select(
                 'violation_lists.student_id',
                 'students.full_name as nama_siswa',
                 'class_lists.name as kelas',
-                $builder->raw('SUM(violation_categories.point) as total_violations'),
+                'violation_lists.created_at',
+                $builder->raw('SUM(violation_categories.point) as total_point'),
             )
-            ->orderBy('total_violations', 'desc')->limit($limit)
+            ->orderBy('total_point', 'desc')
+            ->where('violation_lists.created_at', '>=', $tahun . "-" . $bulan . "-01")
+            ->where('violation_lists.created_at', '<=', $tahun . "-" . $bulan . "-31")
+            ->limit($limit)
             ->get();
     }
 }

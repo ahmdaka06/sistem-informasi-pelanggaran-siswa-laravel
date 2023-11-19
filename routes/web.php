@@ -109,6 +109,11 @@ Route::middleware('CekAuth')->group(function () {
 
 
 
+Route::get('coba2', function () {
+    $data = ViolationList::dataTeratasSiswa(5, "11", "2023");
+    \Log::info(DB::getQueryLog());
+    return $data;
+});
 
 Route::get('coba', function () {
     // ClassList::create([
