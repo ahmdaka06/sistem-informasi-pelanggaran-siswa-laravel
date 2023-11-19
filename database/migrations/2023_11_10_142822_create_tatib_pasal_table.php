@@ -18,6 +18,7 @@ class CreateTatibPasalTable extends Migration
             $table->bigInteger("bab_id");
             $table->string("nomor_pasal");
             $table->string("judul_pasal");
+            $table->text("isi_pasal");
             $table->timestamps();
             $table->softDeletes();
         });

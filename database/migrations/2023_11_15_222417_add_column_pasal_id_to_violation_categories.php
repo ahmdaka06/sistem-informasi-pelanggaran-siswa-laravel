@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreteTatibButirPasal extends Migration
+class AddColumnPasalIdToViolationCategories extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreteTatibButirPasal extends Migration
      */
     public function up()
     {
-        Schema::create('tatib_pasal_butir', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger("pasal_id");
-            $table->string("isi_pasal");
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('violation_categories', function (Blueprint $table) {
+            $table->bigInteger("pasal_id")->nullable()->after('point');
         });
     }
 
@@ -29,6 +25,8 @@ class CreteTatibButirPasal extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('violation_categories', function (Blueprint $table) {
+            $table->dropColumn("pasal_id");
+        });
     }
 }

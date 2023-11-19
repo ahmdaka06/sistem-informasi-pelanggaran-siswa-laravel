@@ -21,22 +21,11 @@
                     <textarea class="form-control" id="namaPelanggaran" placeholder="Nama Pelanggaran" rows="5"></textarea>
                     @error('name') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>
-        
+
                 <div class="form-group mb-3">
                     <label for="exampleFormControlInput2">Point</label>
                     <input type="number" class="form-control" id="point">
                     @error('point') <span class="text-danger error">{{ $message }}</span>@enderror
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="exampleFormControlInput1">Pasal</label>
-                    <select class="form-select js-example-basic-single" aria-label="Default select example" id="pasal_id">
-                        <option selected>Pilh Pasal</option>
-                        @foreach($pasal as $pasal)
-                            <option value="{{$pasal->id}}">Bab {{$pasal->bab->nomor_bab}} : Pasal {{$pasal->nomor_pasal}} {{ $pasal->judul_pasal }}</option>
-                        @endforeach
-                    </select>
-                    {{-- @error('full_name') <span class="text-danger error">{{ $message }}</span>@enderror --}}
                 </div>
 
                 <div class="form-group mt-3">
@@ -60,32 +49,42 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i> Pelanggaran</h4>
+                    <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i> Pasal</h4>
                 </div>
                 <div class="card-body">
                     @auth("admin")
-                        <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#create">
+                        {{-- <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#create">
                             <i class="fa fa-plus fa-fw"></i> Tambah Data Pelanggaran
-                        </button>
+                        </button> --}}
+
+                        <a href="{{route('admin.pasal.create')}}" class="btn btn-primary">Tambah Data Pelanggaran</a>
                     @endauth
                     <div class="table-responsive mt-2">
                         <table class="table table-bordered mb-0">
                             <thead  class="table-light">
                                 <tr>
+                                    <th>Bab</th>
+                                    <th>Pasal</th>
                                     <th>#</th>
-                                    <th>jenis Pelanggaran</th>
-                                    <th>Nama</th>
-                                    <th>Point</th>
-                                    @auth("admin")
+                                    {{-- <th>Point</th> --}}
+                                    {{-- @auth("admin")
                                         <th>Aksi</th>
-                                    @endauth
+                                    @endauth --}}
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $value)
+                                @foreach ($tatib as $value)
                                 <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $value->jenis_pelanggaran }}</td>
+                                    <td rowspan="{{count($value->pasal) + 1}}">Bab {{ $value->nomor_bab }} {{ $value->judul_bab}}</td>
+                                </tr>
+
+                                    @foreach($value->pasal as $pasal)
+                                    <tr>
+                                        <td>Pasal {{ $pasal->nomor_pasal }} {{ $pasal->judul_pasal }}</td>
+                                        <td><button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#detail" wire:click.prevent="detailPasal('{{$pasal->id}}')"><i class="mdi mdi-eye"></i></button></td>
+                                    </tr>
+                                    @endforeach
+                                    {{-- <td>{{ $value->jenis_pelanggaran }}</td>
                                     <td>{{ $value->name }}</td>
                                     <td>{{ $value->point }}</td>
                                     @auth("admin")
@@ -93,8 +92,8 @@
                                             <a href="javascript:void(0);" class="px-3 text-danger" onclick="hapus({{$value->id}})"><i class="uil uil-trash-alt font-size-18"></i></a>
                                             <a href="javascript:void(0);" class="munculkanselect" onclick="munculkan('{{$value->id}}', '{{$value->name}}', '{{ $value->point }}', '{{$value->jenis_pelanggaran}}' )" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
                                         </td>
-                                    @endauth
-                                </tr>
+                                    @endauth --}}
+                                
                                 @endforeach
                             </tbody>
                         </table>
@@ -108,16 +107,17 @@
     <!-- end row -->
     @auth("admin")
         <!--  Extra Large modal example -->
-        <div wire:ignore.self id="create" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div wire:ignore.self id="detail" class="modal fade bs-example-modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myExtraLargeModalLabel"><i class="fa fa-plus fa-fw"></i>Tambah Pelanggaran</h5>
-                        <button type="button" wire:click.prevent="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body">
-                            @include('livewire.admin.pelanggaran.create')
+                        <h1>Isi Pasal</h1>
+                        <pre> {{$isiPasal}} </pre>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -142,7 +142,7 @@
 
 
                     $('.js-example-basic-single').val(jenisPelanggaran);
-                    $('.js-example-basic-single').trigger('change'); 
+                    $('.js-example-basic-single').trigger('change');
                     selectSiswa.classList.add('sidebarshow');
             }
 
@@ -150,10 +150,9 @@
                 id  = document.querySelector("#idPelanggaran").value;
                 namaPelanggaran  = document.querySelector("#namaPelanggaran").value;
                 point            = document.querySelector("#point").value;
-                pasal_id            = document.querySelector("#pasal_id").value;
                 jenisPelanggaran = document.querySelector(".js-example-basic-single").value;
-                
-                dataPelanggaran = {id: id, nama : namaPelanggaran, point : point, jenis : jenisPelanggaran, pasal_id : pasal_id};
+
+                dataPelanggaran = {id: id, nama : namaPelanggaran, point : point, jenis : jenisPelanggaran};
                 console.log(dataPelanggaran);
                 Livewire.emit('update', dataPelanggaran)
 

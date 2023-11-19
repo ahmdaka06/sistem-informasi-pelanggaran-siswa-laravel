@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Tatib_pasal;
 use Livewire\Component;
 use App\Models\ViolationCategory;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -11,7 +12,7 @@ class Pelanggar extends Component
     use LivewireAlert;
 
     public $pelanggaran, $no = 1, $search;
-    protected $listeners = ['delete', 'adminRefresh'];
+    protected $listeners = ['delete', 'adminRefresh', 'update'];
     public $isFormEdit = false;
 
     public $primaryKey, $jenis_pelanggaran, $name, $point;
@@ -25,8 +26,8 @@ class Pelanggar extends Component
     public function render()
     {
         // $this->pelanggaran = $this->getSortedData();
-
-        $dataQuery = ViolationCategory::orderBy('id', 'DESC');
+        $pasal = Tatib_pasal::with('bab')->get();
+        $dataQuery = ViolationCategory::orderBy('name', 'ASC');
         if ($this->search <> null) {
             // dd($this->search);
             $dataQuery->where(function ($query) {
@@ -35,14 +36,14 @@ class Pelanggar extends Component
                 ->orWhere('name', 'like', '%'.$this->search.'%')
                 ->orWhere('point', 'like', '%'.$this->search.'%');
             });
-            $data = $this->getSortedData($dataQuery->get());
+            $data = $this->getSortedData($dataQuery->orderBy('name', 'asc')->get());
         } else{
-            $dataQuery = ViolationCategory::all();
+            $dataQuery = ViolationCategory::orderBy('name', 'asc')->get();
             $data = $this->getSortedData($dataQuery);
         }
 
 
-        return view('livewire.admin.pelanggaran.index', compact('data'));
+        return view('livewire.admin.pelanggaran.index', compact('data', 'pasal'));
     }
 
     public function adminRefresh()
@@ -80,13 +81,16 @@ class Pelanggar extends Component
         $this->jenis_pelanggaran = $pelanggaran->jenis_pelanggaran;
         $this->name = $pelanggaran->name;
         $this->point = $pelanggaran->point;
+
     }
 
-    public function update(ViolationCategory $pelanggaran){
+    public function update($inputPelanggaran){
+        $pelanggaran = ViolationCategory::find($inputPelanggaran['id']);
         $pelanggaran->update([
-            'jenis_pelanggaran' => $this->jenis_pelanggaran,
-            'name' => $this->name,
-            'point' => $this->point
+            'jenis_pelanggaran' => $inputPelanggaran['jenis'],
+            'name' => $inputPelanggaran['nama'],
+            'point' =>$inputPelanggaran['point'],
+            'pasal_id' => $inputPelanggaran['pasal_id'],
         ]);
 
 
@@ -99,12 +103,15 @@ class Pelanggar extends Component
 
 
     function delete(ViolationCategory $pelanggaran){
-        // return $pelanggaran;
-        // dd($pelanggaran);
-        // $pelanggaran = ViolationCategory::find($id);
+
         $pelanggaran->delete();
 
-        // $this->pelanggaran = $this->getSortedData(ViolationCategory::all());
+        $this->alert('success', 'Data berhasil di hapus', [
+            'toast' => true,
+            'position' => 'top-right',
+            'showConfirmButton' => false,
+            'timer' => 3000
+        ]);
     }
 
     function getSortedData($data){

@@ -22,6 +22,5 @@
         right: 0;
     }
 </style>
-
-    @livewire('admin.pelanggar')
+    @livewire('admin.pasal')
 @endsection

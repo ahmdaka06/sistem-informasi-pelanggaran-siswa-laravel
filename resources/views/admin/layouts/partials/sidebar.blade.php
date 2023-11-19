@@ -31,6 +31,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('admin.pasal.index') }}">
+                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                    <span>Pasal</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.pencatatan.index') }}">
                                     <i class="mdi mdi-account-multiple-outline"></i>
                                     <span>Pencatatan</span>
