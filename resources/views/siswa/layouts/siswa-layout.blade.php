@@ -118,7 +118,7 @@
                             <img class="rounded-circle header-profile-user"
                                 src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="Header Avatar">
                             <span
-                                class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">{{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->username : Auth::guard('teacher')->user()->username }}</span>
+                                class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">{{ Auth::guard('siswa')->check() ? Auth::guard('siswa')->user()->full_name : 'null' }}</span>
                             <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
