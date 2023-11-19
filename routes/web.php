@@ -90,7 +90,7 @@ Route::middleware('CekAuth')->group(function () {
         Route::get('/guru/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('guru.dashboard');
     });
 
-    Route::get('login', [LoginController::class, 'index'])->withoutMiddleware('CehAuth')->name('auth.siswa.login');
+    Route::get('login', [LoginController::class, 'index'])->withoutMiddleware('CekAuth')->name('auth.siswa.login');
     Route::get('logout', [LoginController::class, 'logout'])->middleware('CekSiswa')->name('auth.siswa.logout');
 });
 
