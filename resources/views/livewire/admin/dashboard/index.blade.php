@@ -8,9 +8,10 @@
                         <div class="card-body">
 
                             <div>
-                                <h4 class="mb-1 mt-1">{{ \Str::limit('Reza Khoirul Wijaya Putra', 20, ' ...') }}</h4>
+                                <h4 class="mb-1 mt-1">{{ \Str::limit($siswaTerakhir->siswa->full_name, 20, ' ...') }}</h4>
                                 <p class="text-muted mb-0">(Siswa terakhir yang melanggar)</p>
                             </div>
+
                             <p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i
                                         class="mdi mdi-arrow-up-bold me-1"></i>2.65%</span> since last week
                             </p>
@@ -215,95 +216,39 @@
                                     <a class="dropdown-item" href="#">Yearly</a>
                                     <a class="dropdown-item" href="#">Weekly</a>
                                 </div> --}}
-                                    <input class="form-control form-control-sm" type="month" value="{{ date('Y-m') }}"
-                                        id="month-input">
+                                    <input class="form-control form-control-sm" wire:model='filterKelasTeratas'
+                                        type="month" value="{{ date('Y-m') }}" id="month-input">
                                 </div>
                             </div>
 
                             <h4 class="card-title mb-4">Kelas Teratas</h4>
 
+                            @foreach ($kelasTeratas as $index => $item)
+                                <div class="row align-items-center g-0 mt-3">
+                                    <div class="col-sm-3">
+                                        <p class="text-truncate mt-1 mb-0"><i
+                                                class="mdi mdi-circle-medium text-primary me-2"></i>
+                                            {{ $item->kelas }}
+                                        </p>
+                                    </div>
 
-                            <div class="row align-items-center g-0 mt-3">
-                                <div class="col-sm-3">
-                                    <p class="text-truncate mt-1 mb-0"><i
-                                            class="mdi mdi-circle-medium text-primary me-2"></i>
-                                        Abdulloh
-                                    </p>
-                                </div>
-
-                                <div class="col-sm-9">
-                                    <div class="progress mt-1" style="height: 6px;">
-                                        <div class="progress-bar progress-bar bg-primary" role="progressbar"
-                                            aria-valuenow="52" aria-valuemin="0" aria-valuemax="52" style="width: 10%">
+                                    <div class="col-sm-8">
+                                        <div class="progress mt-1" style="height: 25px;">
+                                            <div class="progress-bar progress-bar @if ($index == 0) bg-danger @elseif ($index == 1) bg-warning @else bg-primary @endif d-flex align-items-start ps-2"
+                                                role="progressbar" aria-valuenow="52" aria-valuemin="0"
+                                                aria-valuemax="{{ $item->total_point }}"
+                                                style="width: {{ ($item->total_point / $kelasTeratas[0]->total_point) * 100 }}%">
+                                                <b class="">{{ $item->total_point }} Point</b>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div> <!-- end row-->
 
-                            <div class="row align-items-center g-0 mt-3">
-                                <div class="col-sm-3">
-                                    <p class="text-truncate mt-1 mb-0"><i
-                                            class="mdi mdi-circle-medium text-info me-2"></i>
-                                        iPhones
-                                    </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="progress mt-1" style="height: 6px;">
-                                        <div class="progress-bar progress-bar bg-info" role="progressbar"
-                                            style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="45">
-                                        </div>
+                                    <div class="ps-2 col-sm-1">
+                                        <small> {{ round(($item->total_point / $kelasTeratas[0]->total_point) * 100) }}%
+                                        </small>
                                     </div>
-                                </div>
-                            </div> <!-- end row-->
-
-                            <div class="row align-items-center g-0 mt-3">
-                                <div class="col-sm-3">
-                                    <p class="text-truncate mt-1 mb-0"><i
-                                            class="mdi mdi-circle-medium text-success me-2"></i>
-                                        Android
-                                    </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="progress mt-1" style="height: 6px;">
-                                        <div class="progress-bar progress-bar bg-success" role="progressbar"
-                                            style="width: 48%" aria-valuenow="48" aria-valuemin="0" aria-valuemax="48">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end row-->
-
-                            <div class="row align-items-center g-0 mt-3">
-                                <div class="col-sm-3">
-                                    <p class="text-truncate mt-1 mb-0"><i
-                                            class="mdi mdi-circle-medium text-warning me-2"></i>
-                                        Tablets
-                                    </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="progress mt-1" style="height: 6px;">
-                                        <div class="progress-bar progress-bar bg-warning" role="progressbar"
-                                            style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="78">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end row-->
-
-                            <div class="row align-items-center g-0 mt-3">
-                                <div class="col-sm-3">
-                                    <p class="text-truncate mt-1 mb-0"><i
-                                            class="mdi mdi-circle-medium text-purple me-2"></i>
-                                        Cables
-                                    </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="progress mt-1" style="height: 6px;">
-                                        <div class="progress-bar progress-bar bg-purple" role="progressbar"
-                                            style="width: 63%" aria-valuenow="63" aria-valuemin="0" aria-valuemax="63">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end row-->
-
+                                </div> <!-- end row-->
+                            @endforeach
                         </div> <!-- end card-body-->
                     </div>
                 </div>
