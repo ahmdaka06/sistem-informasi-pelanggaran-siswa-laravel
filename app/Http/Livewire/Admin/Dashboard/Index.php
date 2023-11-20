@@ -37,6 +37,7 @@ class Index extends Component
 
         $siswaMelanggarHariIni = 0;
         $siswaMelanggarHariKemarin = 0;
+        $kenaikanPadaHariIni = false;
 
         foreach ($siswaMelanggarHarian as $harian) {
             \Log::info($harian);
@@ -48,7 +49,13 @@ class Index extends Component
         }
 
         try {
-            $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariIni - $siswaMelanggarHariKemarin) / $siswaMelanggarHariIni * 100);
+            if ($siswaMelanggarHariIni > $siswaMelanggarHariKemarin) {
+                $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariIni - $siswaMelanggarHariKemarin) / $siswaMelanggarHariIni * 100);
+                $kenaikanPadaHariIni = true;
+            } else if ($siswaMelanggarHariKemarin > $siswaMelanggarHariIni) {
+                $kenaikanPadaHariIni = false;
+                $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariIni - $siswaMelanggarHariKemarin) / $siswaMelanggarHariIni * 100);
+            }
         } catch (\DivisionByZeroError $e) {
             $persentaseKenaikanSiswaHarian = 0;
         }
@@ -58,6 +65,6 @@ class Index extends Component
             'siswaTeratas' => $siswaTeratas,
             'kelasTeratas' => $kelasTeratas,
             'siswaTerakhir' => $siswaTerakhir
-        ], compact(['siswaMelanggarHariIni', 'persentaseKenaikanSiswaHarian', 'siswaMelanggarHariKemarin'])));
+        ], compact(['siswaMelanggarHariIni', 'persentaseKenaikanSiswaHarian', 'siswaMelanggarHariKemarin', "kenaikanPadaHariIni"])));
     }
 }
