@@ -23,7 +23,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="float-end mt-2">
-                                <div id="orders-chart" data-colors="[&quot;--bs-success&quot;]" style="min-height: 46px;">
+                                <div id="siswa-melanggar-hari-ini" data-colors="[&quot;--bs-success&quot;]"
+                                    style="min-height: 46px;">
                                 </div>
                             </div>
                             <div>
@@ -385,40 +386,55 @@
                 }
 
                 var options, chart;
-                var RadialchartOrdersChartColors = getChartColorsArray("orders-chart");
+                var RadialchartOrdersChartColors = getChartColorsArray("siswa-melanggar-hari-ini");
                 if (RadialchartOrdersChartColors) {
                     options = {
+                        series: [{
+                            name: 'Jumlah Siswa',
+                            data: [{{$siswaMelanggarHariKemarin}}, {{$siswaMelanggarHariIni}}]
+                        }],
                         fill: {
-                            colors: RadialchartOrdersChartColors
+                            colors: BarchartGrowthColors
                         },
-                        series: [70],
                         chart: {
-                            type: "radialBar",
-                            width: 45,
-                            height: 45,
+                            type: "bar",
+                            width: 70,
+                            height: 40,
                             sparkline: {
                                 enabled: true
                             }
                         },
-                        dataLabels: {
-                            enabled: false
-                        },
                         plotOptions: {
-                            radialBar: {
-                                hollow: {
-                                    margin: 0,
-                                    size: "60%"
-                                },
-                                track: {
-                                    margin: 0
-                                },
-                                dataLabels: {
-                                    show: false
-                                }
+                            bar: {
+                                columnWidth: "50%"
                             }
+                        },
+                        labels: ["Kemarin", "Hari Ini"],
+                        xaxis: {
+                            crosshairs: {
+                                width: 1
+                            }
+                        },
+                        tooltip: {
+                            fixed: {
+                                enabled: false
+                            },
+                            // x: {
+                            //     show: false
+                            // },
+                            // y: {
+                            //     title: {
+                            //         formatter: function(val) {
+                            //             return "";
+                            //         }
+                            //     }
+                            // },
+                            // marker: {
+                            //     show: false
+                            // }
                         }
                     };
-                    chart = new ApexCharts(document.querySelector("#orders-chart"), options);
+                    chart = new ApexCharts(document.querySelector("#siswa-melanggar-hari-ini"), options);
                     chart.render();
                 }
 

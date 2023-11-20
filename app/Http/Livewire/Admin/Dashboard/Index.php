@@ -34,15 +34,29 @@ class Index extends Component
         $kelasTeratas = $this->kelasTeratas();
         $siswaTerakhir = ViolationList::siswaTerakhir();
         $siswaMelanggarHarian = ViolationList::siswaMelanggarHariIniDanHariKemarin();
-        $siswaMelanggarHariIni = $siswaMelanggarHarian[0]['jumlah_siswa'];
-        $siswaMelanggarHariKemarin = $siswaMelanggarHarian[1]['jumlah_siswa'];
-        // \Log::info($siswaMelanggarHariIni);
-        $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariKemarin - $siswaMelanggarHariIni) / $siswaMelanggarHariKemarin * 100);
+
+        $siswaMelanggarHariIni = 0;
+        $siswaMelanggarHariKemarin = 0;
+
+        foreach ($siswaMelanggarHarian as $harian) {
+            \Log::info($harian);
+            if ($harian['tanggal'] == date('Y-m-d')) {
+                $siswaMelanggarHariIni = $harian['jumlah_siswa'];
+            } else if ($harian['tanggal'] != date('Y-m-d')) {
+                $siswaMelanggarHariKemarin = $harian['jumlah_siswa'];
+            }
+        }
+
+        try {
+            $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariIni - $siswaMelanggarHariKemarin) / $siswaMelanggarHariIni * 100);
+        } catch (\DivisionByZeroError $e) {
+            $persentaseKenaikanSiswaHarian = 0;
+        }
         // \Log::info(DB::getQueryLog());
         return view('livewire.admin.dashboard.index', array_merge([
             'siswaTeratas' => $siswaTeratas,
             'kelasTeratas' => $kelasTeratas,
             'siswaTerakhir' => $siswaTerakhir
-        ], compact(['siswaMelanggarHariIni', 'persentaseKenaikanSiswaHarian'])));
+        ], compact(['siswaMelanggarHariIni', 'persentaseKenaikanSiswaHarian', 'siswaMelanggarHariKemarin'])));
     }
 }

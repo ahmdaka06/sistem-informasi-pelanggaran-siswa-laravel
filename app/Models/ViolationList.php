@@ -83,7 +83,7 @@ class ViolationList extends Model
 
     function scopeSiswaMelanggarHariIniDanHariKemarin(Builder $builder)
     {
-        $currentDate = new \DateTime(date('2022-01-06'));
+        $currentDate = new \DateTime(date('Y-m-d'));
         return $builder
             ->whereRaw('DATE(created_at) = ?', [$currentDate->format('Y-m-d')])
             ->orWhereRaw('DATE(created_at) = ?', $currentDate->modify('-1 day')->format('Y-m-d'))
