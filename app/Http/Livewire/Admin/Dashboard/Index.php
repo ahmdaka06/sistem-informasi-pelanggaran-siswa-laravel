@@ -33,7 +33,7 @@ class Index extends Component
         $siswaTeratas = $this->siswaTeratas();
         $kelasTeratas = $this->kelasTeratas();
         $siswaTerakhir = ViolationList::siswaTerakhir();
-        \Log::info(DB::getQueryLog());
+        // \Log::info(DB::getQueryLog());
         return view('livewire.admin.dashboard.index', [
             'siswaTeratas' => $siswaTeratas,
             'kelasTeratas' => $kelasTeratas,

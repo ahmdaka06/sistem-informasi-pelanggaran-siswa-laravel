@@ -1,24 +1,28 @@
 <div>
     {{-- {{ response()->json($students, 200) }} --}}
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i>Data Siswa</h4>
-        </div>
-        <div class="card-body">
-            <div class="container-fluid d-flex justify-content-between">
-                @auth('admin')
-                    <div>
+    <div class="row">
+        <div class="col-xl-6">
+            @auth('admin')
+                <div class="row">
+                    <div class="col-xl-3 mb-2 pe-0">
                         <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary waves-effect waves-light">
                             <i class="fa fa-plus fa-fw"></i> Tambah Siswa
                         </a>
+                    </div>
+
+                    <div class="col-xl-9 mb-2 pe-0">
                         <a href="{{ route('admin.siswa.create', ['excel' => true]) }}"
                             class="btn btn-success waves-effect waves-light mt-">
                             <i class="fa fa-plus fa-fw"></i> Tambah Siswa via Excel
                         </a>
                     </div>
-                @endauth
+                </div>
+            @endauth
+        </div>
 
-                <div class="d-flex">
+        <div class="col-xl-6">
+            <div class="row">
+                <div class="col-xl-4 mb-2">
                     <div wire:ignore>
                         <select class="form-select js-example-basic-single form-control" name="state" id="state">
                             <option value = "0" selected>Pilih Kelas</option>
@@ -27,20 +31,34 @@
                             @endforeach
                         </select>
                     </div>
+                </div>
+
+                <div class="col-xl-4 mb-2">
                     <div wire:ignore>
-                        <select class="form-select form-control" style="width: 80px" wire:model='filterSort'
-                            name="state" id="state">
-                            <option value = "asc" selected>ASC</option>
+                        <select class="form-select" style="width: 100%" wire:model='filterSort' name="state"
+                            id="state">
+                            <option value="asc" selected>ASC</option>
                             <option value="desc">DESC</option>
                         </select>
+                        @error('kelas')
+                            <span class="text-danger error">{{ $message }}</span>
+                        @enderror
                     </div>
-                    @error('kelas')
-                        <span class="text-danger error">{{ $message }}</span>
-                    @enderror
-                    <input type="text" class="form-control form-control-sm" wire:model="textFilter"
-                        placeholder="Cari Nama">
+                </div>
+
+                <div class="col-xl-4 mb-2">
+                    <input type="text" class="form-control" wire:model="textFilter" placeholder="Cari Nama">
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title"><i class="mdi mdi-format-list-bulleted-square"></i>Data Siswa</h4>
+        </div>
+        <div class="card-body">
             <div class="table-responsive mt-2">
                 <table class="table table-bordered mb-0">
                     <thead class="table-light">
