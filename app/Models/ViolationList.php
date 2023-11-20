@@ -92,4 +92,28 @@ class ViolationList extends Model
             ->selectRaw('DATE(created_at) as tanggal, COUNT(id) as jumlah_siswa')
             ->get();
     }
+
+    function scopeDetailCategoryPelanggaran(Builder $builder, $tahun = null, $bulan = null)
+    {
+        $dataPelanggaran = $builder->join('violation_categories', 'violation_lists.violation_category_id', '=', 'violation_categories.id')
+            ->groupBy('violation_lists.violation_category_id')
+            ->select(
+                $builder->raw('DATE(violation_lists.created_at) as tanggal'),
+                'violation_categories.name',
+                $builder->raw('COUNT(violation_lists.id) as counta'),
+            )
+            ->orderBy('tanggal', 'desc')
+            // ->where('violation_lists.created_at', '>=', $tahun . "-" . $bulan . "-01")
+            // ->where('violation_lists.created_at', '<=', $tahun . "-" . $bulan . "-31")
+            ->get();
+
+        $namaNamaPelanggaran = $dataPelanggaran->map(function ($item) {
+            return $item->name;
+        });
+
+        return [
+            'namaNamaPelanggaran' => $namaNamaPelanggaran,
+            // ''
+        ];
+    }
 }

@@ -52,7 +52,8 @@ class Index extends Component
         } catch (\DivisionByZeroError $e) {
             $persentaseKenaikanSiswaHarian = 0;
         }
-        // \Log::info(DB::getQueryLog());
+
+        \Log::info(DB::getQueryLog());
         return view('livewire.admin.dashboard.index', array_merge([
             'siswaTeratas' => $siswaTeratas,
             'kelasTeratas' => $kelasTeratas,

@@ -391,7 +391,7 @@
                     options = {
                         series: [{
                             name: 'Jumlah Siswa',
-                            data: [{{$siswaMelanggarHariKemarin}}, {{$siswaMelanggarHariIni}}]
+                            data: [{{ $siswaMelanggarHariKemarin }}, {{ $siswaMelanggarHariIni }}]
                         }],
                         fill: {
                             colors: BarchartGrowthColors
@@ -493,83 +493,143 @@
                 var options, chart;
                 var LinechartsalesColors = getChartColorsArray("sales-analytics-chart");
                 if (LinechartsalesColors) {
+                    // options = {
+                    //     chart: {
+                    //         height: 343,
+                    //         type: "line",
+                    //         stacked: false,
+                    //         toolbar: {
+                    //             show: false
+                    //         }
+                    //     },
+                    //     stroke: {
+                    //         width: [0, 2, 4],
+                    //         curve: "smooth"
+                    //     },
+                    //     plotOptions: {
+                    //         bar: {
+                    //             columnWidth: "30%"
+                    //         }
+                    //     },
+                    //     colors: LinechartsalesColors,
+                    //     series: [{
+                    //             name: "Tawuran",
+                    //             type: "column",
+                    //             data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+                    //         },
+                    //         {
+                    //             name: "Merusak Fasilitas Sekolah",
+                    //             type: "area",
+                    //             data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+                    //         },
+                    //         {
+                    //             name: "Bolos Sekolah",
+                    //             type: "line",
+                    //             data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
+                    //         }
+                    //     ],
+                    //     fill: {
+                    //         opacity: [.85, .25, 1],
+                    //         gradient: {
+                    //             inverseColors: false,
+                    //             shade: "light",
+                    //             type: "vertical",
+                    //             opacityFrom: .85,
+                    //             opacityTo: .55,
+                    //             stops: [0, 100, 100, 100]
+                    //         }
+                    //     },
+                    //     labels: ["01/01/2003", "02/01/2003", "03/01/2003", "04/01/2003", "05/01/2003", "06/01/2003",
+                    //         "07/01/2003", "08/01/2003", "09/01/2003", "10/01/2003", "11/01/2003"
+                    //     ],
+                    //     markers: {
+                    //         size: 0
+                    //     },
+                    //     xaxis: {
+                    //         type: "datetime"
+                    //     },
+                    //     yaxis: {
+                    //         title: {
+                    //             text: "Points"
+                    //         }
+                    //     },
+                    //     tooltip: {
+                    //         shared: true,
+                    //         intersect: false,
+                    //         y: {
+                    //             formatter: function(val) {
+                    //                 return undefined !== val ? val.toFixed(0) + " points" : val;
+                    //             }
+                    //         }
+                    //     },
+                    //     grid: {
+                    //         borderColor: "#f1f1f1"
+                    //     }
+                    // };
                     options = {
+                        series: [{
+                            name: 'Marine Sprite',
+                            data: [44, 55, 41, 37, 22, 43, 21]
+                        }, {
+                            name: 'Striking Calf',
+                            data: [53, 32, 33, 52, 13, 43, 32]
+                        }, {
+                            name: 'Tank Picture',
+                            data: [12, 17, 11, 9, 15, 11, 20]
+                        }, {
+                            name: 'Bucket Slope',
+                            data: [9, 7, 5, 8, 6, 9, 4]
+                        }, {
+                            name: 'Reborn Kid',
+                            data: [25, 12, 19, 32, 25, 24, 10]
+                        }],
                         chart: {
-                            height: 343,
-                            type: "line",
-                            stacked: false,
-                            toolbar: {
-                                show: false
-                            }
-                        },
-                        stroke: {
-                            width: [0, 2, 4],
-                            curve: "smooth"
+                            type: 'bar',
+                            height: 350,
+                            stacked: true,
+                            stackType: '100%'
                         },
                         plotOptions: {
                             bar: {
-                                columnWidth: "30%"
-                            }
-                        },
-                        colors: LinechartsalesColors,
-                        series: [{
-                                name: "Tawuran",
-                                type: "column",
-                                data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+                                horizontal: true,
                             },
-                            {
-                                name: "Merusak Fasilitas Sekolah",
-                                type: "area",
-                                data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
-                            },
-                            {
-                                name: "Bolos Sekolah",
-                                type: "line",
-                                data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
-                            }
-                        ],
-                        fill: {
-                            opacity: [.85, .25, 1],
-                            gradient: {
-                                inverseColors: false,
-                                shade: "light",
-                                type: "vertical",
-                                opacityFrom: .85,
-                                opacityTo: .55,
-                                stops: [0, 100, 100, 100]
-                            }
                         },
-                        labels: ["01/01/2003", "02/01/2003", "03/01/2003", "04/01/2003", "05/01/2003", "06/01/2003",
-                            "07/01/2003", "08/01/2003", "09/01/2003", "10/01/2003", "11/01/2003"
-                        ],
-                        markers: {
-                            size: 0
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                colors: ['#F44336'], // Ganti dengan warna yang diinginkan
+                            },
+                        },
+                        stroke: {
+                            width: 1,
+                            colors: ['#fff']
+                        },
+                        title: {
+                            text: '100% Stacked Bar'
                         },
                         xaxis: {
-                            type: "datetime"
-                        },
-                        yaxis: {
-                            title: {
-                                text: "Points"
-                            }
+                            categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
                         },
                         tooltip: {
-                            shared: true,
-                            intersect: false,
                             y: {
                                 formatter: function(val) {
-                                    return undefined !== val ? val.toFixed(0) + " points" : val;
+                                    return val + "K"
                                 }
                             }
                         },
-                        grid: {
-                            borderColor: "#f1f1f1"
+                        fill: {
+                            opacity: 1
+
+                        },
+                        legend: {
+                            position: 'top',
+                            horizontalAlign: 'left',
+                            offsetX: 40
                         }
-                    };
+                    }
                     chart = new ApexCharts(document.querySelector("#sales-analytics-chart"), options);
                     chart.render();
                 }
-                ``
             </script>
         </div>
     @endauth
