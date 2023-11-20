@@ -39,6 +39,9 @@ class CekAuth
             }
             return $next($request);
         } else {
+            if ($request->segment(1) == null || !$request->segment(1) || $request->segment(1) == 'siswa ') {
+                return redirect(route('auth.siswa.login'));
+            }
             return redirect("admin/auth/login");
         }
 

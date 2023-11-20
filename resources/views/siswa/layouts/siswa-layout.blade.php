@@ -126,7 +126,7 @@
                             <a class="dropdown-item d-block" href="#"><i
                                     class="uil uil-cog font-size-18 align-middle me-1 text-muted"></i> <span
                                     class="align-middle">Settings</span></a>
-                            <a class="dropdown-item" href="#"><i
+                            <a class="dropdown-item" href="{{ route('logout.all') }}"><i
                                     class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span
                                     class="align-middle">Sign out</span></a>
                         </div>

@@ -9,20 +9,22 @@ use App\Http\Controllers\Auth\Siswa\LoginController;
 use App\Imports\StudentImport;
 use App\Models\ClassList;
 use App\Models\ViolationList;
+use App\Services\AuthService;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CobaImport;
 
-Route::get('/', function () {
-    $page = [
-        'title' => 'Detail Siswa',
-        'breadcrumb' => [
-            'first' => 'Detail Siswa'
-        ]
-    ];
-
-    return view('siswa.index', ['id' => Auth::guard('siswa')->user()->id, 'page' => $page]);
-})->middleware('CekAuth', 'CekSiswa')->name('siswa.dashboard');
+Route::prefix('siswa')->group(function () {
+    Route::get('dashboard', function () {
+        $page = [
+            'title' => 'Detail Siswa',
+            'breadcrumb' => [
+                'first' => 'Detail Siswa'
+            ]
+        ];
+        return view('siswa.index', ['id' => Auth::guard('siswa')->user()->id, 'page' => $page]);
+    })->middleware('CekAuth', 'CekSiswa')->name('siswa.dashboard');
+});
 
 // Route::get('ws', function () {
 //     // PelanggaranInserted::dispatch("Yoi");
@@ -89,6 +91,15 @@ Route::middleware('CekAuth')->group(function () {
         });
         Route::get('/guru/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('guru.dashboard');
     });
+
+    Route::get('logout-all', function () {
+        try {
+            AuthService::logout();
+            return redirect()->back();
+        } catch (Throwable $e) {
+            \Log::error($e->getMessage());
+        }
+    })->name('logout.all');
 
     Route::get('login', [LoginController::class, 'index'])->withoutMiddleware('CekAuth')->name('auth.siswa.login');
     Route::get('logout', [LoginController::class, 'logout'])->middleware('CekSiswa')->name('auth.siswa.logout');

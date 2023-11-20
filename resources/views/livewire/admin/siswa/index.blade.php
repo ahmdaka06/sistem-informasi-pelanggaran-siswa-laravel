@@ -86,12 +86,12 @@
                                 <td>{{ $item->total_point }}</td>
                                 <td>
                                     <a href="{{ route('admin.siswa.show', $item->id) }}"
-                                        class="btn btn-primary">Detail</a>
+                                        class="btn btn-primary mb-2">Detail</a>
                                     @auth('admin')
-                                        <button class="btn btn-danger" title="Delete"
+                                        <button class="btn btn-danger mb-2" title="Delete"
                                             data-delete-id={{ $item->id }}>Delete</button>
                                         <a href="{{ route('admin.siswa.edit', $item->id) }}"
-                                            class="btn btn-primary">Edit</a>
+                                            class="btn btn-primary mb-2">Edit</a>
                                     @endauth
                                 </td>
                             </tr>
