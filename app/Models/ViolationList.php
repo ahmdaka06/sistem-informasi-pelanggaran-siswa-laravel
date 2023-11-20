@@ -81,8 +81,15 @@ class ViolationList extends Model
         return $builder->with('siswa')->orderByDesc('created_at')->first();
     }
 
-    function scopeSiswaMelanggarHariIni(Builder $builder)
+    function scopeSiswaMelanggarHariIniDanHariKemarin(Builder $builder)
     {
-        return $builder->where('created_at', date('Y-m-d'))->orWhere('created_at', date('Y-m') . (int) date('d') - 1);
+        $currentDate = new \DateTime(date('2022-01-06'));
+        return $builder
+            ->whereRaw('DATE(created_at) = ?', [$currentDate->format('Y-m-d')])
+            ->orWhereRaw('DATE(created_at) = ?', $currentDate->modify('-1 day')->format('Y-m-d'))
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderByDesc('tanggal')
+            ->selectRaw('DATE(created_at) as tanggal, COUNT(id) as jumlah_siswa')
+            ->get();
     }
 }

@@ -33,11 +33,16 @@ class Index extends Component
         $siswaTeratas = $this->siswaTeratas();
         $kelasTeratas = $this->kelasTeratas();
         $siswaTerakhir = ViolationList::siswaTerakhir();
+        $siswaMelanggarHarian = ViolationList::siswaMelanggarHariIniDanHariKemarin();
+        $siswaMelanggarHariIni = $siswaMelanggarHarian[0]['jumlah_siswa'];
+        $siswaMelanggarHariKemarin = $siswaMelanggarHarian[1]['jumlah_siswa'];
+        // \Log::info($siswaMelanggarHariIni);
+        $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariKemarin - $siswaMelanggarHariIni) / $siswaMelanggarHariKemarin * 100);
         // \Log::info(DB::getQueryLog());
-        return view('livewire.admin.dashboard.index', [
+        return view('livewire.admin.dashboard.index', array_merge([
             'siswaTeratas' => $siswaTeratas,
             'kelasTeratas' => $kelasTeratas,
             'siswaTerakhir' => $siswaTerakhir
-        ]);
+        ], compact(['siswaMelanggarHariIni', 'persentaseKenaikanSiswaHarian'])));
     }
 }

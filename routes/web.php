@@ -121,12 +121,9 @@ Route::middleware('CekAuth')->group(function () {
 
 
 Route::get('coba2', function () {
-    $data = ViolationList::kelasTeratas(5, "01", "2022");
-    $siswaTearatas = ViolationList::dataTeratasSiswa(5, "01", "2022");
-    $siswaTerakhir = ViolationList::siswaTerakhir();
-
+    $siswaMelanggarHariIni = ViolationList::siswaMelanggarHariIniDanHariKemarin();
     \Log::info(DB::getQueryLog());
-    return $siswaTerakhir;
+    return $siswaMelanggarHariIni;
 });
 
 Route::get('coba', function () {
