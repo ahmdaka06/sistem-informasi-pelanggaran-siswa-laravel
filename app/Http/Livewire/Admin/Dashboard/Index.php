@@ -55,6 +55,8 @@ class Index extends Component
             } else if ($siswaMelanggarHariKemarin > $siswaMelanggarHariIni) {
                 $kenaikanPadaHariIni = false;
                 $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariKemarin - $siswaMelanggarHariIni) / $siswaMelanggarHariKemarin * 100);
+            } else if ($siswaMelanggarHarian == $siswaMelanggarHariKemarin){
+                $persentaseKenaikanSiswaHarian = 0
             }
         } catch (\DivisionByZeroError $e) {
             $persentaseKenaikanSiswaHarian = 0;
