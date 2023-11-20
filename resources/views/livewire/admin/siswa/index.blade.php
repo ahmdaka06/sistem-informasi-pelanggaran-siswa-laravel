@@ -4,14 +4,14 @@
         <div class="col-xl-6">
             @auth('admin')
                 <div class="row">
-                    <div class="col-xl-3 mb-2 pe-0">
-                        <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary waves-effect waves-light">
+                    <div class="col-xl-3 mb-2">
+                        <a href="{{ route('admin.siswa.create') }}" style="width: 100%" class="btn btn-primary waves-effect waves-light">
                             <i class="fa fa-plus fa-fw"></i> Tambah Siswa
                         </a>
                     </div>
 
-                    <div class="col-xl-9 mb-2 pe-0">
-                        <a href="{{ route('admin.siswa.create', ['excel' => true]) }}"
+                    <div class="col-xl-4 mb-2">
+                        <a style="width: 100%" href="{{ route('admin.siswa.create', ['excel' => true]) }}"
                             class="btn btn-success waves-effect waves-light mt-">
                             <i class="fa fa-plus fa-fw"></i> Tambah Siswa via Excel
                         </a>
@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-xl-4 mb-2">
                     <div wire:ignore>
-                        <select class="form-select js-example-basic-single form-control" name="state" id="state">
+                        <select class="form-select js-example-basic-single form-control" style="width: 100%" name="state" id="state">
                             <option value = "0" selected>Pilih Kelas</option>
                             @foreach ($classList as $kelas)
                                 <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
