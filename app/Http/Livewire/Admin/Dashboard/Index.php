@@ -10,6 +10,14 @@ class Index extends Component
 {
     public $filterSiswaTeratas, $filterKelasTeratas;
 
+    protected $listeners = ['grafikCoi' => 'loadGrafik'];
+
+    public function loadGrafik($data)
+    {
+        $data = ViolationList::getDetailCategoryPelanggaranForGraphic()['pelanggaran'];
+        $this->emit('getDataCategoryPelanggaran', json_encode($data));
+    }
+
     function mount()
     {
         $this->filterSiswaTeratas = date('Y-m');
@@ -55,7 +63,7 @@ class Index extends Component
             } else if ($siswaMelanggarHariKemarin > $siswaMelanggarHariIni) {
                 $kenaikanPadaHariIni = false;
                 $persentaseKenaikanSiswaHarian = round(($siswaMelanggarHariKemarin - $siswaMelanggarHariIni) / $siswaMelanggarHariKemarin * 100);
-            } else if ($siswaMelanggarHariIni == $siswaMelanggarHariKemarin){
+            } else if ($siswaMelanggarHariIni == $siswaMelanggarHariKemarin) {
                 $persentaseKenaikanSiswaHarian = 0;
             }
         } catch (\DivisionByZeroError $e) {
@@ -63,6 +71,7 @@ class Index extends Component
         }
 
         \Log::info(DB::getQueryLog());
+        $this->emit('getDataCategoryPelanggaran', true);
         return view('livewire.admin.dashboard.index', array_merge([
             'siswaTeratas' => $siswaTeratas,
             'kelasTeratas' => $kelasTeratas,

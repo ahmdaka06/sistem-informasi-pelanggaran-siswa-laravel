@@ -312,185 +312,203 @@
                     </div>
                 </div>
             </div>
-            <script>
-                function getChartColorsArray(chartId) {
-                    if (null !== document.getElementById(chartId)) {
-                        var colorsAttribute = document.getElementById(chartId).getAttribute("data-colors");
-                        if (colorsAttribute) {
-                            return JSON.parse(colorsAttribute).map(function(color) {
-                                var cleanedColor = color.replace(" ", "");
-                                if (-1 === cleanedColor.indexOf(",")) {
-                                    var computedColor = getComputedStyle(document.documentElement).getPropertyValue(
-                                        cleanedColor);
-                                    return computedColor || cleanedColor;
-                                }
-                                var colorComponents = cleanedColor.split(",");
-                                return 2 != colorComponents.length ? cleanedColor : "rgba(" + getComputedStyle(document
-                                        .documentElement).getPropertyValue(colorComponents[0]) + "," + colorComponents[1] +
-                                    ")";
-                            });
-                        }
+        </div>
+    @endauth
+
+    @auth('teacher')
+        @include('error.maintenance', [
+            'page' => [
+                'title' => 'Admin',
+                'breadcrumb' => [
+                    'first' => 'Admin',
+                ],
+            ],
+        ])
+    @endauth
+
+    @auth('admin')
+        <script>
+            function getChartColorsArray(chartId) {
+                if (null !== document.getElementById(chartId)) {
+                    var colorsAttribute = document.getElementById(chartId).getAttribute("data-colors");
+                    if (colorsAttribute) {
+                        return JSON.parse(colorsAttribute).map(function(color) {
+                            var cleanedColor = color.replace(" ", "");
+                            if (-1 === cleanedColor.indexOf(",")) {
+                                var computedColor = getComputedStyle(document.documentElement).getPropertyValue(
+                                    cleanedColor);
+                                return computedColor || cleanedColor;
+                            }
+                            var colorComponents = cleanedColor.split(",");
+                            return 2 != colorComponents.length ? cleanedColor : "rgba(" + getComputedStyle(document
+                                    .documentElement).getPropertyValue(colorComponents[0]) + "," + colorComponents[1] +
+                                ")";
+                        });
                     }
                 }
+            }
 
-                var options1, chart1;
-                var BarchartTotalReveueColors = getChartColorsArray("total-revenue-chart");
-                if (BarchartTotalReveueColors) {
-                    options1 = {
-                        series: [{
-                            data: [25, 66, 41, 89, 63, 25, 44, 20, 36, 40, 54]
-                        }],
-                        fill: {
-                            colors: BarchartTotalReveueColors
+            var options1, chart1;
+            var BarchartTotalReveueColors = getChartColorsArray("total-revenue-chart");
+            if (BarchartTotalReveueColors) {
+                options1 = {
+                    series: [{
+                        data: [25, 66, 41, 89, 63, 25, 44, 20, 36, 40, 54]
+                    }],
+                    fill: {
+                        colors: BarchartTotalReveueColors
+                    },
+                    chart: {
+                        type: "bar",
+                        width: 70,
+                        height: 40,
+                        sparkline: {
+                            enabled: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: "50%"
+                        }
+                    },
+                    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                    xaxis: {
+                        crosshairs: {
+                            width: 1
+                        }
+                    },
+                    tooltip: {
+                        fixed: {
+                            enabled: false
                         },
-                        chart: {
-                            type: "bar",
-                            width: 70,
-                            height: 40,
-                            sparkline: {
-                                enabled: true
-                            }
+                        x: {
+                            show: false
                         },
-                        plotOptions: {
-                            bar: {
-                                columnWidth: "50%"
-                            }
-                        },
-                        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-                        xaxis: {
-                            crosshairs: {
-                                width: 1
-                            }
-                        },
-                        tooltip: {
-                            fixed: {
-                                enabled: false
-                            },
-                            x: {
-                                show: false
-                            },
-                            y: {
-                                title: {
-                                    formatter: function(val) {
-                                        return "";
-                                    }
+                        y: {
+                            title: {
+                                formatter: function(val) {
+                                    return "";
                                 }
-                            },
-                            marker: {
-                                show: false
                             }
+                        },
+                        marker: {
+                            show: false
                         }
-                    };
-                    chart1 = new ApexCharts(document.querySelector("#total-revenue-chart"), options1);
-                    chart1.render();
-                }
+                    }
+                };
+                chart1 = new ApexCharts(document.querySelector("#total-revenue-chart"), options1);
+                chart1.render();
+            }
 
-                var options, chart;
-                var RadialchartOrdersChartColors = getChartColorsArray("siswa-melanggar-hari-ini");
-                if (RadialchartOrdersChartColors) {
-                    options = {
-                        series: [{
-                            name: 'Jumlah Siswa',
-                            data: [{{ $siswaMelanggarHariKemarin }}, {{ $siswaMelanggarHariIni }}]
-                        }],
-                        fill: {
-                            colors: BarchartGrowthColors
-                        },
-                        chart: {
-                            type: "bar",
-                            width: 70,
-                            height: 40,
-                            sparkline: {
-                                enabled: true
-                            }
-                        },
-                        plotOptions: {
-                            bar: {
-                                columnWidth: "50%"
-                            }
-                        },
-                        labels: ["Kemarin", "Hari Ini"],
-                        xaxis: {
-                            crosshairs: {
-                                width: 1
-                            }
-                        },
-                        tooltip: {
-                            fixed: {
-                                enabled: false
-                            },
-                            // x: {
-                            //     show: false
-                            // },
-                            // y: {
-                            //     title: {
-                            //         formatter: function(val) {
-                            //             return "";
-                            //         }
-                            //     }
-                            // },
-                            // marker: {
-                            //     show: false
-                            // }
+            var options, chart;
+            var RadialchartOrdersChartColors = getChartColorsArray("siswa-melanggar-hari-ini");
+            if (RadialchartOrdersChartColors) {
+                options = {
+                    series: [{
+                        name: 'Jumlah Siswa',
+                        data: [{{ $siswaMelanggarHariKemarin }}, {{ $siswaMelanggarHariIni }}]
+                    }],
+                    fill: {
+                        colors: BarchartGrowthColors
+                    },
+                    chart: {
+                        type: "bar",
+                        width: 70,
+                        height: 40,
+                        sparkline: {
+                            enabled: true
                         }
-                    };
-                    chart = new ApexCharts(document.querySelector("#siswa-melanggar-hari-ini"), options);
-                    chart.render();
-                }
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: "50%"
+                        }
+                    },
+                    labels: ["Kemarin", "Hari Ini"],
+                    xaxis: {
+                        crosshairs: {
+                            width: 1
+                        }
+                    },
+                    tooltip: {
+                        fixed: {
+                            enabled: false
+                        },
+                        // x: {
+                        //     show: false
+                        // },
+                        // y: {
+                        //     title: {
+                        //         formatter: function(val) {
+                        //             return "";
+                        //         }
+                        //     }
+                        // },
+                        // marker: {
+                        //     show: false
+                        // }
+                    }
+                };
+                chart = new ApexCharts(document.querySelector("#siswa-melanggar-hari-ini"), options);
+                chart.render();
+            }
 
-                var options2, chart2;
-                var BarchartGrowthColors = getChartColorsArray("growth-chart");
-                if (BarchartGrowthColors) {
-                    options2 = {
-                        series: [{
-                            data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
-                        }],
-                        fill: {
-                            colors: BarchartGrowthColors
+            var options2, chart2;
+            var BarchartGrowthColors = getChartColorsArray("growth-chart");
+            if (BarchartGrowthColors) {
+                options2 = {
+                    series: [{
+                        data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
+                    }],
+                    fill: {
+                        colors: BarchartGrowthColors
+                    },
+                    chart: {
+                        type: "bar",
+                        width: 70,
+                        height: 40,
+                        sparkline: {
+                            enabled: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: "50%"
+                        }
+                    },
+                    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                    xaxis: {
+                        crosshairs: {
+                            width: 1
+                        }
+                    },
+                    tooltip: {
+                        fixed: {
+                            enabled: false
                         },
-                        chart: {
-                            type: "bar",
-                            width: 70,
-                            height: 40,
-                            sparkline: {
-                                enabled: true
-                            }
+                        x: {
+                            show: false
                         },
-                        plotOptions: {
-                            bar: {
-                                columnWidth: "50%"
-                            }
-                        },
-                        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-                        xaxis: {
-                            crosshairs: {
-                                width: 1
-                            }
-                        },
-                        tooltip: {
-                            fixed: {
-                                enabled: false
-                            },
-                            x: {
-                                show: false
-                            },
-                            y: {
-                                title: {
-                                    formatter: function(val) {
-                                        return "";
-                                    }
+                        y: {
+                            title: {
+                                formatter: function(val) {
+                                    return "";
                                 }
-                            },
-                            marker: {
-                                show: false
                             }
+                        },
+                        marker: {
+                            show: false
                         }
-                    };
-                    chart2 = new ApexCharts(document.querySelector("#growth-chart"), options2);
-                    chart2.render();
-                }
+                    }
+                };
+                chart2 = new ApexCharts(document.querySelector("#growth-chart"), options2);
+                chart2.render();
+            }
 
+            Livewire.on('getDataCategoryPelanggaran', (data) => {
                 var options, chart;
+                console.log('ke trigger');
+                data = JSON.parse(data);
                 var LinechartsalesColors = getChartColorsArray("sales-analytics-chart");
                 if (LinechartsalesColors) {
                     // options = {
@@ -568,24 +586,14 @@
                     // };
                     options = {
                         series: [{
-                            name: 'Marine Sprite',
-                            data: [44, 55, 41, 37, 22, 43, 21]
+                            name: 'Siswa',
+                            data: data[1]
                         }, {
-                            name: 'Striking Calf',
-                            data: [53, 32, 33, 52, 13, 43, 32]
-                        }, {
-                            name: 'Tank Picture',
-                            data: [12, 17, 11, 9, 15, 11, 20]
-                        }, {
-                            name: 'Bucket Slope',
-                            data: [9, 7, 5, 8, 6, 9, 4]
-                        }, {
-                            name: 'Reborn Kid',
-                            data: [25, 12, 19, 32, 25, 24, 10]
+                            name: 'Kelas',
+                            data: [12, 15, 13, 17, 19]
                         }],
                         chart: {
                             type: 'bar',
-                            height: 350,
                             stacked: true,
                             stackType: '100%'
                         },
@@ -608,40 +616,349 @@
                             text: '100% Stacked Bar'
                         },
                         xaxis: {
-                            categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+                            categories: data[0],
                         },
-                        tooltip: {
-                            y: {
-                                formatter: function(val) {
-                                    return val + "K"
-                                }
-                            }
-                        },
+                        // tooltip: {
+                        //     y: {
+                        //         formatter: function(val) {
+                        //             return val + "K"
+                        //         }
+                        //     }
+                        // },
                         fill: {
                             opacity: 1
 
                         },
                         legend: {
                             position: 'top',
-                            horizontalAlign: 'left',
+                            horizontalAlign: 'center',
                             offsetX: 40
                         }
                     }
                     chart = new ApexCharts(document.querySelector("#sales-analytics-chart"), options);
                     chart.render();
                 }
-            </script>
-        </div>
-    @endauth
+            })
 
-    @auth('teacher')
-        @include('error.maintenance', [
-            'page' => [
-                'title' => 'Admin',
-                'breadcrumb' => [
-                    'first' => 'Admin',
-                ],
-            ],
-        ])
+            $(document).ready(function() {
+                Livewire.emit('grafikCoi', true);
+            });
+        </script>
     @endauth
 </div>
+
+{{-- @auth('admin')
+    <script>
+        function getChartColorsArray(chartId) {
+            if (null !== document.getElementById(chartId)) {
+                var colorsAttribute = document.getElementById(chartId).getAttribute("data-colors");
+                if (colorsAttribute) {
+                    return JSON.parse(colorsAttribute).map(function(color) {
+                        var cleanedColor = color.replace(" ", "");
+                        if (-1 === cleanedColor.indexOf(",")) {
+                            var computedColor = getComputedStyle(document.documentElement).getPropertyValue(
+                                cleanedColor);
+                            return computedColor || cleanedColor;
+                        }
+                        var colorComponents = cleanedColor.split(",");
+                        return 2 != colorComponents.length ? cleanedColor : "rgba(" + getComputedStyle(document
+                                .documentElement).getPropertyValue(colorComponents[0]) + "," + colorComponents[1] +
+                            ")";
+                    });
+                }
+            }
+        }
+
+        var options1, chart1;
+        var BarchartTotalReveueColors = getChartColorsArray("total-revenue-chart");
+        if (BarchartTotalReveueColors) {
+            options1 = {
+                series: [{
+                    data: [25, 66, 41, 89, 63, 25, 44, 20, 36, 40, 54]
+                }],
+                fill: {
+                    colors: BarchartTotalReveueColors
+                },
+                chart: {
+                    type: "bar",
+                    width: 70,
+                    height: 40,
+                    sparkline: {
+                        enabled: true
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "50%"
+                    }
+                },
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                xaxis: {
+                    crosshairs: {
+                        width: 1
+                    }
+                },
+                tooltip: {
+                    fixed: {
+                        enabled: false
+                    },
+                    x: {
+                        show: false
+                    },
+                    y: {
+                        title: {
+                            formatter: function(val) {
+                                return "";
+                            }
+                        }
+                    },
+                    marker: {
+                        show: false
+                    }
+                }
+            };
+            chart1 = new ApexCharts(document.querySelector("#total-revenue-chart"), options1);
+            chart1.render();
+        }
+
+        var options, chart;
+        var RadialchartOrdersChartColors = getChartColorsArray("siswa-melanggar-hari-ini");
+        if (RadialchartOrdersChartColors) {
+            options = {
+                series: [{
+                    name: 'Jumlah Siswa',
+                    data: [{{ $siswaMelanggarHariKemarin }}, {{ $siswaMelanggarHariIni }}]
+                }],
+                fill: {
+                    colors: BarchartGrowthColors
+                },
+                chart: {
+                    type: "bar",
+                    width: 70,
+                    height: 40,
+                    sparkline: {
+                        enabled: true
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "50%"
+                    }
+                },
+                labels: ["Kemarin", "Hari Ini"],
+                xaxis: {
+                    crosshairs: {
+                        width: 1
+                    }
+                },
+                tooltip: {
+                    fixed: {
+                        enabled: false
+                    },
+                    // x: {
+                    //     show: false
+                    // },
+                    // y: {
+                    //     title: {
+                    //         formatter: function(val) {
+                    //             return "";
+                    //         }
+                    //     }
+                    // },
+                    // marker: {
+                    //     show: false
+                    // }
+                }
+            };
+            chart = new ApexCharts(document.querySelector("#siswa-melanggar-hari-ini"), options);
+            chart.render();
+        }
+
+        var options2, chart2;
+        var BarchartGrowthColors = getChartColorsArray("growth-chart");
+        if (BarchartGrowthColors) {
+            options2 = {
+                series: [{
+                    data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
+                }],
+                fill: {
+                    colors: BarchartGrowthColors
+                },
+                chart: {
+                    type: "bar",
+                    width: 70,
+                    height: 40,
+                    sparkline: {
+                        enabled: true
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "50%"
+                    }
+                },
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                xaxis: {
+                    crosshairs: {
+                        width: 1
+                    }
+                },
+                tooltip: {
+                    fixed: {
+                        enabled: false
+                    },
+                    x: {
+                        show: false
+                    },
+                    y: {
+                        title: {
+                            formatter: function(val) {
+                                return "";
+                            }
+                        }
+                    },
+                    marker: {
+                        show: false
+                    }
+                }
+            };
+            chart2 = new ApexCharts(document.querySelector("#growth-chart"), options2);
+            chart2.render();
+        }
+
+        Livewire.on('getDataCategoryPelanggaran', (data) => {
+            var options, chart;
+            data = JSON.parse(data);
+            var LinechartsalesColors = getChartColorsArray("sales-analytics-chart");
+            if (LinechartsalesColors) {
+                // options = {
+                //     chart: {
+                //         height: 343,
+                //         type: "line",
+                //         stacked: false,
+                //         toolbar: {
+                //             show: false
+                //         }
+                //     },
+                //     stroke: {
+                //         width: [0, 2, 4],
+                //         curve: "smooth"
+                //     },
+                //     plotOptions: {
+                //         bar: {
+                //             columnWidth: "30%"
+                //         }
+                //     },
+                //     colors: LinechartsalesColors,
+                //     series: [{
+                //             name: "Tawuran",
+                //             type: "column",
+                //             data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+                //         },
+                //         {
+                //             name: "Merusak Fasilitas Sekolah",
+                //             type: "area",
+                //             data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+                //         },
+                //         {
+                //             name: "Bolos Sekolah",
+                //             type: "line",
+                //             data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
+                //         }
+                //     ],
+                //     fill: {
+                //         opacity: [.85, .25, 1],
+                //         gradient: {
+                //             inverseColors: false,
+                //             shade: "light",
+                //             type: "vertical",
+                //             opacityFrom: .85,
+                //             opacityTo: .55,
+                //             stops: [0, 100, 100, 100]
+                //         }
+                //     },
+                //     labels: ["01/01/2003", "02/01/2003", "03/01/2003", "04/01/2003", "05/01/2003", "06/01/2003",
+                //         "07/01/2003", "08/01/2003", "09/01/2003", "10/01/2003", "11/01/2003"
+                //     ],
+                //     markers: {
+                //         size: 0
+                //     },
+                //     xaxis: {
+                //         type: "datetime"
+                //     },
+                //     yaxis: {
+                //         title: {
+                //             text: "Points"
+                //         }
+                //     },
+                //     tooltip: {
+                //         shared: true,
+                //         intersect: false,
+                //         y: {
+                //             formatter: function(val) {
+                //                 return undefined !== val ? val.toFixed(0) + " points" : val;
+                //             }
+                //         }
+                //     },
+                //     grid: {
+                //         borderColor: "#f1f1f1"
+                //     }
+                // };
+                options = {
+                    series: [{
+                        name: 'Siswa',
+                        data: data[1]
+                    }],
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        stacked: true,
+                        stackType: '100%'
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                        },
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            colors: ['#F44336'], // Ganti dengan warna yang diinginkan
+                        },
+                    },
+                    stroke: {
+                        width: 1,
+                        colors: ['#fff']
+                    },
+                    title: {
+                        text: '100% Stacked Bar'
+                    },
+                    xaxis: {
+                        categories: data[0],
+                    },
+                    // tooltip: {
+                    //     y: {
+                    //         formatter: function(val) {
+                    //             return val + "K"
+                    //         }
+                    //     }
+                    // },
+                    fill: {
+                        opacity: 1
+
+                    },
+                    legend: {
+                        position: 'top',
+                        horizontalAlign: 'left',
+                        offsetX: 40
+                    }
+                }
+                chart = new ApexCharts(document.querySelector("#sales-analytics-chart"), options);
+                chart.render();
+            }
+        })
+
+
+        Livewire.emit('loadGrafik');
+    </script>
+@endauth --}}

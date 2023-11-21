@@ -122,8 +122,11 @@ Route::middleware('CekAuth')->group(function () {
 
 Route::get('coba2', function () {
     // $siswaMelanggarHariIni = ViolationList::siswaMelanggarHariIniDanHariKemarin();
-    $data = ViolationList::detailCategoryPelanggaran()['namaNamaPelanggaran'];
+    $data = ViolationList::getDetailCategoryPelanggaranForGraphic()['pelanggaran'];
+    $data2 = ViolationList::detailCategoryPelanggaran();
     \Log::info(DB::getQueryLog());
+    // return collect($data)->max('jumlah_kelas');
+
     return $data;
     // return $siswaMelanggarHariIni;
 });
