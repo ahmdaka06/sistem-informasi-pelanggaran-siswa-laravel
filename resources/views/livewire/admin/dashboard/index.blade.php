@@ -505,10 +505,10 @@
                 chart2.render();
             }
 
-            Livewire.on('getDataCategoryPelanggaran', (data) => {
+            Livewire.on('getDataCategoryPelanggaran', (dataValues) => {
                 var options, chart;
                 console.log('ke trigger');
-                data = JSON.parse(data);
+                const data = JSON.parse(dataValues).pelanggaran;
                 var LinechartsalesColors = getChartColorsArray("sales-analytics-chart");
                 if (LinechartsalesColors) {
                     // options = {

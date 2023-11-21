@@ -15,7 +15,7 @@ class Index extends Component
     public function loadGrafik($data)
     {
         $data = ViolationList::getDetailCategoryPelanggaranForGraphic()['pelanggaran'];
-        $this->emit('getDataCategoryPelanggaran', json_encode($data));
+        $this->emit('getDataCategoryPelanggaran', json_encode(['pelanggaran' => $data]));
     }
 
     function mount()

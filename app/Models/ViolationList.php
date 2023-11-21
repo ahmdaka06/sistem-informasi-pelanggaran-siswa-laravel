@@ -188,85 +188,41 @@ class ViolationList extends Model
             })->flatten()
         ];
 
-        $kelasKelas = $data->map(function ($item) {
-            return $item['total_kelas'];
-        });
-
-        // dd($kelasKelas);
-
         $pelanggaranKelas = []; // => data yang sudah konsisten
 
         $pelanggaranBerdasarkanKelas = []; // => ini hasilnya seharusnya cuma 4
 
-        // $pelanggaranBerdasarkanKelas["Yoi"] = [0];
-        // dd($pelanggaranBerdasarkanKelas);
         foreach ($data as $category => $item) {
             $pelanggaranSementara = null;
             foreach ($dataDataKelas as $kelas) {
                 $pelanggaranSementara = isset($item['total_kelas'][$kelas]) ? $item['total_kelas'][$kelas] : 0;
                 $pelanggaranKelas[$category][$kelas] = $pelanggaranSementara;
-                // if ($category == 'Rambut Gondrong')
-                //     dd([
-                //         'coba' => $pelanggaranKelas[$category]["X TO 1"],
-                //         'yeah' => $kelas
-                //     ]);
-                // $pelanggaranBerdasarkanKelas[$kelas] = [$pelanggaranKelas[$category][$kelas]];
-                // dd($pelanggaranBerdasarkanKelas);
+
                 if (isset($pelanggaranBerdasarkanKelas[$kelas])) {
                     array_push($pelanggaranBerdasarkanKelas[$kelas], isset($pelanggaranKelas[$category][$kelas])
                         ? $pelanggaranKelas[$category][$kelas]
                         : 0);
                 } else {
-                    // array_push($pelanggaranBerdasarkanKelas, array($kelas => $pelanggaranKelas[$category][$kelas]));
                     $pelanggaranBerdasarkanKelas[$kelas] = [$pelanggaranKelas[$category][$kelas]];
-                    // dd($pelanggaranBerdasarkanKelas);
                 }
 
-                if ($category == 'Seragam tidak sesuai hari')
-                    break;
-                // $pelanggaranBerdasarkanKelas[$kelas] = isset($pelanggaranBerdasarkanKelas[$kelas])
-                //     ? array_push($pelanggaranBerdasarkanKelas[$kelas], isset($pelanggaranKelas[$category][$kelas])
-                //         ? $pelanggaranKelas[$category][$kelas]
-                //         : 0)
-                //     : [$pelanggaranKelas[$category][$kelas]];
             }
         }
 
-        dd(["Testing" => $pelanggaranBerdasarkanKelas]);
-        // $pelanggaranSementara;
-        // foreach ($dataDataKelas as $kelas) {
-        //     // array_push($pelanggaranKelas, ['name' => $kelas]);
-        //     foreach ($data as $pelanggaranName => $dataPelanggaran) {
-        //         // dd($dataPelanggaran['total_kelas']);
-        //         $kelasKelas = $dataPelanggaran['total_kelas'];
-        //         // $pelanggaranKelas[$kelas] = [];
-        //         $jumlahDataKelas = [];
-        //         // array_push($jumlahDataKelas, ['name'])
-        //         // foreach ($kelasKelas as $kelasName => $value) {
-        //         //     if ($kelasName == $kelas) {
-        //         //         // array_push($pelanggaranKelas, [
-        //         //         //     'name' => $kelas,
-        //         //         //     'data' => $value
-        //         //         // ]);
-        //         //         array_push($jumlahDataKelas, $value);
-        //         //     } else {
-        //         //         array_push($jumlahDataKelas, 0);
-        //         //     }
-        //         // }
+        // dd($pelanggaranBerdasarkanKelas);
 
-        //         $pelanggaranKelas[$pelanggaranName][$kelas] = [
-        //             'name' => $kelas,
-        //             'data' => isset($dataPelanggaran['total_kelas'][$kelas]) ? $dataPelanggaran['total_kelas'][$kelas] : 0
-        //         ];
-        //     }
+        $hasilUntukSeriesGrafik = [];
+        foreach ($pelanggaranBerdasarkanKelas as $kelas => $dataSetiapKelas) {
+            array_push($hasilUntukSeriesGrafik, [
+                'name' => $kelas,
+                'data' => $dataSetiapKelas
+            ]);
+        }
 
-        // }
-
-        // dd($data);
-        dd($pelanggaranKelas);
-        // dd($pelanggaranPelanggaran);
+        // dd($hasilUntukSeriesGrafik);
 
         return [
+            'series_kelas' => $hasilUntukSeriesGrafik,
             'pelanggaran' => $pelanggaranPelanggaran,
             'data' => $data,
             'data_data_kelas' => $dataDataKelas
