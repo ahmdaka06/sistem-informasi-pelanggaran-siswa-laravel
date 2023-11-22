@@ -51,7 +51,6 @@ class Index extends Component
         $kenaikanPadaHariIni = false;
 
         foreach ($siswaMelanggarHarian as $harian) {
-            \Log::info($harian);
             if ($harian['tanggal'] == date('Y-m-d')) {
                 $siswaMelanggarHariIni = $harian['jumlah_siswa'];
             } else if ($harian['tanggal'] != date('Y-m-d')) {
