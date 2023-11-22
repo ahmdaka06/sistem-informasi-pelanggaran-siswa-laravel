@@ -153,6 +153,8 @@ class ViolationList extends Model
         //     return $item->name;
         // });
 
+        $dataPelanggaranBaru = collect($dataPelanggaranBaru)->sortByDesc('total_keseluruhan');
+
         return [
             // 'namaNamaPelanggaran' => $namaNamaPelanggaran,
             'dataPelanggaran' => $dataPelanggaranBaru
@@ -161,7 +163,7 @@ class ViolationList extends Model
 
     public function scopeGetDetailCategoryPelanggaranForGraphic(Builder $builder)
     {
-        $data = collect($this->detailCategoryPelanggaran()['dataPelanggaran'])->map(function ($item) {
+        $data = $this->detailCategoryPelanggaran()['dataPelanggaran']->map(function ($item) {
             return [
                 'total_keseluruhan' => $item['total_keseluruhan'],
                 'total_kelas' => $item['total_kelas'],

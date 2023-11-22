@@ -508,7 +508,9 @@
             Livewire.on('getDataCategoryPelanggaran', (dataValues) => {
                 var options, chart;
                 console.log('ke trigger');
-                const data = JSON.parse(dataValues).pelanggaran;
+                const dataJson = JSON.parse(dataValues);
+                const data = dataJson.pelanggaran;
+                const dataKelas = dataJson.kelas;
                 var LinechartsalesColors = getChartColorsArray("sales-analytics-chart");
                 if (LinechartsalesColors) {
                     // options = {
@@ -585,13 +587,12 @@
                     //     }
                     // };
                     options = {
-                        series: [{
-                            name: 'Siswa',
-                            data: data[1]
-                        }, {
-                            name: 'Kelas',
-                            data: [12, 15, 13, 17, 19]
-                        }],
+                        series: [
+                            ...[{
+                                name: 'Siswa',
+                                data: data[1]
+                            }], ...dataKelas
+                        ],
                         chart: {
                             type: 'bar',
                             stacked: true,
