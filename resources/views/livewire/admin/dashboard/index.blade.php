@@ -639,7 +639,7 @@
                     options = {
                         series: [
                             ...[{
-                                name: 'Siswa',
+                                name: 'Keseluruhan siswa yg melanggar',
                                 data: data[1]
                             }], ...dataKelas
                         ],
@@ -669,7 +669,7 @@
                             colors: ['#fff']
                         },
                         title: {
-                            text: 'Fiction Books Sales'
+                            text: 'Pelanggaran'
                         },
                         xaxis: {
                             categories: data[0],
