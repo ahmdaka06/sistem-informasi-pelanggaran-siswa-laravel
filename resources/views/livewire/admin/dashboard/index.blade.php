@@ -586,6 +586,56 @@
                     //         borderColor: "#f1f1f1"
                     //     }
                     // };
+                    // options = {
+                    //     series: [
+                    //         ...[{
+                    //             name: 'Siswa',
+                    //             data: data[1]
+                    //         }], ...dataKelas
+                    //     ],
+                    //     chart: {
+                    //         type: 'bar',
+                    //         stacked: true,
+                    //         stackType: '100%'
+                    //     },
+                    //     plotOptions: {
+                    //         bar: {
+                    //             horizontal: true,
+                    //         },
+                    //     },
+                    //     dataLabels: {
+                    //         enabled: true,
+                    //         style: {
+                    //             colors: ['#F44336'], // Ganti dengan warna yang diinginkan
+                    //         },
+                    //     },
+                    //     stroke: {
+                    //         width: 1,
+                    //         colors: ['#fff']
+                    //     },
+                    //     title: {
+                    //         text: '100% Stacked Bar'
+                    //     },
+                    //     xaxis: {
+                    //         categories: data[0],
+                    //     },
+                    //     // tooltip: {
+                    //     //     y: {
+                    //     //         formatter: function(val) {
+                    //     //             return val + "K"
+                    //     //         }
+                    //     //     }
+                    //     // },
+                    //     fill: {
+                    //         opacity: 1
+
+                    //     },
+                    //     legend: {
+                    //         position: 'top',
+                    //         horizontalAlign: 'center',
+                    //         offsetX: 40
+                    //     }
+                    // }
                     options = {
                         series: [
                             ...[{
@@ -595,18 +645,23 @@
                         ],
                         chart: {
                             type: 'bar',
+                            // height: 350,
                             stacked: true,
-                            stackType: '100%'
                         },
                         plotOptions: {
                             bar: {
                                 horizontal: true,
-                            },
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            style: {
-                                colors: ['#F44336'], // Ganti dengan warna yang diinginkan
+                                dataLabels: {
+                                    total: {
+                                        enabled: true,
+                                        offsetX: 0,
+                                        style: {
+                                            fontSize: '13px',
+                                            fontWeight: 900,
+                                            color: 'black'
+                                        }
+                                    }
+                                }
                             },
                         },
                         stroke: {
@@ -614,28 +669,33 @@
                             colors: ['#fff']
                         },
                         title: {
-                            text: '100% Stacked Bar'
+                            text: 'Fiction Books Sales'
                         },
                         xaxis: {
                             categories: data[0],
+
                         },
-                        // tooltip: {
-                        //     y: {
-                        //         formatter: function(val) {
-                        //             return val + "K"
-                        //         }
-                        //     }
-                        // },
+                        yaxis: {
+                            title: {
+                                text: undefined
+                            },
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function(val) {
+                                    return val + " Siswa"
+                                }
+                            }
+                        },
                         fill: {
                             opacity: 1
-
                         },
                         legend: {
                             position: 'top',
-                            horizontalAlign: 'center',
+                            horizontalAlign: 'left',
                             offsetX: 40
                         }
-                    }
+                    };
                     chart = new ApexCharts(document.querySelector("#sales-analytics-chart"), options);
                     chart.render();
                 }

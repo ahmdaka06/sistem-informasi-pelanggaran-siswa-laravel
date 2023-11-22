@@ -137,7 +137,7 @@ class ViolationList extends Model
             foreach ($kelasGrup as $kelas => $dataKelas) {
                 if ($i > 5)
                     break;
-                $kelasCount[$kelas] = count($dataKelas);
+                $kelasCount[$kelas] = count($dataKelas->unique('student_id'));
                 $i++;
             }
 
